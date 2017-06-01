@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">EasySports</string>
+    <string name="match">比赛</string>
+    <string name="live">ֱ直播</string>
+    <string name="forum">社区</string>
+    <string name="news">新闻</string>
+    <string name="mine">我的</string>
 </resources>

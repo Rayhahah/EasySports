@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -7,5 +7,42 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <!--白天主题颜色-->
+    <style name="AppDayTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDay</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDayDark</item>
+        <item name="colorAccent">@color/colorPrimaryDayAccent</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:windowIsTranslucent">false</item>
+
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="colorTextLight">@color/colorDayTextLight</item>
+        <item name="colorTextDark">@color/colorDayTextDark</item>
+        <item name="colorBg">@color/colorDayBg</item>
+        <item name="colorBgDark">@color/colorDayBgDark</item>
+    </style>
+
+    <!--夜晚主题颜色-->
+    <style name="AppNightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryNight</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryNightDark</item>
+        <item name="colorAccent">@color/colorPrimaryNightAccent</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="colorTextLight">@color/colorNightTextDark</item>
+        <item name="colorTextDark">@color/colorNightTextLight</item>
+        <item name="colorBg">@color/colorNightBg</item>
+        <item name="colorBgDark">@color/colorNightBgDark</item>
+    </style>
+
+    <style name="NoTitleFullscreen" parent="AppDayTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
 
 </resources>
