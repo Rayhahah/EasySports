@@ -1,5 +1,7 @@
 package com.rayhahah.rbase.utils.base;
 
+import android.os.Environment;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -1288,4 +1290,31 @@ public class FileUtils {
         if (lastPoi == -1 || lastSep >= lastPoi) return "";
         return filePath.substring(lastPoi + 1);
     }
+
+    /**
+     * 判断是够有SD卡
+     *
+     * @return
+     */
+    public static boolean hasSDCard() {
+        String status = Environment.getExternalStorageState();
+        if (!status.equals(Environment.MEDIA_MOUNTED)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 获取根目录
+     *
+     * @return
+     */
+    public static String getRootFilePath() {
+        if (hasSDCard()) {
+            return Environment.getExternalStorageDirectory().getAbsolutePath() + "/";// filePath:/sdcard/
+        } else {
+            return Environment.getDataDirectory().getAbsolutePath() + "/data/"; // filePath: /data/data/
+        }
+    }
+
 }

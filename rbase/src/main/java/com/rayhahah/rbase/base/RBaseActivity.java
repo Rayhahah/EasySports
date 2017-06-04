@@ -16,6 +16,7 @@ import android.transition.Explode;
 import android.transition.Transition;
 
 import com.rayhahah.rbase.R;
+import com.rayhahah.rbase.utils.ActivityCollector;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -56,6 +57,7 @@ public abstract class RBaseActivity<T extends RBasePresenter, V extends ViewData
             initWindowTransition(getWindowTransition());
         }
         setContentView(getLayoutID());
+        ActivityCollector.addActivity(this);
         mBinding = DataBindingUtil.setContentView(mContext, getLayoutID());
         initThemeAttrs();
         setStatusColor();
@@ -321,4 +323,9 @@ public abstract class RBaseActivity<T extends RBasePresenter, V extends ViewData
         }
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        ActivityCollector.finishActivity(this);
+    }
 }

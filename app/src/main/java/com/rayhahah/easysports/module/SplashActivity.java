@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.view.View;
 
 import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.bean.TestBean;
 import com.rayhahah.easysports.common.BaseActivity;
 import com.rayhahah.easysports.databinding.ActivitySplashBinding;
 import com.rayhahah.easysports.module.home.HomeActivity;
@@ -14,6 +15,7 @@ import com.rayhahah.rbase.utils.useful.GlideUtil;
 public class SplashActivity extends BaseActivity<RBasePresenter, ActivitySplashBinding> {
 
     private CountDownTimer mTimer;
+    private TestBean tb;
 
     @Override
     protected void setStatusColor() {
@@ -51,6 +53,8 @@ public class SplashActivity extends BaseActivity<RBasePresenter, ActivitySplashB
             }
         };
         mTimer.start();
+        tb.getName();
+
     }
 
     @Override

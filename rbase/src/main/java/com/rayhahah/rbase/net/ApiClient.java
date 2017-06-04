@@ -17,6 +17,9 @@ public class ApiClient {
 
     private static ConcurrentHashMap<String, Retrofit> retrofitFactory = new ConcurrentHashMap<>();
 
+    private ApiClient() {
+    }
+
     private ApiClient(OkHttpClient okHttpClient, String baseUrl) {
         for (Map.Entry<String, Retrofit> retrofitEntry : retrofitFactory.entrySet()) {
             if (retrofitEntry.getKey().equals(baseUrl)) {
