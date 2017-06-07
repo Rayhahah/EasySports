@@ -39,7 +39,7 @@ public class MyApplication extends BaseApplication {
 
         Bmob.initialize(mAppContext, C.BMOB_APPID);
 
-        initCrashHandler();
+//        initCrashHandler();
 
         initRetrofit();
 
@@ -120,6 +120,5 @@ public class MyApplication extends BaseApplication {
     public static DaoSession getDaoSession() {
         return daoSession;
     }
-
 
 }

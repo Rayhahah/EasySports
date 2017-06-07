@@ -1,10 +1,11 @@
 package com.rayhahah.easysports.module.live.mvp;
 
 import com.rayhahah.easysports.module.live.api.LiveApiFactory;
-import com.rayhahah.easysports.module.live.bean.MatchListBean;
+import com.rayhahah.easysports.module.match.bean.MatchListBean;
 import com.rayhahah.rbase.base.RBasePresenter;
+import com.rayhahah.rbase.utils.useful.RLog;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import rx.Subscriber;
 
@@ -18,26 +19,6 @@ public class LivePresenter extends RBasePresenter<LiveContract.ILiveView>
         super(view);
     }
 
-    @Override
-    public void addMatchListData(String data) {
-        addSubscription(LiveApiFactory.getMatchsByData(data),
-                new Subscriber<List<MatchListBean.MatchInfoBean>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<MatchListBean.MatchInfoBean> matchInfoBeanList) {
-                        mView.addMatchListData(matchInfoBeanList);
-                    }
-                });
-    }
 
 
 }

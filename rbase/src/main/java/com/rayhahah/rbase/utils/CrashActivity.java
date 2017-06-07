@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.rayhahah.rbase.R;
+import com.rayhahah.rbase.base.ActivityCollector;
 import com.rayhahah.rbase.base.RBaseActivity;
 import com.rayhahah.rbase.base.RBasePresenter;
 

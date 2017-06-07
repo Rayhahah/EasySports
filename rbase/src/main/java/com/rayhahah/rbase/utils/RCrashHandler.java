@@ -12,6 +12,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.rayhahah.rbase.base.ActivityCollector;
 import com.rayhahah.rbase.utils.base.ToastUtils;
 import com.rayhahah.rbase.utils.useful.RLog;
 
@@ -146,9 +147,6 @@ public class RCrashHandler implements Thread.UncaughtExceptionHandler {
 
         new Thread() {
             public void run() {
-//				Looper.prepare();
-//				Toast.makeText(mContext, "很抱歉,程序出现异常,即将退出", 0).show();
-//				Looper.loop();
                 Intent intent = new Intent();
                 intent.setClass(mContext, CrashActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

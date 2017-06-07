@@ -37,6 +37,7 @@
         <item name="colorBgDark">@color/colorNightBgDark</item>
     </style>
 
+    <!--全屏主题-->
     <style name="NoTitleFullscreen" parent="AppDayTheme">
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>

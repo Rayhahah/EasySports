@@ -16,7 +16,6 @@ import android.transition.Explode;
 import android.transition.Transition;
 
 import com.rayhahah.rbase.R;
-import com.rayhahah.rbase.utils.ActivityCollector;
 
 import java.util.HashMap;
 import java.util.Iterator;

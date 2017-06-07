@@ -11,7 +11,7 @@
     <color name="colorDayTextLight">#B6B6BE</color>
     <color name="colorDayTextDark">#444242</color>
     <color name="colorDayBg">#FFFFFF</color>
-    <color name="colorDayBgDark">#F6F5F4</color>
+    <color name="colorDayBgDark">#DADADA</color>
 
     <color name="colorPrimaryNight">#600F17</color>
     <color name="colorPrimaryNightDark">#600F17</color>

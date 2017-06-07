@@ -5,4 +5,15 @@
     <string name="forum">社区</string>
     <string name="news">新闻</string>
     <string name="mine">我的</string>
+    <string name="reload">重新加载</string>
+    <string name="network_error">网络好像开小差了</string>
+
+    <string name="news_banner">今日头条</string>
+    <string name="news_news">新闻资讯</string>
+    <string name="news_videos">视频集锦</string>
+    <string name="news_depth">最佳时刻</string>
+    <string name="news_highlight">赛场花絮</string>
+
+
+
 </resources>

@@ -30,8 +30,7 @@ public class GlideUtil {
      * @param res       目标资源，类型有： File、String、Uri、Integer resId
      * @param imageView 目标
      */
-    public static void load(Context context, Object res, ImageView imageView) {
-
+    public static <T extends Object> void load(Context context, T res, ImageView imageView) {
         loadBase(withContext(context), res, R.drawable.ic_insert_photo_placeholder_24dp,
                 R.drawable.ic_broken_image_black_24dp,
                 imageView, Priority.NORMAL, new BaseTransformation(), null, 0, null);
@@ -44,7 +43,7 @@ public class GlideUtil {
      * @param res       目标资源，类型有： File、String、Uri、Integer resId
      * @param imageView 目标
      */
-    public static void load(Activity context, Object res, ImageView imageView) {
+    public static <T extends Object> void load(Activity context, T res, ImageView imageView) {
         loadBase(withContext(context), res, R.drawable.ic_insert_photo_placeholder_24dp,
                 R.drawable.ic_broken_image_black_24dp,
                 imageView, Priority.NORMAL, new BaseTransformation(), null, 0, null);
@@ -57,7 +56,7 @@ public class GlideUtil {
      * @param res       目标资源，类型有： File、String、Uri、Integer resId
      * @param imageView 目标
      */
-    public static void load(Fragment context, Object res, ImageView imageView) {
+    public static <T extends Object> void load(Fragment context, T res, ImageView imageView) {
         loadBase(withContext(context), res,
                 R.drawable.ic_insert_photo_placeholder_24dp,
                 R.drawable.ic_broken_image_black_24dp, imageView,
@@ -72,7 +71,7 @@ public class GlideUtil {
      * @param imageView      目标
      * @param transformation 图像变形
      */
-    public static void loadWithTransform(Fragment context, Object res, ImageView imageView, Transformation transformation) {
+    public static <T extends Object> void loadWithTransform(Fragment context, T res, ImageView imageView, Transformation transformation) {
         loadBase(withContext(context), res,
                 R.drawable.ic_insert_photo_placeholder_24dp,
                 R.drawable.ic_broken_image_black_24dp, imageView,
@@ -87,7 +86,7 @@ public class GlideUtil {
      * @param imageView      目标
      * @param transformation 图像变形
      */
-    public static void loadWithTransform(Context context, Object res, ImageView imageView, Transformation transformation) {
+    public static <T extends Object> void loadWithTransform(Context context, T res, ImageView imageView, Transformation transformation) {
         loadBase(withContext(context), res,
                 R.drawable.ic_insert_photo_placeholder_24dp,
                 R.drawable.ic_broken_image_black_24dp, imageView,
@@ -102,7 +101,7 @@ public class GlideUtil {
      * @param imageView      目标
      * @param transformation 图像变形
      */
-    public static void loadWithTransform(Activity context, Object res, ImageView imageView, Transformation transformation) {
+    public static <T extends Object> void loadWithTransform(Activity context, T res, ImageView imageView, Transformation transformation) {
         loadBase(withContext(context), res,
                 R.drawable.ic_insert_photo_placeholder_24dp,
                 R.drawable.ic_broken_image_black_24dp, imageView,

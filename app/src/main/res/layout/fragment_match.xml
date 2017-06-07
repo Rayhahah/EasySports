@@ -8,18 +8,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?attr/colorBg"
         android:orientation="vertical">
 
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_match_list"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srl_match_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_match_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+
+        <com.rayhahah.easysports.view.ProgressLayout
+            android:id="@+id/pl"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone"
             />
+
 
     </LinearLayout>
 

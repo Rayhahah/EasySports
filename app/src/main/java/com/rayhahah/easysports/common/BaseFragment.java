@@ -2,8 +2,10 @@ package com.rayhahah.easysports.common;
 
 import android.content.res.TypedArray;
 import android.databinding.ViewDataBinding;
+import android.view.View;
 
 import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.view.ProgressLayout;
 import com.rayhahah.rbase.base.IRBasePresenter;
 import com.rayhahah.rbase.base.RBaseFragment;
 
@@ -45,4 +47,23 @@ public abstract class BaseFragment<T extends IRBasePresenter, V extends ViewData
         mThemeColorMap.put(C.ATTRS.COLOR_BG, colorBg);
         mThemeColorMap.put(C.ATTRS.COLOR_BG_DARK, colorBgDark);
     }
+
+    protected void showLoading(View content, ProgressLayout pl) {
+        pl.setVisibility(View.VISIBLE);
+        pl.showLoading();
+        content.setVisibility(View.GONE);
+    }
+
+    protected void showError(View content, ProgressLayout pl) {
+        pl.setVisibility(View.VISIBLE);
+        pl.showError();
+        content.setVisibility(View.GONE);
+    }
+
+    protected void showContent(View content, ProgressLayout pl) {
+        pl.setVisibility(View.GONE);
+        content.setVisibility(View.VISIBLE);
+    }
+
+
 }

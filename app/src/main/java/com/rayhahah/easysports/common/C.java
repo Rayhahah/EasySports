@@ -55,7 +55,23 @@ public class C {
         String COLOR_BG_DARK = "COLOR_BG_DARK";
     }
 
+    /**
+     * 列表数据状态
+     */
+    public interface STATUS {
+        int INIT = 1001;
+        int REFRESH = 1002;
+        int LOAD_MORE = 1003;
+    }
+
     public static final String TRUE = "true";
     public static final String FALSE = "false";
 
+    public interface NEWS {
+        String BANNER = "banner";
+        String NEWS = "news";
+        String VIDEOS = "videos";
+        String DEPTH = "depth";
+        String HIGHLIGHT = "highlight";
+    }
 }

@@ -9,23 +9,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="11"
         >
 
         <FrameLayout
             android:id="@+id/fl_home_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="9"/>
+            android:layout_weight="1"/>
 
         <com.ashokvarma.bottomnavigation.BottomNavigationBar
             android:id="@+id/bnb_home"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="bottom"
-            android:layout_weight="2"/>
-
-
+            android:layout_height="@dimen/dp_55"
+            android:layout_gravity="bottom"/>
     </LinearLayout>
 </layout>
 
