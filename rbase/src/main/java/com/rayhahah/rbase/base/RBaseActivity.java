@@ -3,6 +3,7 @@ package com.rayhahah.rbase.base;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Build;
@@ -49,20 +50,41 @@ public abstract class RBaseActivity<T extends RBasePresenter, V extends ViewData
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ActivityCollector.addActivity(this);
+        setRequestedOrientation(getOrientation());
         super.onCreate(savedInstanceState);
         mContext = this;
         initTheme();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             initWindowTransition(getWindowTransition());
         }
-        setContentView(getLayoutID());
-        ActivityCollector.addActivity(this);
-        mBinding = DataBindingUtil.setContentView(mContext, getLayoutID());
+        int layoutID = getLayoutID();
+        if (layoutID != 0) {
+            setContentView(layoutID);
+            mBinding = DataBindingUtil.setContentView(mContext, layoutID);
+        }
         initThemeAttrs();
         setStatusColor();
         mPresenter = getPresenter();
         getValueFormPrePage();
         initEventAndData(savedInstanceState);
+    }
+
+
+    /**
+     * 横竖屏，默认是竖屏
+     * 1.landscape：横屏(风景照) ，显示时宽度大于高度；
+     * 2.portrait：竖屏 (肖像照) ， 显示时 高 度大于 宽 度 ；
+     * 3.user：用户当前的首选方向；
+     * 4.behind：继承Activity堆栈中当前Activity下面的那个Activity的方向；
+     * 5.sensor：由物理感应器决定显示方向，它取决于用户如何持有设备，当 设备 被旋转时方向会随之变化——在横屏与竖屏之间；
+     * 6.nosensor：忽略物理感应器——即显示方向与物理感应器无关，不管用户如何旋转设备显示方向都不会随着改变("unspecified"设置除外)；
+     * 7.unspecified ：未指定，此为默认值，由Android系统自己选择适当的方向，选择策略视具体设备的配置情况而定，因此不同的设备会有不同的方向选择；
+     *
+     * @return
+     */
+    protected int getOrientation() {
+        return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
     }
 
     /**
@@ -315,6 +337,7 @@ public abstract class RBaseActivity<T extends RBasePresenter, V extends ViewData
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtras(bundle);
+        //5.0过渡动画适配
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         } else {

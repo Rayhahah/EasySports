@@ -23,7 +23,7 @@ public class C {
         String HUPU_LOGIN_SERVER = "http://passport.hupu.com/";
         String TECENT_URL_SERVER = "http://vv.video.qq.com";
         String TECENT_URL_SERVER_1 = "http://h5vv.video.qq.com";
-        String TENCENT_SERVER = "http://sportsnba.qq.com";
+        String TECENT_SERVER = "http://sportsnba.qq.com";
         String TMIAAO_SERVER = "http://nba.tmiaoo.com";
     }
 
@@ -62,16 +62,26 @@ public class C {
         int INIT = 1001;
         int REFRESH = 1002;
         int LOAD_MORE = 1003;
+        int NULL = 1000;
     }
 
-    public static final String TRUE = "true";
-    public static final String FALSE = "false";
-
+    /**
+     * 新闻模块常量
+     */
     public interface NEWS {
         String BANNER = "banner";
         String NEWS = "news";
         String VIDEOS = "videos";
         String DEPTH = "depth";
         String HIGHLIGHT = "highlight";
+
+        String TAB_INDEX = "TAB_INDEX";
+        String TAB_TYPE = "TAB_TYPE";
+
+        int ITEM_TYPE_ARTICLE = 0;
+        int ITEM_TYPE_VIDEOS = 2;
     }
+
+    public static final String TRUE = "true";
+    public static final String FALSE = "false";
 }

@@ -4,6 +4,7 @@ import com.rayhahah.easysports.common.C;
 import com.rayhahah.easysports.module.match.bean.MatchListBean;
 import com.rayhahah.rbase.net.ApiClient;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 
 /**
@@ -13,7 +14,7 @@ import rx.Observable;
 public class MatchApiFactory {
     public static Observable<MatchListBean> getMatchsByData(String data) {
         return ApiClient
-                .get(C.BaseURL.TENCENT_SERVER)
+                .get(C.BaseURL.TECENT_SERVER)
                 .create(MatchService.class)
                 .getMatchsByData(data);
     }

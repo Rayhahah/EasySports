@@ -27,4 +27,14 @@ public class ForumFragment extends BaseFragment<ForumPresenter, FragmentForumBin
     protected ForumPresenter getPresenter() {
         return new ForumPresenter(this);
     }
+
+    @Override
+    public void showViewLoading() {
+
+    }
+
+    @Override
+    public void showViewError(Throwable t) {
+
+    }
 }

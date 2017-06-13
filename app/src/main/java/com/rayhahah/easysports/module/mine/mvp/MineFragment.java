@@ -27,4 +27,14 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
     protected MinePresenter getPresenter() {
         return new MinePresenter(this);
     }
+
+    @Override
+    public void showViewLoading() {
+
+    }
+
+    @Override
+    public void showViewError(Throwable t) {
+
+    }
 }

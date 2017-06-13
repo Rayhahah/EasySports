@@ -5,4 +5,8 @@ package com.rayhahah.rbase.base;
  */
 
 public interface IRBaseView {
+
+    void showViewLoading();
+
+    void showViewError(Throwable t);
 }

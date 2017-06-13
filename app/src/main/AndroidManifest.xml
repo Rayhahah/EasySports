@@ -43,7 +43,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".module.home.HomeActivity">
+        <activity android:name=".module.home.HomeActivity" >
         </activity>
     </application>
 

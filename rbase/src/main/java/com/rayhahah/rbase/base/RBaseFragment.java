@@ -41,6 +41,7 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
     protected ConcurrentHashMap<String, String> mValueMap = new ConcurrentHashMap<>();
     protected V mBinding;
     protected HashMap<String, Integer> mThemeColorMap;
+    private boolean isFirstInit;
 
     @Nullable
     @Override
@@ -50,6 +51,7 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
             mPresenter = getPresenter();
             isPrepare = true;
             isVisible = true;
+            isFirstInit = true;
             onVisible();
         }
         this.savedInstanceState = savedInstanceState;
@@ -58,7 +60,7 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
 
 
     /**
-     * 在这里实现Fragment数据的缓加载.
+     * 在这里实现Fragment数据的懒加载.
      *
      * @param isVisibleToUser
      */
@@ -74,16 +76,31 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
         }
     }
 
+
     /**
-     * 触发调用数据封装层
+     * 懒加载，触发调用数据封装层
      */
     private void onVisible() {
         if (!isPrepare || !isVisible) {
             return;
         }
 
-        initThemeAttrs();
-        initView(savedInstanceState);
+        if (isFirstInit) {
+            getValueFormPrePage();
+            initThemeAttrs();
+            initView(savedInstanceState);
+            isFirstInit = false;
+        } else {
+            onRepeatVisible();
+
+        }
+    }
+
+    /**
+     * 重复可见调用方法
+     */
+    private void onRepeatVisible() {
+
     }
 
     /**
@@ -220,6 +237,7 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtras(bundle);
+        //5.0过渡动画适配
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
         } else {

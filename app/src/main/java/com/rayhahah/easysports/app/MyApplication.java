@@ -91,7 +91,7 @@ public class MyApplication extends BaseApplication {
         OkHttpClient okHttpClient = OkHttpManager.create();
         ApiClient.create(C.BaseURL.TECENT_URL_SERVER, okHttpClient);
         ApiClient.create(C.BaseURL.TECENT_URL_SERVER_1, okHttpClient);
-        ApiClient.create(C.BaseURL.TENCENT_SERVER, okHttpClient);
+        ApiClient.create(C.BaseURL.TECENT_SERVER, okHttpClient);
         ApiClient.create(C.BaseURL.TMIAAO_SERVER, okHttpClient);
         ApiClient.create(C.BaseURL.HUPU_FORUM_SERVER, okHttpClient);
         ApiClient.create(C.BaseURL.HUPU_GAMES_SERVER, okHttpClient);

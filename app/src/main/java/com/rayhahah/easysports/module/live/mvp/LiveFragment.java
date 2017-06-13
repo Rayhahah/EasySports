@@ -29,4 +29,13 @@ public class LiveFragment
     }
 
 
+    @Override
+    public void showViewLoading() {
+
+    }
+
+    @Override
+    public void showViewError(Throwable t) {
+
+    }
 }

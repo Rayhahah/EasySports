@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_news_item"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_70"
+    android:background="?attr/colorBg"
+    android:orientation="horizontal"
+    android:padding="@dimen/dp_5"
+    >
+
+    <ImageView
+        android:id="@+id/iv_news_item_cover"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_logo"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_weight="7"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_news_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="洛瑞：我想要一枚总冠军戒指，这是驱动我的因素"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_16"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_13">
+
+            <TextView
+                android:id="@+id/tv_news_item_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:text="2017-06-15"
+                android:textColor="?attr/colorTextLight"
+                android:textSize="@dimen/sp_12"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

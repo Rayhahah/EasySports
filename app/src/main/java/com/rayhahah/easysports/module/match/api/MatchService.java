@@ -11,6 +11,12 @@ import rx.Observable;
  */
 
 public interface MatchService {
+    /**
+     * 根据日期获取当天比赛数据
+     *
+     * @param date 当前日期  example: "2017-06-05"
+     * @return
+     */
     @GET("/match/listByDate")
     Observable<MatchListBean> getMatchsByData(@Query("date") String date);
 

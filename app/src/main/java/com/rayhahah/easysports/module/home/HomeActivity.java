@@ -115,4 +115,13 @@ public class HomeActivity extends BaseActivity<HomePresenter, ActivityHomeBindin
         return new BottomNavigationItem(resId, title).setActiveColor(mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
     }
 
+    @Override
+    public void showViewLoading() {
+
+    }
+
+    @Override
+    public void showViewError(Throwable t) {
+
+    }
 }

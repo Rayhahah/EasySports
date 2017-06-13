@@ -40,7 +40,6 @@ public class ApiClient {
         new ApiClient(okHttpClient, baseUrl);
     }
 
-
     /**
      * 获取对应的retrofit
      *

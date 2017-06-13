@@ -51,7 +51,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         initFutureBeforeDate(mCurrentDate);
         initProgressLayout();
 
-        showLoading(mBinding.rvMatchList, mBinding.pl);
+        showViewLoading();
         mPresenter.addMatchListData(mCurrentDate, C.STATUS.INIT);
     }
 
@@ -94,7 +94,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         mItemDecor.setNewData(totalData);
 
         mMatchListAdapter.notifyDataSetChanged();
-        showContent(mBinding.rvMatchList, mBinding.pl);
+        showContent(mBinding.srlMatchList, mBinding.pl);
     }
 
 
@@ -116,9 +116,19 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
                 mMatchListAdapter.loadMoreFail();
                 break;
         }
-        showError(mBinding.rvMatchList, mBinding.pl);
+        showError(mBinding.srlMatchList, mBinding.pl);
         mFutureDate = mCurrentDate;
         mBeforeDate = mCurrentDate;
+    }
+
+    @Override
+    public void showViewLoading() {
+        showLoading(mBinding.srlMatchList, mBinding.pl);
+    }
+
+    @Override
+    public void showViewError(Throwable t) {
+
     }
 
     @Override
@@ -214,7 +224,6 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         mBinding.pl.setRefreshClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLoading(mBinding.rvMatchList, mBinding.pl);
                 mPresenter.addMatchListData(mCurrentDate, C.STATUS.INIT);
             }
         });
@@ -232,5 +241,4 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         mFutureDate = DateTimeUitl.formatDateFromInt(year, month, day);
         mBeforeDate = DateTimeUitl.formatDateFromInt(year, month, day);
     }
-
 }

@@ -52,7 +52,7 @@ ext {
             greenDao                : "org.greenrobot:greendao:3.2.0",
             greenDaoGenerator       : "org.greenrobot:greendao-generator:3.0.0",
             photoView               : "com.github.chrisbanes.photoview:library:1.2.4",
-            bravh                   : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.15",
+            bravh                   : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.18",
 
             //test
 

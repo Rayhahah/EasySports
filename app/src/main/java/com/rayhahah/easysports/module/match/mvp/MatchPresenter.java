@@ -3,10 +3,10 @@ package com.rayhahah.easysports.module.match.mvp;
 import com.rayhahah.easysports.module.match.api.MatchApiFactory;
 import com.rayhahah.easysports.module.match.bean.MatchListBean;
 import com.rayhahah.rbase.base.RBasePresenter;
+import com.rayhahah.rbase.net.RCallBack;
 
 import java.util.ArrayList;
 
-import rx.Subscriber;
 
 /**
  * Created by a on 2017/5/17.
@@ -22,10 +22,7 @@ public class MatchPresenter extends RBasePresenter<MatchContract.IMatchView>
     @Override
     public void addMatchListData(final String date, final int status) {
         addSubscription(MatchApiFactory.getMatchsByData(date),
-                new Subscriber<MatchListBean>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+                new RCallBack<MatchListBean>() {
 
                     @Override
                     public void onError(Throwable throwable) {

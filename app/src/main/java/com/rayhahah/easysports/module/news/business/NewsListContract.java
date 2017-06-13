@@ -1,18 +1,28 @@
 package com.rayhahah.easysports.module.news.business;
 
+import com.rayhahah.easysports.module.news.bean.NewsIndex;
+import com.rayhahah.easysports.module.news.bean.NewsItem;
 import com.rayhahah.rbase.base.IRBasePresenter;
 import com.rayhahah.rbase.base.IRBaseView;
+
+import java.util.List;
 
 /**
  * Created by a on 2017/5/17.
  */
 
 public class NewsListContract {
-    public interface INewsView extends IRBaseView{
+    public interface INewsListView extends IRBaseView {
+        void getNewsIndex(NewsIndex newsIndex);
 
+        void getNewsItem(List<NewsItem.DataBean.ItemInfo> data, int status);
+
+        void getNewsError(Throwable t, int status);
     }
 
-    public interface INewsPresenter extends IRBasePresenter {
+    public interface INewsListPresenter extends IRBasePresenter {
+        void getNewsIndex(String column);
 
+        void getNewsItem(String column, String articleIds, int status);
     }
 }
