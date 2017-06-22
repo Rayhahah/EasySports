@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="洛瑞：我想要一枚总冠军戒指，这是驱动我的因素"
+            android:text="@string/example_title"
             android:textColor="?attr/colorTextDark"
             android:textSize="@dimen/sp_16"/>
 
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:text="2017-06-15"
+                android:text="@string/example_date"
                 android:textColor="?attr/colorTextLight"
                 android:textSize="@dimen/sp_12"/>
         </RelativeLayout>

@@ -1042,7 +1042,6 @@ public class DateTimeUitl {
                 formatTime = splitTime;
             }
         } catch (Exception e) {
-            // TODO: handle exception
         }
         return formatTime;
 
@@ -1054,7 +1053,6 @@ public class DateTimeUitl {
      * @return
      */
     public static String getFirstDay() {
-        // TODO Auto-generated method stub
         Date date = new Date();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String time = format.format(date);
@@ -1103,7 +1101,6 @@ public class DateTimeUitl {
 //			@Override
 //			public void onDateChanged(DatePicker view, int year,
 //									  int monthOfYear, int dayOfMonth) {
-//				// TODO Auto-generated method stub
 //				time.set(Calendar.YEAR, year);
 //				time.set(Calendar.MONTH, monthOfYear );
 //				time.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -1121,7 +1118,6 @@ public class DateTimeUitl {
 //
 //					@Override
 //					public void onClick(DialogInterface dialog, int which) {
-//						// TODO Auto-generated method stub
 //						datePicker.clearFocus();
 //						timePicker.clearFocus();
 //						time.set(Calendar.YEAR, datePicker.getYear());
@@ -1135,7 +1131,6 @@ public class DateTimeUitl {
 //
 //					@Override
 //					public void onClick(DialogInterface dialog, int which) {
-//						// TODO Auto-generated method stub
 //
 //					}
 //				}).show();
@@ -1184,7 +1179,6 @@ public class DateTimeUitl {
 //
 //			@Override
 //			public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-//				// TODO Auto-generated method stub
 //				time.set(Calendar.HOUR_OF_DAY, hourOfDay);
 //				time.set(Calendar.MINUTE, minute);
 //
@@ -1198,7 +1192,6 @@ public class DateTimeUitl {
 //			@Override
 //			public void onDateChanged(DatePicker view, int year,
 //									  int monthOfYear, int dayOfMonth) {
-//				// TODO Auto-generated method stub
 //				time.set(Calendar.YEAR, year);
 //				time.set(Calendar.MONTH, monthOfYear);
 //				time.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -1218,7 +1211,6 @@ public class DateTimeUitl {
 //
 //					@Override
 //					public void onClick(DialogInterface dialog, int which) {
-//						// TODO Auto-generated method stub
 //						datePicker.clearFocus();
 //						timePicker.clearFocus();
 //						time.set(Calendar.YEAR, datePicker.getYear());
@@ -1236,7 +1228,6 @@ public class DateTimeUitl {
 //
 //					@Override
 //					public void onClick(DialogInterface dialog, int which) {
-//						// TODO Auto-generated method stub
 //
 //					}
 //				}).show();

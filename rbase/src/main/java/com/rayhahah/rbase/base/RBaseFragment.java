@@ -1,17 +1,16 @@
 package com.rayhahah.rbase.base;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.rayhahah.rbase.utils.useful.PermissionManager;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,7 +36,6 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
     private boolean isVisible;
     protected T mPresenter;
     protected CompositeSubscription compositeSubscription;
-    protected ConcurrentHashMap<String, String> mParamMap = new ConcurrentHashMap<>();
     protected ConcurrentHashMap<String, String> mValueMap = new ConcurrentHashMap<>();
     protected V mBinding;
     protected HashMap<String, Integer> mThemeColorMap;
@@ -76,6 +74,11 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionManager.onRequestResult(requestCode, permissions, grantResults);
+    }
 
     /**
      * 懒加载，触发调用数据封装层
@@ -86,7 +89,7 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
         }
 
         if (isFirstInit) {
-            getValueFormPrePage();
+            initValueFromPrePage();
             initThemeAttrs();
             initView(savedInstanceState);
             isFirstInit = false;
@@ -182,29 +185,19 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
     }
 
     /**
-     * 将参数值传递到下个页面
-     *
-     * @param name
-     * @param value
-     */
-    public void putParmToNextPage(String name, String value) {
-        mParamMap.put(name, value);
-    }
-
-    /**
      * 从上个页面取得传递参数的值
      *
      * @param name
      * @return
      */
-    public String getParmValueFormPrePage(String name) {
+    public String getValueFromPrePage(String name) {
         return mValueMap.get(name);
     }
 
     /**
      * 将上个页面传递过来的参数值全部放到valueMap 中
      */
-    public void getValueFormPrePage() {
+    public void initValueFromPrePage() {
         Bundle extBundle = getArguments() != null ? getArguments() : null;
         if (extBundle != null) {
             Iterator<String> it = extBundle.keySet().iterator();
@@ -216,34 +209,4 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
         }
 
     }
-
-    /**
-     * 跳转至下一个页面
-     *
-     * @param clazz
-     */
-    @SuppressWarnings({"rawtypes"})
-    public void toNextActivity(Class<? extends Activity> clazz) {
-        Intent intent = new Intent(getActivity(), clazz);
-        Bundle bundle = new Bundle();
-        Iterator it = mParamMap.keySet().iterator();
-        while (it.hasNext()) {
-            Object obj = it.next();
-            if (obj != null) {
-                String key = String.valueOf(obj);
-                String value = mParamMap.get(key);
-                bundle.putString(key, value);
-            }
-        }
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtras(bundle);
-        //5.0过渡动画适配
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
-        } else {
-            startActivity(intent);
-        }
-    }
-
-
 }

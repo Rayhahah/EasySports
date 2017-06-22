@@ -43,6 +43,7 @@ public class ThreadUtil {
 
     public static void excute(Runnable r) {
         if (mExecutorService == null) {
+            initThreadPool();
         }
         mExecutorService.execute(r);
     }

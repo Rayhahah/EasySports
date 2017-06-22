@@ -7,7 +7,7 @@ import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.common.BaseFragment;
 import com.rayhahah.easysports.common.C;
 import com.rayhahah.easysports.databinding.FragmentNewsBinding;
-import com.rayhahah.easysports.module.news.business.NewsListFragment;
+import com.rayhahah.easysports.module.news.business.newslist.NewsListFragment;
 import com.rayhahah.easysports.module.news.domain.VPNewsAdapter;
 
 import java.util.ArrayList;

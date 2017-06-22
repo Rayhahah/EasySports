@@ -3,6 +3,8 @@ package com.rayhahah.easysports.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rayhahah.easysports.module.news.bean.NewsItem;
+import com.rayhahah.easysports.module.news.bean.VideoInfo;
+import com.rayhahah.rbase.utils.base.StringUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,5 +60,24 @@ public class JsonParser {
         return null;
     }
 
-
+    /**
+     * 解析JSON获取VideoInfo数据对象
+     *
+     * @param json
+     * @return
+     */
+    public static VideoInfo parseVideoInfo(String json) {
+        if (StringUtils.isEmpty(json)) {
+            return null;
+        }
+        String tarJson = json
+                .replaceAll("QZOutputJson=", "")
+                .replaceAll(" ", "")
+                .replaceAll("\n", "");
+        if (tarJson.endsWith(";")) {
+            tarJson = tarJson.substring(0, tarJson.length() - 1);
+        }
+        VideoInfo videoInfo = new Gson().fromJson(tarJson, VideoInfo.class);
+        return videoInfo;
+    }
 }

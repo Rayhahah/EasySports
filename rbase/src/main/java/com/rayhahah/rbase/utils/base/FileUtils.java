@@ -4,18 +4,15 @@ import android.os.Environment;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
@@ -222,53 +219,6 @@ public class FileUtils {
     }
 
     /**
-     * 复制或移动目录
-     *
-     * @param srcDirPath  源目录路径
-     * @param destDirPath 目标目录路径
-     * @param isMove      是否移动
-     * @return {@code true}: 复制或移动成功<br>{@code false}: 复制或移动失败
-     */
-    private static boolean copyOrMoveDir(String srcDirPath, String destDirPath, boolean isMove) {
-        return copyOrMoveDir(getFileByPath(srcDirPath), getFileByPath(destDirPath), isMove);
-    }
-
-    /**
-     * 复制或移动目录
-     *
-     * @param srcDir  源目录
-     * @param destDir 目标目录
-     * @param isMove  是否移动
-     * @return {@code true}: 复制或移动成功<br>{@code false}: 复制或移动失败
-     */
-    private static boolean copyOrMoveDir(File srcDir, File destDir, boolean isMove) {
-        if (srcDir == null || destDir == null) return false;
-        // 如果目标目录在源目录中则返回false，看不懂的话好好想想递归怎么结束
-        // srcPath : F:\\MyGithub\\AndroidUtilCode\\utilcode\\src\\test\\res
-        // destPath: F:\\MyGithub\\AndroidUtilCode\\utilcode\\src\\test\\res1
-        // 为防止以上这种情况出现出现误判，须分别在后面加个路径分隔符
-        String srcPath = srcDir.getPath() + File.separator;
-        String destPath = destDir.getPath() + File.separator;
-        if (destPath.contains(srcPath)) return false;
-        // 源文件不存在或者不是目录则返回false
-        if (!srcDir.exists() || !srcDir.isDirectory()) return false;
-        // 目标目录不存在返回false
-        if (!createOrExistsDir(destDir)) return false;
-        File[] files = srcDir.listFiles();
-        for (File file : files) {
-            File oneDestFile = new File(destPath + file.getName());
-            if (file.isFile()) {
-                // 如果操作失败返回false
-                if (!copyOrMoveFile(file, oneDestFile, isMove)) return false;
-            } else if (file.isDirectory()) {
-                // 如果操作失败返回false
-                if (!copyOrMoveDir(file, oneDestFile, isMove)) return false;
-            }
-        }
-        return !isMove || deleteDir(srcDir);
-    }
-
-    /**
      * 复制或移动文件
      *
      * @param srcFilePath  源文件路径
@@ -303,72 +253,6 @@ public class FileUtils {
             e.printStackTrace();
             return false;
         }
-    }
-
-    /**
-     * 复制目录
-     *
-     * @param srcDirPath  源目录路径
-     * @param destDirPath 目标目录路径
-     * @return {@code true}: 复制成功<br>{@code false}: 复制失败
-     */
-    public static boolean copyDir(String srcDirPath, String destDirPath) {
-        return copyDir(getFileByPath(srcDirPath), getFileByPath(destDirPath));
-    }
-
-    /**
-     * 复制目录
-     *
-     * @param srcDir  源目录
-     * @param destDir 目标目录
-     * @return {@code true}: 复制成功<br>{@code false}: 复制失败
-     */
-    public static boolean copyDir(File srcDir, File destDir) {
-        return copyOrMoveDir(srcDir, destDir, false);
-    }
-
-    /**
-     * 复制文件
-     *
-     * @param srcFilePath  源文件路径
-     * @param destFilePath 目标文件路径
-     * @return {@code true}: 复制成功<br>{@code false}: 复制失败
-     */
-    public static boolean copyFile(String srcFilePath, String destFilePath) {
-        return copyFile(getFileByPath(srcFilePath), getFileByPath(destFilePath));
-    }
-
-    /**
-     * 复制文件
-     *
-     * @param srcFile  源文件
-     * @param destFile 目标文件
-     * @return {@code true}: 复制成功<br>{@code false}: 复制失败
-     */
-    public static boolean copyFile(File srcFile, File destFile) {
-        return copyOrMoveFile(srcFile, destFile, false);
-    }
-
-    /**
-     * 移动目录
-     *
-     * @param srcDirPath  源目录路径
-     * @param destDirPath 目标目录路径
-     * @return {@code true}: 移动成功<br>{@code false}: 移动失败
-     */
-    public static boolean moveDir(String srcDirPath, String destDirPath) {
-        return moveDir(getFileByPath(srcDirPath), getFileByPath(destDirPath));
-    }
-
-    /**
-     * 移动目录
-     *
-     * @param srcDir  源目录
-     * @param destDir 目标目录
-     * @return {@code true}: 移动成功<br>{@code false}: 移动失败
-     */
-    public static boolean moveDir(File srcDir, File destDir) {
-        return copyOrMoveDir(srcDir, destDir, true);
     }
 
     /**
@@ -803,120 +687,6 @@ public class FileUtils {
     }
 
     /**
-     * 指定编码按行读取文件到链表中
-     *
-     * @param filePath    文件路径
-     * @param charsetName 编码格式
-     * @return 文件行链表
-     */
-    public static List<String> readFile2List(String filePath, String charsetName) {
-        return readFile2List(getFileByPath(filePath), charsetName);
-    }
-
-    /**
-     * 指定编码按行读取文件到链表中
-     *
-     * @param file        文件
-     * @param charsetName 编码格式
-     * @return 文件行链表
-     */
-    public static List<String> readFile2List(File file, String charsetName) {
-        return readFile2List(file, 0, 0x7FFFFFFF, charsetName);
-    }
-
-    /**
-     * 指定编码按行读取文件到链表中
-     *
-     * @param filePath    文件路径
-     * @param st          需要读取的开始行数
-     * @param end         需要读取的结束行数
-     * @param charsetName 编码格式
-     * @return 包含制定行的list
-     */
-    public static List<String> readFile2List(String filePath, int st, int end, String
-            charsetName) {
-        return readFile2List(getFileByPath(filePath), st, end, charsetName);
-    }
-
-    /**
-     * 指定编码按行读取文件到链表中
-     *
-     * @param file        文件
-     * @param st          需要读取的开始行数
-     * @param end         需要读取的结束行数
-     * @param charsetName 编码格式
-     * @return 包含从start行到end行的list
-     */
-    public static List<String> readFile2List(File file, int st, int end, String charsetName) {
-        if (file == null) return null;
-        if (st > end) return null;
-        BufferedReader reader = null;
-        try {
-            String line;
-            int curLine = 1;
-            List<String> list = new ArrayList<>();
-            if (StringUtils.isSpace(charsetName)) {
-                reader = new BufferedReader(new FileReader(file));
-            } else {
-                reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charsetName));
-            }
-            while ((line = reader.readLine()) != null) {
-                if (curLine > end) break;
-                if (st <= curLine && curLine <= end) list.add(line);
-                ++curLine;
-            }
-            return list;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            CloseUtils.closeIO(reader);
-        }
-    }
-
-    /**
-     * 指定编码按行读取文件到字符串中
-     *
-     * @param filePath    文件路径
-     * @param charsetName 编码格式
-     * @return 字符串
-     */
-    public static String readFile2String(String filePath, String charsetName) {
-        return readFile2String(getFileByPath(filePath), charsetName);
-    }
-
-    /**
-     * 指定编码按行读取文件到字符串中
-     *
-     * @param file        文件
-     * @param charsetName 编码格式
-     * @return 字符串
-     */
-    public static String readFile2String(File file, String charsetName) {
-        if (file == null) return null;
-        BufferedReader reader = null;
-        try {
-            StringBuilder sb = new StringBuilder();
-            if (StringUtils.isSpace(charsetName)) {
-                reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-            } else {
-                reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charsetName));
-            }
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append("\r\n");// windows系统换行为\r\n，Linux为\n
-            }
-            // 要去除最后的换行符
-            return sb.delete(sb.length() - 2, sb.length()).toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            CloseUtils.closeIO(reader);
-        }
-    }
-
-    /**
      * 读取文件到字符数组中
      *
      * @param filePath 文件路径
@@ -1190,28 +960,6 @@ public class FileUtils {
         return null;
     }
 
-    /**
-     * 获取全路径中的最长目录
-     *
-     * @param file 文件
-     * @return filePath最长目录
-     */
-    public static String getDirName(File file) {
-        if (file == null) return null;
-        return getDirName(file.getPath());
-    }
-
-    /**
-     * 获取全路径中的最长目录
-     *
-     * @param filePath 文件路径
-     * @return filePath最长目录
-     */
-    public static String getDirName(String filePath) {
-        if (StringUtils.isSpace(filePath)) return filePath;
-        int lastSep = filePath.lastIndexOf(File.separator);
-        return lastSep == -1 ? "" : filePath.substring(0, lastSep + 1);
-    }
 
     /**
      * 获取全路径中的文件名
@@ -1266,30 +1014,6 @@ public class FileUtils {
         return filePath.substring(lastSep + 1, lastPoi);
     }
 
-    /**
-     * 获取全路径中的文件拓展名
-     *
-     * @param file 文件
-     * @return 文件拓展名
-     */
-    public static String getFileExtension(File file) {
-        if (file == null) return null;
-        return getFileExtension(file.getPath());
-    }
-
-    /**
-     * 获取全路径中的文件拓展名
-     *
-     * @param filePath 文件路径
-     * @return 文件拓展名
-     */
-    public static String getFileExtension(String filePath) {
-        if (StringUtils.isSpace(filePath)) return filePath;
-        int lastPoi = filePath.lastIndexOf('.');
-        int lastSep = filePath.lastIndexOf(File.separator);
-        if (lastPoi == -1 || lastSep >= lastPoi) return "";
-        return filePath.substring(lastPoi + 1);
-    }
 
     /**
      * 判断是够有SD卡

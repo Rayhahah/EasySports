@@ -1,4 +1,4 @@
-package com.rayhahah.easysports.module.news.business;
+package com.rayhahah.easysports.module.news.business.newslist;
 
 import com.rayhahah.easysports.common.C;
 import com.rayhahah.easysports.module.news.api.NewsApiFactory;

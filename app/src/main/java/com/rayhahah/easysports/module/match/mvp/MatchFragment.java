@@ -208,7 +208,6 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         mBinding.rvMatchList.addItemDecoration(
                 mItemDecor);
         mMatchListAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-        mMatchListAdapter.isFirstOnly(false);
         mMatchListAdapter.setOnLoadMoreListener(this, mBinding.rvMatchList);
         mBinding.rvMatchList.setAdapter(mMatchListAdapter);
         mBinding.srlMatchList.setOnRefreshListener(this);
@@ -224,6 +223,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         mBinding.pl.setRefreshClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showViewLoading();
                 mPresenter.addMatchListData(mCurrentDate, C.STATUS.INIT);
             }
         });

@@ -61,6 +61,9 @@ dependencies {
 
     debugCompile dependencies.leakCanaryDebug
     releaseCompile dependencies.leakCanaryRelease
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile dependencies.conconstraintLayout
+    compile dependencies.flexboxLayout
+    compile dependencies.photoView
     testCompile 'junit:junit:4.12'
 }

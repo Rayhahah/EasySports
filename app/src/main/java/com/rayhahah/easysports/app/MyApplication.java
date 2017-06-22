@@ -89,8 +89,8 @@ public class MyApplication extends BaseApplication {
      */
     private void initRetrofit() {
         OkHttpClient okHttpClient = OkHttpManager.create();
-        ApiClient.create(C.BaseURL.TECENT_URL_SERVER, okHttpClient);
-        ApiClient.create(C.BaseURL.TECENT_URL_SERVER_1, okHttpClient);
+        ApiClient.create(C.BaseURL.TECENT_VIDEO_SERVER, okHttpClient);
+        ApiClient.create(C.BaseURL.TECENT_VIDEO_SERVER_H5, okHttpClient);
         ApiClient.create(C.BaseURL.TECENT_SERVER, okHttpClient);
         ApiClient.create(C.BaseURL.TMIAAO_SERVER, okHttpClient);
         ApiClient.create(C.BaseURL.HUPU_FORUM_SERVER, okHttpClient);

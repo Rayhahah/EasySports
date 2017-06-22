@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <drawable name="progress_bar_bg">#80FFFFFF</drawable>
+
+</resources>

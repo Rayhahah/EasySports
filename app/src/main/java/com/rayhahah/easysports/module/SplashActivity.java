@@ -24,7 +24,7 @@ public class SplashActivity extends BaseActivity<RBasePresenter, ActivitySplashB
     }
 
     @Override
-    public void getValueFormPrePage() {
+    public void initValueFromPrePage() {
     }
 
     @Override
@@ -33,7 +33,7 @@ public class SplashActivity extends BaseActivity<RBasePresenter, ActivitySplashB
         mBinding.tvSplashSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toNextActivity(HomeActivity.class);
+                HomeActivity.start(SplashActivity.this, SplashActivity.this);
                 mTimer.cancel();
                 finish();
             }
@@ -46,7 +46,7 @@ public class SplashActivity extends BaseActivity<RBasePresenter, ActivitySplashB
 
             @Override
             public void onFinish() {
-                toNextActivity(HomeActivity.class);
+                HomeActivity.start(SplashActivity.this, SplashActivity.this);
                 finish();
             }
         };

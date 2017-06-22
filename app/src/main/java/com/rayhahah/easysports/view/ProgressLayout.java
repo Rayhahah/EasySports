@@ -108,6 +108,4 @@ public class ProgressLayout extends RelativeLayout {
         errorView.setLayoutParams(layoutParams);
         this.addView(errorView);
     }
-
-
 }

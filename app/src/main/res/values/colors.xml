@@ -24,6 +24,8 @@
     <color name="transparent">#00ffffff</color>
     <color name="transparentI">#55ffffff</color>
     <color name="transparentIi">#aaffffff</color>
+    <color name="transparentIiBlack">#aa000000</color>
+    <color name="transparentIBlack">#55000000</color>
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>

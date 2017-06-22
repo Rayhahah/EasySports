@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparentI"
+    android:padding="@dimen/dp_5"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/browser_controller_back"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_svg_arrow_left_color_primary_24"/>
+
+    <ImageButton
+        android:id="@+id/browser_controller_forward"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_svg_arrow_right_color_primary_24"/>
+
+    <ImageButton
+        android:id="@+id/browser_controller_refresh"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_svg_refresh_color_primary_24"/>
+
+    <ImageButton
+        android:id="@+id/browser_controller_go"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_svg_browser_color_primary_24"/>
+
+</LinearLayout>

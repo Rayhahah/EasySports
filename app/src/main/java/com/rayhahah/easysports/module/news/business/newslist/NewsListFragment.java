@@ -1,4 +1,4 @@
-package com.rayhahah.easysports.module.news.business;
+package com.rayhahah.easysports.module.news.business.newslist;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,21 +10,24 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.common.BaseFragment;
 import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.common.RWebActivity;
 import com.rayhahah.easysports.databinding.FragmentNewslistBinding;
 import com.rayhahah.easysports.module.news.bean.NewsIndex;
 import com.rayhahah.easysports.module.news.bean.NewsItem;
+import com.rayhahah.easysports.module.news.business.newsdetail.NewsDetailActivity;
 import com.rayhahah.easysports.view.DividerItemDecoration;
-import com.rayhahah.rbase.utils.base.ToastUtils;
+import com.rayhahah.rvideoplayer.JC.JCVideoPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by a on 2017/6/7.
  */
 
 public class NewsListFragment extends BaseFragment<NewsListPresenter, FragmentNewslistBinding>
-        implements NewsListContract.INewsListView, BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener {
+        implements NewsListContract.INewsListView, BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
 
     //Fragment在Tab中位置
     private String mTabIndex;
@@ -44,8 +47,8 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter, FragmentNe
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        mTabIndex = getParmValueFormPrePage(C.NEWS.TAB_INDEX);
-        mTabType = getParmValueFormPrePage(C.NEWS.TAB_TYPE);
+        mTabIndex = getValueFromPrePage(C.NEWS.TAB_INDEX);
+        mTabType = getValueFromPrePage(C.NEWS.TAB_TYPE);
 
         initRv();
         initProgressLayout();
@@ -57,6 +60,13 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter, FragmentNe
     @Override
     protected NewsListPresenter getPresenter() {
         return new NewsListPresenter(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //释放资源
+        JCVideoPlayer.releaseAllVideos();
     }
 
     @Override
@@ -86,7 +96,9 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter, FragmentNe
                 mNewsListAdapter.loadMoreComplete();
                 break;
         }
+
         showContent(mBinding.srlNewsList, mBinding.pl);
+//        RLog.e("data=" + data.toString());
     }
 
     @Override
@@ -128,8 +140,25 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter, FragmentNe
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+//        List<NewsItem.DataBean.ItemInfo> data = adapter.getData();
+//        ToastUtils.showShort(data.get(position).getNewsId());
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         List<NewsItem.DataBean.ItemInfo> data = adapter.getData();
-        ToastUtils.showShort(data.get(position).getNewsId());
+        NewsItem.DataBean.ItemInfo item = data.get(position);
+        switch (view.getId()) {
+            case R.id.iv_goto_web:
+                RWebActivity.start(getActivity(), getActivity()
+                        , item.getUrl(), item.getTitle(), false, true);
+                break;
+            case R.id.ll_news_item:
+                NewsDetailActivity.start(getActivity(), getActivity(), mTabType, item.getNewsId());
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -150,6 +179,7 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter, FragmentNe
         mNewsListAdapter.isFirstOnly(true);
         mNewsListAdapter.setOnLoadMoreListener(this, mBinding.rvNewsList);
         mNewsListAdapter.setOnItemClickListener(this);
+        mNewsListAdapter.setOnItemChildClickListener(this);
         mBinding.srlNewsList.setOnRefreshListener(this);
         mBinding.srlNewsList.setColorSchemeColors(mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
     }
@@ -163,6 +193,8 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter, FragmentNe
         mBinding.pl.setRefreshClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showViewLoading();
+                mPresenter.getNewsIndex(mTabType);
             }
         });
     }

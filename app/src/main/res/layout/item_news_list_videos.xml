@@ -1,7 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_200"
+    android:background="?attr/colorBgDark"
+    >
 
-</LinearLayout>
+    <com.rayhahah.rvideoplayer.JC.JCVideoPlayerStandard
+        android:id="@+id/jc_news_list_player"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/tv_video_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="left"
+        android:padding="@dimen/dp_5"
+        android:visibility="gone"
+        android:text="@string/example_title_video"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_20"/>
+
+    <ImageView
+        android:id="@+id/iv_goto_web"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/dp_5"
+        android:src="@drawable/ic_svg_goto_white_24"/>
+
+    <TextView
+        android:id="@+id/tv_video_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="@dimen/dp_5"
+        android:text="@string/example_date_detail"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_20"/>
+
+</RelativeLayout>

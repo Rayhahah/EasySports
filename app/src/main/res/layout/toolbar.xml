@@ -11,12 +11,23 @@
         android:background="?attr/colorPrimary"
         android:orientation="horizontal">
 
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_toolbar_back"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dp_5"
+            android:scaleType="center"
+            android:src="@drawable/ic_svg_arrow_left_white_24"/>
+
         <TextView
             android:id="@+id/tv_toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
+            android:ellipsize="end"
             android:gravity="center"
+            android:maxLines="1"
             android:text="比赛"
             android:textColor="?attr/colorBg"
             android:textSize="@dimen/sp_35"/>

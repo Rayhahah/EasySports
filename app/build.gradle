@@ -58,8 +58,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     def dependencies = rootProject.ext.dependencies
-    compile dependencies.supportAppCompat
     compile project(path: ':rbase')
+    compile project(path: ':rvideoplayer')
+    compile project(path: ':dialoglib')
 
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
     compile 'cn.bmob.android:bmob-sdk:3.5.5'

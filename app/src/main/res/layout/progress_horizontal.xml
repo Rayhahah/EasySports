@@ -1,0 +1,9 @@
+<ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/my_profile_tracker"
+    style="?android:attr/progressBarStyleHorizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:indeterminateOnly="false"
+    android:max="100"
+    android:progressDrawable="@drawable/progress_bar_horizontal" />

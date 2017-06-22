@@ -128,7 +128,6 @@ public class StringUtils {
      */
     public static boolean isLegalUserId(String uid) {
         boolean flag = false;
-        // TODO for other relues
         if (uid != null) {
             String check = "\\d{1,}";
             Pattern pattern = Pattern.compile(check);

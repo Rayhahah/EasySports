@@ -1,5 +1,7 @@
 package com.rayhahah.easysports.module.home;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -31,10 +33,14 @@ public class HomeActivity extends BaseActivity<HomePresenter, ActivityHomeBindin
 
     @Override
     protected void initEventAndData(Bundle savedInstanceState) {
-
         initFragment();
         initBnb();
     }
+
+    public static void start(Context context, Activity preActivity) {
+        toNextActivity(context, HomeActivity.class, preActivity);
+    }
+
 
     private void initFragment() {
         MatchFragment matchFragment = new MatchFragment();

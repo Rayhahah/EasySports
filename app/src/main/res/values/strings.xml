@@ -14,6 +14,24 @@
     <string name="news_depth">最佳时刻</string>
     <string name="news_highlight">赛场花絮</string>
 
+    <string name="example_date">2017-12-05</string>
+    <string name="example_date_detail">2017-06-12 09:40:21</string>
+    <string name="example_title">洛瑞：我想要一枚总冠军戒指，这是驱动我的因素</string>
+    <string name="example_title_video">视频-2017总决赛官方十佳球 阿杜致胜三分死神降临</string>
+
+    <string name="save_picture">保存图片</string>
+    <string name="cancel">取消</string>
 
 
+    <string-array name="ad">
+        <item>/d/js/js/</item>
+        <item>u.xcy8.com</item>
+        <item>http://nba.tmiaoo.com/body.html</item>
+        <item>http://nba.tmiaoo.com/gg.html</item>
+        <item>http://img.ychtjd88.com</item>
+        <item>http://hm.baidu.com</item>
+        <item>http://img.jgchq.com</item>
+        <item>http://img1.pxpbj.com</item>
+        <item>http://www.jrszhibo.com/img/arrow_left.png</item>
+    </string-array>
 </resources>

@@ -1,1 +1,1 @@
-include ':app', ':rbase', ':rvideoplayer'
+include ':app', ':rbase', ':rvideoplayer', ':dialoglib'
