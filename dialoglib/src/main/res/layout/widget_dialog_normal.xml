@@ -6,6 +6,12 @@
     android:background="@drawable/shape_white_corner8"
     android:orientation="vertical">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_weight="0"
+        android:background="@color/gray"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,12 +40,6 @@
             android:textSize="14sp"/>
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_weight="0"
-        android:background="@color/gray"/>
 
     <Button
         android:id="@+id/dialog_normal_midbtn"

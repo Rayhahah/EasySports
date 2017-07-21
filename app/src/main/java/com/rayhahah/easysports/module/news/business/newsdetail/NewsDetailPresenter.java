@@ -7,13 +7,18 @@ import com.rayhahah.easysports.common.C;
 import com.rayhahah.easysports.module.news.api.NewsApiFactory;
 import com.rayhahah.easysports.module.news.bean.NewsDetail;
 import com.rayhahah.rbase.base.RBasePresenter;
-import com.rayhahah.rbase.net.RCallBack;
 import com.rayhahah.rbase.utils.base.ImageUtils;
+import com.rayhahah.rbase.utils.useful.RxSchedulers;
 
 import java.io.File;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+
 
 /**
  * Created by a on 2017/6/22.
@@ -27,17 +32,18 @@ public class NewsDetailPresenter extends RBasePresenter<NewsDetailContract.INews
 
     @Override
     public void getNewsDetail(String column, String articleId) {
-        addSubscription(NewsApiFactory.getNewsDetail(column, articleId), new RCallBack<NewsDetail>() {
-            @Override
-            public void onError(Throwable e) {
-                mView.showViewError(e);
-            }
-
-            @Override
-            public void onNext(NewsDetail newsDetail) {
-                mView.getNewsDetail(newsDetail);
-            }
-        });
+        addSubscription(NewsApiFactory.getNewsDetail(column, articleId)
+                .subscribe(new Consumer<NewsDetail>() {
+                    @Override
+                    public void accept(@NonNull NewsDetail newsDetail) throws Exception {
+                        mView.getNewsDetail(newsDetail);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        mView.showViewError(throwable);
+                    }
+                }));
     }
 
     /**
@@ -47,28 +53,27 @@ public class NewsDetailPresenter extends RBasePresenter<NewsDetailContract.INews
      */
     @Override
     public void saveBitmap(final Bitmap bitmap) {
-        Observable observable = Observable.create(new Observable.OnSubscribe<Boolean>() {
+        Disposable saveBit = Observable.create(new ObservableOnSubscribe<Boolean>() {
             @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
+            public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
                 String fileName = System.currentTimeMillis() + ".jpg";
                 File file = new File(C.PIC_DIR, fileName);
                 if (ImageUtils.save(bitmap, file, Bitmap.CompressFormat.JPEG)) {
                     if (ImageUtils.insertImage(MyApplication.getAppContext(), file.getAbsolutePath(), fileName, null)) {
-                        subscriber.onNext(true);
+                        e.onNext(true);
                     } else {
-                        subscriber.onNext(false);
+                        e.onNext(false);
                     }
                 } else {
-                    subscriber.onNext(false);
+                    e.onNext(false);
                 }
             }
-        });
-        addSubscription(observable, new RCallBack<Boolean>() {
+        }).compose(RxSchedulers.<Boolean>ioMain()).subscribe(new Consumer<Boolean>() {
             @Override
-            public void onNext(Boolean b) {
+            public void accept(@NonNull Boolean b) throws Exception {
                 mView.savePicDone(b);
             }
         });
-
+        addSubscription(saveBit);
     }
 }

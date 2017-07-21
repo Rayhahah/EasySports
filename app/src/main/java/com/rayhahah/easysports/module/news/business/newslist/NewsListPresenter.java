@@ -6,10 +6,11 @@ import com.rayhahah.easysports.module.news.bean.NewsIndex;
 import com.rayhahah.easysports.module.news.bean.NewsItem;
 import com.rayhahah.easysports.utils.JsonParser;
 import com.rayhahah.rbase.base.RBasePresenter;
-import com.rayhahah.rbase.net.RCallBack;
 
 import java.util.List;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import okhttp3.ResponseBody;
 
 /**
@@ -22,45 +23,45 @@ public class NewsListPresenter extends RBasePresenter<NewsListContract.INewsList
         super(view);
     }
 
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
     @Override
     public void getNewsIndex(String column) {
         mView.showViewLoading();
         addSubscription(NewsApiFactory.getNewsIndex(column)
-                , new RCallBack<NewsIndex>() {
+                .subscribe(new Consumer<NewsIndex>() {
                     @Override
-                    public void onError(Throwable throwable) {
-                        mView.getNewsError(throwable, C.STATUS.REFRESH);
-                    }
-
-                    @Override
-                    public void onNext(NewsIndex newsIndex) {
+                    public void accept(@NonNull NewsIndex newsIndex) throws Exception {
                         mView.getNewsIndex(newsIndex);
                     }
-                });
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        mView.getNewsError(throwable, C.STATUS.REFRESH);
+                    }
+                }));
     }
 
     @Override
     public void getNewsItem(String column, String articleIds, final int status) {
 //        mView.showViewLoading();
         addSubscription(NewsApiFactory.getNewsItemJson(column, articleIds)
-                , new RCallBack<ResponseBody>() {
+                .subscribe(new Consumer<ResponseBody>() {
                     @Override
-                    public void onError(Throwable e) {
-                        mView.getNewsError(e, status);
+                    public void accept(@NonNull ResponseBody responseBody) throws Exception {
+                        String json = responseBody.string();
+                        List<NewsItem.DataBean.ItemInfo> dataBeen = JsonParser.parseNewsItem(json);
+                        mView.getNewsItem(dataBeen, status);
                     }
-
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onNext(ResponseBody responseBody) {
-                        String json = null;
-                        try {
-                            json = responseBody.string();
-                            List<NewsItem.DataBean.ItemInfo> dataBeen = JsonParser.parseNewsItem(json);
-                            mView.getNewsItem(dataBeen, status);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            mView.getNewsError(e, status);
-                        }
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        mView.getNewsError(throwable, status);
                     }
-                });
+                }));
     }
 }

@@ -88,6 +88,7 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            //点击图片进入图片模式
             case R.id.iv_news_detail_cover:
                 mBinding.rlNewsDetailPic.setVisibility(View.VISIBLE);
                 AnimatorUtil.animAplhaIn(mBinding.rlNewsDetailPic, 250
@@ -99,9 +100,11 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
                         });
 
                 break;
+            //回退
             case R.id.iv_toolbar_back:
                 finish();
                 break;
+            //退出图片模式
             case R.id.rl_news_detail_pic:
                 mBinding.llNewsDetailFull.setVisibility(View.VISIBLE);
                 mBinding.rlNewsDetailPic.setVisibility(View.GONE);
@@ -112,6 +115,11 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
         }
     }
 
+    /**
+     * 新闻详情回调处理
+     *
+     * @param newsDetail 新闻详情实体类
+     */
     @Override
     public void getNewsDetail(NewsDetail newsDetail) {
         NewsDetail.DataBean data = newsDetail.getData();
@@ -132,6 +140,11 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
         showContent(mBinding.slNewsDetailContent, mBinding.pl);
     }
 
+    /**
+     * 保存图片回调操作
+     *
+     * @param b
+     */
     @Override
     public void savePicDone(Boolean b) {
         if (b) {
@@ -141,6 +154,11 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
         }
     }
 
+    /**
+     * 权限申请成功
+     *
+     * @param requestCode
+     */
     @Override
     public void onPermissionGranted(int requestCode) {
         switch (requestCode) {
@@ -153,6 +171,11 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
 
     }
 
+    /**
+     * 权限申请失败
+     *
+     * @param requestCode
+     */
     @Override
     public void onPermissionDenied(int requestCode) {
         switch (requestCode) {
@@ -186,39 +209,48 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
         mBinding.pvNewsDetailPic.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                NormalSelectionDialog dialog = new NormalSelectionDialog.Builder(NewsDetailActivity.this)
-                        .setlTitleVisible(false)
-                        .setItemHeight(50)  //设置item的高度
-                        .setItemWidth(0.9f)  //屏幕宽度*0.9
-                        .setItemTextColor(mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY))  //设置item字体颜色
-                        .setItemTextSize(18)  //设置item字体大小
-                        .setCancleButtonText(getResources().getString(R.string.cancel))  //设置最底部“取消”按钮文本
-                        .setTopBgResResources(R.drawable.selector_actiondialog_top_color_bg)
-                        .setMiddleBgResResources(R.drawable.selector_actiondialog_middle_color_bg)
-                        .setBottomBgResResources(R.drawable.selector_actiondialog_bottom_color_bg)
-                        .setSingleBgResResources(R.drawable.selector_actiondialog_single_color_bg)
-                        .setOnItemListener(new DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
-                            @Override
-                            public void onItemClick(NormalSelectionDialog dialog, View button, int position) {
-                                switch (position) {
-                                    case 0:
-                                        PermissionManager.requestPermission(NewsDetailActivity.this
-                                                , "保存图片需要开启文件权限"
-                                                , PER_CODE_STORAGE, NewsDetailActivity.this
-                                                , Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                                        break;
-                                }
-
-                                dialog.dismiss();
-                            }
-                        })
-                        .setCanceledOnTouchOutside(true)
-                        .build();
+                NormalSelectionDialog dialog = initDialog();
                 ArrayList<String> datas = new ArrayList<>();
                 datas.add(getResources().getString(R.string.save_picture));
                 dialog.setDatas(datas).show();
                 return true;
             }
         });
+    }
+
+    /**
+     * 初始化底部选择Dialog
+     *
+     * @return
+     */
+    private NormalSelectionDialog initDialog() {
+        return new NormalSelectionDialog.Builder(NewsDetailActivity.this)
+                .setlTitleVisible(false)
+                .setItemHeight(50)  //设置item的高度
+                .setItemWidth(0.9f)  //屏幕宽度*0.9
+                .setItemTextColor(mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY))  //设置item字体颜色
+                .setItemTextSize(18)  //设置item字体大小
+                .setCancleButtonText(getResources().getString(R.string.cancel))  //设置最底部“取消”按钮文本
+                .setTopBgResResources(R.drawable.selector_actiondialog_top_color_bg)
+                .setMiddleBgResResources(R.drawable.selector_actiondialog_middle_color_bg)
+                .setBottomBgResResources(R.drawable.selector_actiondialog_bottom_color_bg)
+                .setSingleBgResResources(R.drawable.selector_actiondialog_single_color_bg)
+                .setOnItemListener(new DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
+                    @Override
+                    public void onItemClick(NormalSelectionDialog dialog1, View button, int position) {
+                        switch (position) {
+                            case 0:
+                                PermissionManager.requestPermission(NewsDetailActivity.this
+                                        , "保存图片需要开启文件权限"
+                                        , PER_CODE_STORAGE, NewsDetailActivity.this
+                                        , Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                                break;
+                        }
+
+                        dialog1.dismiss();
+                    }
+                })
+                .setCanceledOnTouchOutside(true)
+                .build();
     }
 }

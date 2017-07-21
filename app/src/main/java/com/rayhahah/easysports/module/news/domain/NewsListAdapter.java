@@ -1,4 +1,4 @@
-package com.rayhahah.easysports.module.news.business.newslist;
+package com.rayhahah.easysports.module.news.domain;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -12,17 +12,14 @@ import com.rayhahah.easysports.module.news.api.NewsApiFactory;
 import com.rayhahah.easysports.module.news.bean.NewsItem;
 import com.rayhahah.easysports.module.news.bean.VideoInfo;
 import com.rayhahah.easysports.utils.JsonParser;
-import com.rayhahah.rbase.net.RCallBack;
 import com.rayhahah.rbase.utils.base.StringUtils;
 import com.rayhahah.rbase.utils.useful.GlideUtil;
 import com.rayhahah.rvideoplayer.JC.JCVideoPlayer;
 import com.rayhahah.rvideoplayer.JC.JCVideoPlayerStandard;
 
-import java.io.IOException;
-
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import okhttp3.ResponseBody;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by a on 2017/6/12.
@@ -75,30 +72,23 @@ public class NewsListAdapter extends BaseQuickAdapter<NewsItem.DataBean.ItemInfo
 
                 if (StringUtils.isEmpty(item.getVideoUrl())) {
                     NewsApiFactory.getVideoInfo(item.getVid())
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new RCallBack<ResponseBody>() {
+                            .subscribe(new Consumer<ResponseBody>() {
                                 @Override
-                                public void onNext(ResponseBody responseBody) {
-                                    try {
-                                        VideoInfo videoInfo = JsonParser.parseVideoInfo(responseBody.string());
+                                public void accept(@NonNull ResponseBody responseBody) throws Exception {
+                                    VideoInfo videoInfo = JsonParser.parseVideoInfo(responseBody.string());
 
-                                        if (videoInfo.vl.vi != null && videoInfo.vl.vi.size() > 0) {
-                                            String vid = videoInfo.vl.vi.get(0).vid;
-                                            String vkey = videoInfo.vl.vi.get(0).fvkey;
-                                            String url = videoInfo.vl.vi.get(0).ul.ui.get(0).url + vid + ".mp4?vkey=" + vkey;
+                                    if (videoInfo.vl.vi != null && videoInfo.vl.vi.size() > 0) {
+                                        String vid = videoInfo.vl.vi.get(0).vid;
+                                        String vkey = videoInfo.vl.vi.get(0).fvkey;
+                                        String url = videoInfo.vl.vi.get(0).ul.ui.get(0).url + vid + ".mp4?vkey=" + vkey;
 
-                                            item.setVideoUrl(url);
-                                            newsPlayer.setUp(item.getVideoUrl(), JCVideoPlayer.SCREEN_LAYOUT_NORMAL, item.getTitle());
-                                        }
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
+                                        item.setVideoUrl(url);
+                                        newsPlayer.setUp(item.getVideoUrl(), JCVideoPlayer.SCREEN_LAYOUT_NORMAL, item.getTitle());
                                     }
                                 }
-
+                            }, new Consumer<Throwable>() {
                                 @Override
-                                public void onError(Throwable e) {
-                                    super.onError(e);
+                                public void accept(@NonNull Throwable throwable) throws Exception {
                                     newsPlayer.setUp(item.getVideoUrl(), JCVideoPlayer.SCREEN_LAYOUT_NORMAL, item.getTitle());
                                 }
                             });

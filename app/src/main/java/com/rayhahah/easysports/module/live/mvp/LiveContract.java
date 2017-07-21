@@ -1,6 +1,5 @@
 package com.rayhahah.easysports.module.live.mvp;
 
-import com.rayhahah.rbase.base.IRBasePresenter;
 import com.rayhahah.rbase.base.IRBaseView;
 
 /**
@@ -12,6 +11,6 @@ public class LiveContract {
 
     }
 
-    public interface ILivePresenter extends IRBasePresenter {
+    public interface ILivePresenter {
     }
 }

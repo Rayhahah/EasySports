@@ -3,10 +3,10 @@ package com.rayhahah.easysports.module.news.api;
 import com.rayhahah.easysports.module.news.bean.NewsDetail;
 import com.rayhahah.easysports.module.news.bean.NewsIndex;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * Created by a on 2017/5/16.
@@ -42,6 +42,13 @@ public interface NewsService {
     @GET("getinfo?platform=11001&charge=0&otype=json")
     Observable<ResponseBody> getVideosInfo(@Query("vids") String vids);
 
+    /**
+     * 根据column和articleId 获取新闻详情信息
+     *
+     * @param column    列表类型
+     * @param articleId 新闻索引
+     * @return
+     */
     @GET("/news/detail")
     Observable<NewsDetail> getNewsDetail(@Query("column") String column, @Query("articleId") String articleId);
 

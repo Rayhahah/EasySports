@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.common.C;
+import com.rayhahah.rbase.utils.base.ConvertUtils;
 
 
 /**
@@ -144,7 +145,7 @@ public class BrowserLayout extends LinearLayout {
             }
         });
 
-        addView(mBrowserControllerView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        addView(mBrowserControllerView, LayoutParams.MATCH_PARENT, ConvertUtils.dp2px(45));
     }
 
     /**

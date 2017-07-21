@@ -14,6 +14,7 @@ import com.rayhahah.rbase.utils.RCrashHandler;
 import com.rayhahah.rbase.utils.base.DateTimeUitl;
 import com.rayhahah.rbase.utils.base.FileUtils;
 import com.rayhahah.rbase.utils.useful.RLog;
+import com.rayhahah.rbase.utils.useful.SPManager;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,6 +45,15 @@ public class MyApplication extends BaseApplication {
         initRetrofit();
 
         initGreenDao();
+    }
+
+    public static boolean isNightTheme() {
+        String isNight = SPManager.get().getStringValue(C.SP.THEME, C.FALSE);
+        if (C.FALSE.equals(isNight)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -102,8 +112,17 @@ public class MyApplication extends BaseApplication {
      * 初始化数据库信息
      */
     private void initGreenDao() {
+
+//        @Property：使用该属性定义一个非默认的列名，该变量和该列进行映射。
+// 如果缺少greendao会使用这个变量名来命名数据库的列名(全部大写，并且使用下划线来代替驼峰命名法，eg:customName会变成CUSTOM_NAME)。
+
+        // 通过DaoMaster 的内部类 DevOpenHelper，你可以得到一个便利的SQLiteOpenHelper 对象。
+        // 可能你已经注意到了，你并不需要去编写「CREATE TABLE」这样的 SQL 语句，因为greenDAO 已经帮你做了。
+        // 注意：默认的DaoMaster.DevOpenHelper 会在数据库升级时，删除所有的表，意味着这将导致数据的丢失。
+        // 所以，在正式的项目中，你还应该做一层封装，来实现数据库的安全升级。
+//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, C.DB_EASYSPORTS, null);
         //创建数据库db"
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, C.DB_EASYSPORTS, null);
+        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this, C.DB_EASYSPORTS, null);
         //获取可写数据库
         SQLiteDatabase db = helper.getWritableDatabase();
         //获取数据库对象

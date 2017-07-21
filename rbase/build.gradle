@@ -45,19 +45,24 @@ dependencies {
     compile dependencies.supportRecyclerview
     compile dependencies.supportCardView
 
-    compile dependencies.rxJava
-    compile dependencies.rxAndroid
+    compile dependencies.rxJava2
+    compile dependencies.rxAndroid2
 
     compile dependencies.retrofit
     compile dependencies.retrofitGsonConverter
-    compile dependencies.retrofitRxjavaAdapter
+    compile dependencies.retrofitRxjava2Adapter
 
     compile dependencies.gson
     compile dependencies.glide
     compile dependencies.bnb
-    compile dependencies.greenDao
-    compile dependencies.eventbus
     compile dependencies.bravh
+    compile dependencies.greenDao
+    compile dependencies.greenDaoUpgradeHelper
+
+    //让手机和电脑处于一个局域网下，当项目跑起来的时候，在 logcat 里面会打印出这么一行：
+    //D/DebugDB: Open http://XXX.XXX.X.XXX:8080 in your browser
+    debugCompile dependencies.dbDebugHelper
+    compile dependencies.eventbus
 
     debugCompile dependencies.leakCanaryDebug
     releaseCompile dependencies.leakCanaryRelease

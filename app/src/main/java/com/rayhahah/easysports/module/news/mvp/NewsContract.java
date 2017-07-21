@@ -1,6 +1,5 @@
 package com.rayhahah.easysports.module.news.mvp;
 
-import com.rayhahah.rbase.base.IRBasePresenter;
 import com.rayhahah.rbase.base.IRBaseView;
 
 /**
@@ -12,7 +11,7 @@ public class NewsContract {
 
     }
 
-    public interface INewsPresenter extends IRBasePresenter {
+    public interface INewsPresenter{
 
     }
 }

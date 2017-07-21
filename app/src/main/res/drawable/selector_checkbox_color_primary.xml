@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/ic_svg_checked_color_primary_24" android:state_checked="true"/>
+    <item android:drawable="@drawable/ic_svg_uncheck_color_dark_24" android:state_checked="false"/>
+</selector>

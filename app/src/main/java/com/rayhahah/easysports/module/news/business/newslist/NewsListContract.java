@@ -2,7 +2,6 @@ package com.rayhahah.easysports.module.news.business.newslist;
 
 import com.rayhahah.easysports.module.news.bean.NewsIndex;
 import com.rayhahah.easysports.module.news.bean.NewsItem;
-import com.rayhahah.rbase.base.IRBasePresenter;
 import com.rayhahah.rbase.base.IRBaseView;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public class NewsListContract {
         void getNewsError(Throwable t, int status);
     }
 
-    public interface INewsListPresenter extends IRBasePresenter {
+    public interface INewsListPresenter {
         void getNewsIndex(String column);
 
         void getNewsItem(String column, String articleIds, int status);

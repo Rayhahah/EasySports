@@ -1,6 +1,5 @@
 package com.rayhahah.easysports.module.forum.mvp;
 
-import com.rayhahah.rbase.base.IRBasePresenter;
 import com.rayhahah.rbase.base.IRBaseView;
 
 /**
@@ -12,7 +11,7 @@ public class ForumContract {
 
     }
 
-    public interface IForumPresenter extends IRBasePresenter {
+    public interface IForumPresenter{
 
     }
 }

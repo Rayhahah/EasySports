@@ -2,6 +2,8 @@ package com.rayhahah.easysports.common;
 
 import android.content.res.TypedArray;
 import android.databinding.ViewDataBinding;
+import android.support.v4.util.ArrayMap;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 
 import com.rayhahah.easysports.R;
@@ -9,18 +11,21 @@ import com.rayhahah.easysports.view.ProgressLayout;
 import com.rayhahah.rbase.base.IRBasePresenter;
 import com.rayhahah.rbase.base.RBaseFragment;
 
-import java.util.HashMap;
-
 /**
  * Created by a on 2017/5/27.
  */
 
 public abstract class BaseFragment<T extends IRBasePresenter, V extends ViewDataBinding>
         extends RBaseFragment<T, V> {
+    static {
+        //设置VectorDrawable兼容支持，否则会闪退
+        AppCompatDelegate
+                .setCompatVectorFromResourcesEnabled(true);
+    }
 
     @Override
     protected void initThemeAttrs() {
-        mThemeColorMap = new HashMap<>();
+        mThemeColorMap = new ArrayMap<>();
         TypedArray array = getActivity().getTheme().obtainStyledAttributes(new int[]{
                 android.R.attr.colorPrimary,
                 android.R.attr.colorPrimaryDark,

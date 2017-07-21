@@ -7,10 +7,9 @@
         <shape
             android:shape="rectangle"
             >
-            <solid android:color="?attr/colorBgDark"></solid>
+            <solid android:color="?attr/colorBgDark"/>
             <corners android:bottomLeftRadius="8dp"
-                     android:bottomRightRadius="8dp"
-                ></corners>
+                     android:bottomRightRadius="8dp"/>
         </shape>
 
     </item>
@@ -20,10 +19,9 @@
         <shape
             android:shape="rectangle"
             >
-            <solid android:color="?attr/colorBg"></solid>
+            <solid android:color="?attr/colorBg"/>
             <corners android:bottomRightRadius="8dp"
-                     android:bottomLeftRadius="8dp"
-                ></corners>
+                     android:bottomLeftRadius="8dp"/>
         </shape>
 
     </item>

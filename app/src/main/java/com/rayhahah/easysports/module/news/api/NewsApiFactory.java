@@ -4,9 +4,10 @@ import com.rayhahah.easysports.common.C;
 import com.rayhahah.easysports.module.news.bean.NewsDetail;
 import com.rayhahah.easysports.module.news.bean.NewsIndex;
 import com.rayhahah.rbase.net.ApiClient;
+import com.rayhahah.rbase.utils.useful.RxSchedulers;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
-import rx.Observable;
 
 /**
  * Created by a on 2017/5/16.
@@ -15,30 +16,30 @@ import rx.Observable;
 public class NewsApiFactory {
 
     public static Observable<NewsIndex> getNewsIndex(String column) {
-        return ApiClient
-                .get(C.BaseURL.TECENT_SERVER)
+        return ApiClient.get(C.BaseURL.TECENT_SERVER)
                 .create(NewsService.class)
-                .getNewsIndex(column);
+                .getNewsIndex(column)
+                .compose(RxSchedulers.<NewsIndex>ioMain());
     }
 
     public static Observable<ResponseBody> getNewsItemJson(String column, String articleIds) {
-        return ApiClient
-                .get(C.BaseURL.TECENT_SERVER)
+        return ApiClient.get(C.BaseURL.TECENT_SERVER)
                 .create(NewsService.class)
-                .getNewsItem(column, articleIds);
+                .getNewsItem(column, articleIds)
+                .compose(RxSchedulers.<ResponseBody>ioMain());
     }
 
     public static Observable<ResponseBody> getVideoInfo(String vids) {
-        return ApiClient
-                .get(C.BaseURL.TECENT_VIDEO_SERVER_H5)
+        return ApiClient.get(C.BaseURL.TECENT_VIDEO_SERVER_H5)
                 .create(NewsService.class)
-                .getVideosInfo(vids);
+                .getVideosInfo(vids)
+                .compose(RxSchedulers.<ResponseBody>ioMain());
     }
 
     public static Observable<NewsDetail> getNewsDetail(String column, String articleId) {
-        return ApiClient
-                .get(C.BaseURL.TECENT_SERVER)
+        return ApiClient.get(C.BaseURL.TECENT_SERVER)
                 .create(NewsService.class)
-                .getNewsDetail(column, articleId);
+                .getNewsDetail(column, articleId)
+                .compose(RxSchedulers.<NewsDetail>ioMain());
     }
 }

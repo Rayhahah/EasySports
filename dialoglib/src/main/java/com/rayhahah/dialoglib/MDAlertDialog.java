@@ -2,12 +2,12 @@ package com.rayhahah.dialoglib;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rayhahah.dialoglib.utils.ScreenSizeUtils;
@@ -17,6 +17,7 @@ import com.rayhahah.dialoglib.utils.ScreenSizeUtils;
  */
 public class MDAlertDialog {
 
+    private final LinearLayout mLLMdDialog;
     private Dialog mDialog;
     private View mDialogView;
     private TextView mTitle;
@@ -30,6 +31,7 @@ public class MDAlertDialog {
         mBuilder = builder;
         mDialog = new Dialog(mBuilder.getContext(), R.style.MyDialogStyle);
         mDialogView = View.inflate(mBuilder.getContext(), R.layout.widget_md_dialog, null);
+        mLLMdDialog = ((LinearLayout) mDialogView.findViewById(R.id.ll_md_dialog));
         mTitle = (TextView) mDialogView.findViewById(R.id.md_dialog_title);
         mContent = (TextView) mDialogView.findViewById(R.id.md_dialog_content);
         mLeftBtn = (TextView) mDialogView.findViewById(R.id.md_dialog_leftbtn);
@@ -61,6 +63,7 @@ public class MDAlertDialog {
             mTitle.setVisibility(View.GONE);
         }
 
+        mLLMdDialog.setBackgroundResource(mBuilder.getDialogBgResource());
         mTitle.setText(mBuilder.getTitleText());
         mTitle.setTextColor(mBuilder.getTitleTextColor());
         mTitle.setTextSize(mBuilder.getTitleTextSize());
@@ -70,9 +73,11 @@ public class MDAlertDialog {
         mLeftBtn.setText(mBuilder.getLeftButtonText());
         mLeftBtn.setTextColor(mBuilder.getLeftButtonTextColor());
         mLeftBtn.setTextSize(mBuilder.getButtonTextSize());
+        mLeftBtn.setBackgroundResource(mBuilder.getButtonBgResource());
         mRightBtn.setText(mBuilder.getRightButtonText());
         mRightBtn.setTextColor(mBuilder.getRightButtonTextColor());
         mRightBtn.setTextSize(mBuilder.getButtonTextSize());
+        mRightBtn.setBackgroundResource(mBuilder.getButtonBgResource());
 
         mLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +120,7 @@ public class MDAlertDialog {
 
     public static class Builder {
 
+        private int dialogBgResource;
         private String titleText;
         private int titleTextColor;
         private int titleTextSize;
@@ -132,10 +138,12 @@ public class MDAlertDialog {
         private float width;
         private DialogInterface.OnLeftAndRightClickListener<MDAlertDialog> listener;
         private Context mContext;
+        private int buttonBgResource;
 
         public Builder(Context context) {
 
             mContext = context;
+            dialogBgResource = R.drawable.shape_white_corner4;
             titleText = "提示";
             titleTextColor = ContextCompat.getColor(mContext, R.color.black_light);
             contentText = "";
@@ -152,11 +160,22 @@ public class MDAlertDialog {
             titleTextSize = 16;
             contentTextSize = 14;
             buttonTextSize = 14;
+            buttonBgResource = R.drawable.selector_widget_md_dialog;
         }
 
         public Context getContext() {
 
             return mContext;
+        }
+
+
+        public int getDialogBgResource() {
+            return dialogBgResource;
+        }
+
+        public Builder setDialogBgResource(int bgRes) {
+            this.dialogBgResource = bgRes;
+            return this;
         }
 
         public String getTitleText() {
@@ -172,8 +191,8 @@ public class MDAlertDialog {
             return titleTextColor;
         }
 
-        public Builder setTitleTextColor(@ColorRes int titleTextColor) {
-            this.titleTextColor = ContextCompat.getColor(mContext, titleTextColor);
+        public Builder setTitleTextColor(int titleTextColor) {
+            this.titleTextColor = titleTextColor;
             return this;
         }
 
@@ -190,8 +209,8 @@ public class MDAlertDialog {
             return contentTextColor;
         }
 
-        public Builder setContentTextColor(@ColorRes int contentTextColor) {
-            this.contentTextColor = ContextCompat.getColor(mContext, contentTextColor);
+        public Builder setContentTextColor(int contentTextColor) {
+            this.contentTextColor = contentTextColor;
             return this;
         }
 
@@ -208,8 +227,8 @@ public class MDAlertDialog {
             return leftButtonTextColor;
         }
 
-        public Builder setLeftButtonTextColor(@ColorRes int leftButtonTextColor) {
-            this.leftButtonTextColor = ContextCompat.getColor(mContext, leftButtonTextColor);
+        public Builder setLeftButtonTextColor(int leftButtonTextColor) {
+            this.leftButtonTextColor = leftButtonTextColor;
             return this;
         }
 
@@ -226,8 +245,8 @@ public class MDAlertDialog {
             return rightButtonTextColor;
         }
 
-        public Builder setRightButtonTextColor(@ColorRes int rightButtonTextColor) {
-            this.rightButtonTextColor = ContextCompat.getColor(mContext, rightButtonTextColor);
+        public Builder setRightButtonTextColor(int rightButtonTextColor) {
+            this.rightButtonTextColor = rightButtonTextColor;
             return this;
         }
 
@@ -303,10 +322,20 @@ public class MDAlertDialog {
             return this;
         }
 
+        public int getButtonBgResource() {
+            return buttonBgResource;
+        }
+
+        public Builder setButtonBgResource(int bgRes) {
+            this.buttonBgResource = bgRes;
+            return this;
+        }
+
         public MDAlertDialog build() {
 
             return new MDAlertDialog(this);
         }
+
     }
 
 }

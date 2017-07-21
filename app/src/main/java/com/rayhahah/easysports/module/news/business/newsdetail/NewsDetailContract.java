@@ -3,7 +3,6 @@ package com.rayhahah.easysports.module.news.business.newsdetail;
 import android.graphics.Bitmap;
 
 import com.rayhahah.easysports.module.news.bean.NewsDetail;
-import com.rayhahah.rbase.base.IRBasePresenter;
 import com.rayhahah.rbase.base.IRBaseView;
 
 /**
@@ -17,7 +16,7 @@ public class NewsDetailContract {
         void savePicDone(Boolean b);
     }
 
-    public interface INewsDetailPresenter extends IRBasePresenter{
+    public interface INewsDetailPresenter {
         void getNewsDetail(String column,String articleId);
         void saveBitmap(Bitmap bitmap);
     }

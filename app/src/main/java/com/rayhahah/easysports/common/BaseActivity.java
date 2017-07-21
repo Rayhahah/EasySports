@@ -2,38 +2,41 @@ package com.rayhahah.easysports.common;
 
 import android.content.res.TypedArray;
 import android.databinding.ViewDataBinding;
+import android.support.v4.util.ArrayMap;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 
 import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.app.MyApplication;
 import com.rayhahah.easysports.view.ProgressLayout;
 import com.rayhahah.rbase.base.RBaseActivity;
 import com.rayhahah.rbase.base.RBasePresenter;
-import com.rayhahah.rbase.utils.useful.SPManager;
-
-import java.util.HashMap;
+import com.rayhahah.rbase.utils.useful.StatusBarUtils;
 
 /**
  * Created by a on 2017/5/27.
  */
 
-public abstract class BaseActivity<T extends RBasePresenter, V extends ViewDataBinding> extends RBaseActivity<T, V> {
-
-
-    private String isNightTheme;
+public abstract class BaseActivity<T extends RBasePresenter, V extends ViewDataBinding>
+        extends RBaseActivity<T, V> {
+    static {
+        //设置VectorDrawable兼容支持，否则会闪退
+        AppCompatDelegate
+                .setCompatVectorFromResourcesEnabled(true);
+    }
 
     @Override
     protected void initTheme() {
-        isNightTheme = SPManager.get().getStringValue(C.SP.THEME, C.FALSE);
-        if (C.FALSE.equals(isNightTheme)) {
-            setTheme(R.style.AppDayTheme);
-        } else {
+        if (MyApplication.isNightTheme()) {
             setTheme(R.style.AppNightTheme);
+        } else {
+            setTheme(R.style.AppDayTheme);
         }
     }
 
     @Override
     protected void initThemeAttrs() {
-        mThemeColorMap = new HashMap<>();
+        mThemeColorMap = new ArrayMap<>();
         TypedArray array = getTheme().obtainStyledAttributes(new int[]{
                 android.R.attr.colorPrimary,
                 android.R.attr.colorPrimaryDark,
@@ -59,6 +62,11 @@ public abstract class BaseActivity<T extends RBasePresenter, V extends ViewDataB
         mThemeColorMap.put(C.ATTRS.COLOR_TEXT_DARK, colorTextDark);
         mThemeColorMap.put(C.ATTRS.COLOR_BG, colorBg);
         mThemeColorMap.put(C.ATTRS.COLOR_BG_DARK, colorBgDark);
+    }
+
+    @Override
+    protected void setStatusColor() {
+        StatusBarUtils.setColor(this, mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY), 0);
     }
 
     protected void showLoading(View content, ProgressLayout pl) {

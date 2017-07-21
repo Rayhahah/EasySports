@@ -43,8 +43,10 @@ public class C {
      * SharePreferences常量保存类
      */
     public interface SP {
-
         String THEME = "THEME";
+        String IS_LOGIN = "IS_LOGIN";
+        String TAG_MINE_SELECTED = "TAG_MINE_SELECTED";
+        String CURRENT_USER = "CURRENT_USER";
     }
 
     /**
@@ -85,6 +87,17 @@ public class C {
 
         int ITEM_TYPE_ARTICLE = 0;
         int ITEM_TYPE_VIDEOS = 2;
+    }
+
+    public interface MINE {
+        int ID_LOGIN = 1;
+        int ID_TEAM = 2;
+        int ID_PLAYER = 3;
+        int ID_VERSION = 4;
+        int ID_THEME = 5;
+        int ID_CLEAN = 6;
+        int ID_FEEDBACK = 7;
+        int ID_ABOUT = 8;
     }
 
     public static final String TRUE = "true";

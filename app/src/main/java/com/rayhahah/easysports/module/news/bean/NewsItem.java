@@ -129,7 +129,6 @@ public class NewsItem {
             private String commentId;
             private String targetId;
             private String isDisabled;
-            private String cmsTags;
             private String tag_key;
             private String cmsColumn;
             private String cmsSite;
@@ -333,14 +332,6 @@ public class NewsItem {
                 this.isDisabled = isDisabled;
             }
 
-            public String getCmsTags() {
-                return cmsTags;
-            }
-
-            public void setCmsTags(String cmsTags) {
-                this.cmsTags = cmsTags;
-            }
-
             public String getTag_key() {
                 return tag_key;
             }
@@ -431,7 +422,6 @@ public class NewsItem {
                         ", commentId='" + commentId + '\'' +
                         ", targetId='" + targetId + '\'' +
                         ", isDisabled='" + isDisabled + '\'' +
-                        ", cmsTags='" + cmsTags + '\'' +
                         ", tag_key='" + tag_key + '\'' +
                         ", cmsColumn='" + cmsColumn + '\'' +
                         ", cmsSite='" + cmsSite + '\'' +

@@ -6,21 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.rayhahah.rbase.utils.useful.PermissionManager;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by a on 2017/5/14.
@@ -35,16 +32,18 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
     private boolean isPrepare;
     private boolean isVisible;
     protected T mPresenter;
-    protected CompositeSubscription compositeSubscription;
+    protected CompositeDisposable compositeDisposable; //管理事件订阅
+    protected ArrayMap<String, Disposable> disposableMap;
     protected ConcurrentHashMap<String, String> mValueMap = new ConcurrentHashMap<>();
     protected V mBinding;
-    protected HashMap<String, Integer> mThemeColorMap;
+    protected ArrayMap<String, Integer> mThemeColorMap;
     private boolean isFirstInit;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mBinding == null) {
+            mView = inflater.inflate(setFragmentLayoutRes(), null, false);
             mBinding = DataBindingUtil.inflate(inflater, setFragmentLayoutRes(), container, false);
             mPresenter = getPresenter();
             isPrepare = true;
@@ -139,6 +138,9 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
     public void onDestroyView() {
         super.onDestroyView();
         onUnsubscribe();
+        if (mPresenter != null) {
+            mPresenter.onDestory();
+        }
     }
 
     @Override
@@ -156,32 +158,66 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
     }
 
     /**
-     * RxJava取消注册，避免内存泄露
-     * 取消以后就只能重新新建一个了
+     * 添加事件监听处理到 事件管理类
+     *
+     * @param disposable 上流事件
      */
-    protected void onUnsubscribe() {
-        if (compositeSubscription != null && compositeSubscription.hasSubscriptions()) {
-            compositeSubscription.unsubscribe();
+    protected void addSubscription(Disposable disposable) {
+        if (compositeDisposable == null) {
+            compositeDisposable = new CompositeDisposable();
         }
+        compositeDisposable.add(disposable);
     }
-
 
     /**
      * 添加事件监听处理到 事件管理类
      *
-     * @param observable 启动响应
-     * @param subscriber 监听响应
+     * @param tag        标识符
+     * @param disposable 上流事件
      */
-    protected <T> void addSubscription(Observable observable, Subscriber<T> subscriber) {
-
-        if (compositeSubscription == null) {
-            compositeSubscription = new CompositeSubscription();
+    protected void addSubscription(String tag, Disposable disposable) {
+        if (compositeDisposable == null) {
+            compositeDisposable = new CompositeDisposable();
         }
-        compositeSubscription.add(observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber)
-        );
+        if (disposableMap == null) {
+            disposableMap = new ArrayMap<>();
+        }
+        disposableMap.put(tag, disposable);
+        compositeDisposable.add(disposable);
+    }
+
+
+    /**
+     * RxJava取消注册，避免内存泄露
+     * 取消以后就只能重新新建一个了
+     */
+    protected void onUnsubscribe() {
+        if (compositeDisposable != null) {
+            // Using clear will clear all, but can accept new disposable
+//            compositeDisposable.clear();
+            // Using dispose will clear all and set isDisposed = true, so it will not accept any new disposable
+            compositeDisposable.dispose();
+            compositeDisposable = null;
+        }
+        if (disposableMap != null && disposableMap.size() > 0) {
+            disposableMap.clear();
+        }
+    }
+
+    /**
+     * 根据标识符移除Disposable
+     *
+     * @param tags 标识符
+     */
+    protected void removeDisposableByTag(String... tags) {
+        if (disposableMap != null && disposableMap.size() > 0) {
+            for (String tag : tags) {
+                if (disposableMap.containsKey(tag)) {
+                    compositeDisposable.remove(disposableMap.get(tag));
+                    disposableMap.remove(tag);
+                }
+            }
+        }
     }
 
     /**

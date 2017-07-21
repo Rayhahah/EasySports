@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+                 xmlns:tools="http://schemas.android.com/tools"
+                 android:drawable="@drawable/ic_svg_search_colorful_24"
+                 tools:targetApi="lollipop">
+    <target
+        android:name="search"
+        android:animation="@animator/anim_path_end"/>
+
+    <target
+        android:name="search"
+        android:animation="@animator/anim_color_turn_red"/>
+
+</animated-vector>

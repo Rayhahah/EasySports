@@ -15,6 +15,7 @@ import com.rayhahah.easysports.databinding.FragmentNewslistBinding;
 import com.rayhahah.easysports.module.news.bean.NewsIndex;
 import com.rayhahah.easysports.module.news.bean.NewsItem;
 import com.rayhahah.easysports.module.news.business.newsdetail.NewsDetailActivity;
+import com.rayhahah.easysports.module.news.domain.NewsListAdapter;
 import com.rayhahah.easysports.view.DividerItemDecoration;
 import com.rayhahah.rvideoplayer.JC.JCVideoPlayer;
 

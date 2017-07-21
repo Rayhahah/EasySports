@@ -21,6 +21,16 @@
 
     <string name="save_picture">保存图片</string>
     <string name="cancel">取消</string>
+    <string name="mine_all_team">全部球队</string>
+    <string name="mine_all_player">全部球员</string>
+    <string name="mine_clean_ask">是否确认清楚缓存？</string>
+    <string name="mine_clean_success">清除缓存成功</string>
+    <string name="mine_feedback_title">欢迎您提出宝贵的意见！</string>
+    <string name="mine_feedback_hint">大胆畅所欲言吧！O(∩_∩)O~~</string>
+
+    <string name="search_hint">请输入关键字</string>
+    <string name="mine_login_hint">账号/手机号</string>
+    <string name="password">密码</string>
 
 
     <string-array name="ad">

@@ -13,10 +13,9 @@
         <item name="colorPrimary">@color/colorPrimaryDay</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDayDark</item>
         <item name="colorAccent">@color/colorPrimaryDayAccent</item>
-        <item name="android:background">@color/transparent</item>
-        <item name="android:windowIsTranslucent">false</item>
-
-        <item name="android:windowBackground">@color/transparent</item>
+        <!--<item name="android:background">@color/transparent</item>-->
+        <!--<item name="android:windowIsTranslucent">false</item>-->
+        <!--<item name="android:windowBackground">@color/transparent</item>-->
         <item name="colorTextLight">@color/colorDayTextLight</item>
         <item name="colorTextDark">@color/colorDayTextDark</item>
         <item name="colorBg">@color/colorDayBg</item>
@@ -28,9 +27,9 @@
         <item name="colorPrimary">@color/colorPrimaryNight</item>
         <item name="colorPrimaryDark">@color/colorPrimaryNightDark</item>
         <item name="colorAccent">@color/colorPrimaryNightAccent</item>
-        <item name="android:background">@color/transparent</item>
-        <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowBackground">@color/transparent</item>
+        <!--<item name="android:background">@color/transparent</item>-->
+        <!--<item name="android:windowIsTranslucent">false</item>-->
+        <!--<item name="android:windowBackground">@color/transparent</item>-->
         <item name="colorTextLight">@color/colorNightTextDark</item>
         <item name="colorTextDark">@color/colorNightTextLight</item>
         <item name="colorBg">@color/colorNightBg</item>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fbl_mine_item"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@drawable/selector_bg_click"
+    android:padding="@dimen/dp_5"
+    app:flexDirection="row"
+    app:flexWrap="nowrap"
+    app:justifyContent="flex_start"
+    >
+
+    <ImageView
+        android:id="@+id/iv_mine_list_cover"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:padding="@dimen/dp_15"
+        android:src="@mipmap/ic_launcher"
+        app:layout_flexGrow="2"/>
+
+    <TextView
+        android:id="@+id/tv_mine_list_title"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:text="登陆/注册"
+        android:textColor="?attr/colorTextDark"
+        android:textSize="@dimen/sp_16"
+        app:layout_flexGrow="5"/>
+
+
+    <View
+        android:visibility="gone"
+        android:id="@+id/view_mine_list_empty"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_flexGrow="3"/>
+
+    <CheckBox
+        android:id="@+id/cb_mine_list_theme"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/dp_15"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_15"
+        android:background="@drawable/selector_checkbox_color_primary"
+        android:button="@null"
+        android:padding="@dimen/dp_10"
+        android:visibility="gone"
+        app:layout_flexGrow="1"/>
+
+
+    <TextView
+        android:id="@+id/tv_mine_list_desc"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="right|center_vertical"
+        android:text="25.25MB"
+        android:textColor="?attr/colorTextDark"
+        android:textSize="@dimen/sp_14"
+        android:visibility="visible"
+        app:layout_flexGrow="3"/>
+
+
+    <ImageView
+        android:id="@+id/iv_mine_list_goto"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="@dimen/dp_10"
+        android:padding="@dimen/dp_5"
+        android:src="@drawable/ic_svg_arrow_right_color_bg_dark_24"
+        android:visibility="visible"
+        app:layout_flexGrow="1"/>
+
+</com.google.android.flexbox.FlexboxLayout>

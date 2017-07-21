@@ -6,7 +6,7 @@
     android:id="@+id/ll_news_item"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_70"
-    android:background="?attr/colorBg"
+    android:background="@drawable/selector_bg_click"
     android:orientation="horizontal"
     android:padding="@dimen/dp_5"
     >

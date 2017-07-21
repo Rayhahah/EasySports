@@ -21,7 +21,10 @@
             android:id="@+id/bnb_home"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_55"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            app:bnbActiveColor="?attr/colorPrimary"
+            app:bnbBackgroundColor="?attr/colorBg"
+            app:bnbInactiveColor="?attr/colorBgDark"/>
     </LinearLayout>
 </layout>
 

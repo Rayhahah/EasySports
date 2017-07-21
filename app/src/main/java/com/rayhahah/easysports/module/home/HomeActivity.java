@@ -2,6 +2,8 @@ package com.rayhahah.easysports.module.home;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -17,6 +19,7 @@ import com.rayhahah.easysports.module.mine.mvp.MineFragment;
 import com.rayhahah.easysports.module.news.mvp.NewsFragment;
 import com.rayhahah.rbase.base.RBaseFragment;
 import com.rayhahah.rbase.utils.base.ToastUtils;
+import com.rayhahah.rbase.utils.useful.SPManager;
 
 import java.util.ArrayList;
 
@@ -27,14 +30,22 @@ public class HomeActivity extends BaseActivity<HomePresenter, ActivityHomeBindin
     private ArrayList<RBaseFragment> mFragmentList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     protected void initEventAndData(Bundle savedInstanceState) {
         initFragment();
         initBnb();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setContentView(getLayoutID());
+        mBinding = DataBindingUtil.setContentView(mContext, getLayoutID());
+        initThemeAttrs();
+        setStatusColor();
+        mFragmentList.clear();
+        mBinding.bnbHome.clearAll();
+        initBnb();
+        initFragment();
     }
 
     public static void start(Context context, Activity preActivity) {
@@ -54,7 +65,15 @@ public class HomeActivity extends BaseActivity<HomePresenter, ActivityHomeBindin
         mFragmentList.add(liveFragment);
         mFragmentList.add(forumFragment);
         mFragmentList.add(mineFragment);
-        showFragment(mFragmentList.get(0), 0);
+
+        String isMine = SPManager.get().getStringValue(C.SP.TAG_MINE_SELECTED, C.FALSE);
+        if (C.FALSE.equals(isMine)) {
+            showFragment(mFragmentList.get(0), 0);
+        } else {
+//            showFragment(mFragmentList.get(4), 4);
+            mBinding.bnbHome.selectTab(4, true);
+        }
+        SPManager.get().putString(C.SP.TAG_MINE_SELECTED, C.FALSE);
     }
 
     @Override
@@ -94,7 +113,6 @@ public class HomeActivity extends BaseActivity<HomePresenter, ActivityHomeBindin
                 .addItem(getBnbItem(getResources().getString(R.string.live), R.drawable.ic_svg_live_white_24))
                 .addItem(getBnbItem(getResources().getString(R.string.forum), R.drawable.ic_svg_forum_white_24))
                 .addItem(getBnbItem(getResources().getString(R.string.mine), R.drawable.ic_svg_mine_white_24))
-                .setBarBackgroundColor(R.color.colorDayBg)
                 .setMode(BottomNavigationBar.MODE_SHIFTING)
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
                 .initialise();
@@ -118,7 +136,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, ActivityHomeBindin
     }
 
     private BottomNavigationItem getBnbItem(String title, int resId) {
-        return new BottomNavigationItem(resId, title).setActiveColor(mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
+        return new BottomNavigationItem(resId, title);
     }
 
     @Override

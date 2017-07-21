@@ -1,7 +1,6 @@
 package com.rayhahah.easysports.module.match.mvp;
 
 import com.rayhahah.easysports.module.match.bean.MatchListBean;
-import com.rayhahah.rbase.base.IRBasePresenter;
 import com.rayhahah.rbase.base.IRBaseView;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class MatchContract {
         String getCurrentDate();
     }
 
-    public interface IMatchPresenter extends IRBasePresenter {
+    public interface IMatchPresenter  {
         void addMatchListData(String data, int status);
     }
 }

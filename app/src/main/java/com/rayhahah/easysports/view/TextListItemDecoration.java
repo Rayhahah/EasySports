@@ -10,7 +10,6 @@ import android.text.TextPaint;
 import android.view.View;
 
 import com.rayhahah.easysports.bean.BaseSection;
-import com.rayhahah.easysports.module.match.bean.MatchListBean;
 import com.rayhahah.rbase.utils.base.ConvertUtils;
 import com.rayhahah.rbase.utils.base.StringUtils;
 
@@ -20,21 +19,25 @@ import java.util.List;
  * Created by a on 2017/6/6.
  */
 
-public class MatchListItemDecoration<T extends BaseSection> extends RecyclerView.ItemDecoration {
-
+public class TextListItemDecoration<T extends BaseSection> extends RecyclerView.ItemDecoration {
 
     private final int mActiveColor;
     private final int mTextColor;
+    private final int mGravity;
     private Paint paint;
     private TextPaint mTextPaint;
     private int alginBottom;
     private int topGap;
-    private List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> mData;
+    private List<T> mData;
     private DecorationCallback mCallback;
     private Paint.FontMetrics fontMetrics;
 
-    public MatchListItemDecoration(Context context, List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> data
-            , int textColor, int bgColor, int activeColor, DecorationCallback callback) {
+    public final static int GRAVITY_LEFT = 0;
+    public final static int GRAVITY_MIDDLE = 1;
+    public final static int GRAVITY_RIGHT = 2;
+
+    public TextListItemDecoration(Context context, List<T> data
+            , int textColor, int bgColor, int activeColor, int gravity, DecorationCallback callback) {
         Resources res = context.getResources();
 
         mData = data;
@@ -56,6 +59,7 @@ public class MatchListItemDecoration<T extends BaseSection> extends RecyclerView
 
         topGap = res.getDimensionPixelSize(com.rayhahah.rbase.R.dimen.dp_30);
         alginBottom = res.getDimensionPixelSize(com.rayhahah.rbase.R.dimen.dp_30);
+        mGravity = gravity;
     }
 
 
@@ -115,7 +119,17 @@ public class MatchListItemDecoration<T extends BaseSection> extends RecyclerView
                     //绘制悬浮栏
                     c.drawRect(left, top - topGap, right, bottom, paint);
                     //绘制文本
-                    c.drawText(textLine, right / 2 - bounds.width() / 2, bottom, mTextPaint);
+                    switch (mGravity) {
+                        case GRAVITY_LEFT:
+                            c.drawText(textLine, parent.getPaddingRight() + 20, bottom, mTextPaint);
+                            break;
+                        case GRAVITY_MIDDLE:
+                            c.drawText(textLine, right / 2 - bounds.width() / 2, bottom, mTextPaint);
+                            break;
+                        case GRAVITY_RIGHT:
+                            c.drawText(textLine, right - bounds.width(), bottom, mTextPaint);
+                            break;
+                    }
                 }
             }
         }
@@ -168,8 +182,23 @@ public class MatchListItemDecoration<T extends BaseSection> extends RecyclerView
             c.drawRect(left, textY - topGap, right, textY, paint);
             //left+2*alignBottom 决定了文本往左偏移的多少（加-->向左移）
             //textY-alignBottom  决定了文本往右偏移的多少  (减-->向上移)
-            c.drawText(firstLine, right / 2 - bounds.width() / 2
-                    , textY - alginBottom + bounds.height() / 2 + topGap / 2, mTextPaint);
+            switch (mGravity) {
+                case GRAVITY_LEFT:
+                    c.drawText(firstLine, parent.getPaddingRight() + 20
+                            , textY - alginBottom + bounds.height() / 2 + topGap / 2
+                            , mTextPaint);
+                    break;
+                case GRAVITY_MIDDLE:
+                    c.drawText(firstLine, right / 2 - bounds.width() / 2
+                            , textY - alginBottom + bounds.height() / 2 + topGap / 2
+                            , mTextPaint);
+                    break;
+                case GRAVITY_RIGHT:
+                    c.drawText(firstLine, right - bounds.width()
+                            , textY - alginBottom + bounds.height() / 2 + topGap / 2
+                            , mTextPaint);
+                    break;
+            }
         }
     }
 
@@ -196,7 +225,7 @@ public class MatchListItemDecoration<T extends BaseSection> extends RecyclerView
         }
     }
 
-    public void setNewData(List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> newData) {
+    public void setNewData(List<T> newData) {
         mData = newData;
     }
 

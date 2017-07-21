@@ -14,22 +14,19 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Explode;
+import android.transition.Fade;
 import android.transition.Transition;
 
 import com.rayhahah.rbase.R;
 import com.rayhahah.rbase.utils.useful.PermissionManager;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by a on 2017/5/10.
@@ -40,16 +37,16 @@ public abstract class RBaseActivity<T extends RBasePresenter, V extends ViewData
 
     protected Activity mContext;
     protected T mPresenter;
-    protected CompositeSubscription compositeSubscription;
+    protected CompositeDisposable compositeDisposable; //管理事件订阅
+    protected ArrayMap<String, Disposable> disposableMap;
     protected static ConcurrentHashMap<String, String> paramMap = new ConcurrentHashMap<String, String>();
     protected ConcurrentHashMap<String, String> valueMap = new ConcurrentHashMap<String, String>();
 
-    private String isNightTheme;
     protected V mBinding;
 
     protected FragmentManager fm;
     protected RBaseFragment currentFragment;
-    protected HashMap<String, Integer> mThemeColorMap;
+    protected ArrayMap<String, Integer> mThemeColorMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -180,7 +177,7 @@ public abstract class RBaseActivity<T extends RBasePresenter, V extends ViewData
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected Transition getWindowTransition() {
-        return new Explode();
+        return new Fade();
     }
 
     /**
@@ -254,19 +251,30 @@ public abstract class RBaseActivity<T extends RBasePresenter, V extends ViewData
     /**
      * 添加事件监听处理到 事件管理类
      *
-     * @param observable 启动响应
-     * @param subscriber 监听响应
+     * @param disposable 上流事件
      */
-    protected <T> void addSubscription(Observable observable, Subscriber<T> subscriber) {
-
-        if (compositeSubscription == null) {
-            compositeSubscription = new CompositeSubscription();
+    protected void addSubscription(Disposable disposable) {
+        if (compositeDisposable == null) {
+            compositeDisposable = new CompositeDisposable();
         }
-        compositeSubscription.add(observable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber)
-        );
+        compositeDisposable.add(disposable);
+    }
+
+    /**
+     * 添加事件监听处理到 事件管理类
+     *
+     * @param tag        标识符
+     * @param disposable 上流事件
+     */
+    protected void addSubscription(String tag, Disposable disposable) {
+        if (compositeDisposable == null) {
+            compositeDisposable = new CompositeDisposable();
+        }
+        if (disposableMap == null) {
+            disposableMap = new ArrayMap<>();
+        }
+        disposableMap.put(tag, disposable);
+        compositeDisposable.add(disposable);
     }
 
 
@@ -275,8 +283,31 @@ public abstract class RBaseActivity<T extends RBasePresenter, V extends ViewData
      * 取消以后就只能重新新建一个了
      */
     protected void onUnsubscribe() {
-        if (compositeSubscription != null && compositeSubscription.hasSubscriptions()) {
-            compositeSubscription.unsubscribe();
+        if (compositeDisposable != null) {
+            // Using clear will clear all, but can accept new disposable
+//            compositeDisposable.clear();
+            // Using dispose will clear all and set isDisposed = true, so it will not accept any new disposable
+            compositeDisposable.dispose();
+            compositeDisposable = null;
+        }
+        if (disposableMap != null && disposableMap.size() > 0) {
+            disposableMap.clear();
+        }
+    }
+
+    /**
+     * 根据标识符移除Disposable
+     *
+     * @param tags 标识符
+     */
+    protected void removeDisposableByTag(String... tags) {
+        if (disposableMap != null && disposableMap.size() > 0) {
+            for (String tag : tags) {
+                if (disposableMap.containsKey(tag)) {
+                    compositeDisposable.remove(disposableMap.get(tag));
+                    disposableMap.remove(tag);
+                }
+            }
         }
     }
 

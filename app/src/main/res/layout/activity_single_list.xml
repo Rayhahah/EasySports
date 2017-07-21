@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.rayhahah.easysports.module.mine.business.teamplayer.SingleListActivity">
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:flexDirection="column"
+        >
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+
+        <LinearLayout
+            android:id="@+id/ll_single_list_search"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:background="?attr/colorBgDark"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_5">
+
+            <ImageView
+                android:id="@+id/iv_single_list_search_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?attr/colorBg"
+                android:padding="@dimen/dp_5"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/anim_search_play"/>
+
+            <EditText
+                android:id="@+id/et_single_list_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?attr/colorBg"
+                android:gravity="center_vertical|left"
+                android:hint="@string/search_hint"
+                android:textColor="?attr/colorTextDark"
+                android:textSize="@dimen/sp_18"/>
+
+            <ImageView
+                android:id="@+id/iv_single_list_search_close"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="?attr/colorBg"
+                android:padding="@dimen/dp_5"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_svg_close_color_primary_24"/>
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_flexGrow="1">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_single_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+            <com.rayhahah.easysports.view.ProgressLayout
+                android:id="@+id/pl"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                />
+
+            <com.rayhahah.easysports.view.IndexBar
+                android:id="@+id/indexBar"
+                android:visibility="gone"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_margin="@dimen/dp_5"
+                app:activeTextColor="?attr/colorPrimary"
+                app:normalTextColor="?attr/colorTextLight"/>
+
+        </RelativeLayout>
+
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+
+</layout>

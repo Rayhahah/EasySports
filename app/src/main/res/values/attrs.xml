@@ -4,4 +4,12 @@
     <attr name="colorTextDark" format="reference|color"/>
     <attr name="colorBg" format="reference|color"/>
     <attr name="colorBgDark" format="reference|color"/>
+
+    <declare-styleable name="IndexBar">
+        <attr name="normalTextColor" format="reference|color"/>
+        <attr name="activeTextColor" format="reference|color"/>
+        <attr name="normalTextSize" format="dimension"/>
+        <attr name="activeTextSize" format="dimension"/>
+    </declare-styleable>
+
 </resources>

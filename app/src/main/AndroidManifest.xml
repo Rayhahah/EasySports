@@ -41,11 +41,18 @@
         <activity
             android:name=".module.home.HomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".common.RWebActivity">
         </activity>
         <activity android:name=".module.news.business.newsdetail.NewsDetailActivity">
+        </activity>
+        <activity android:name=".module.mine.business.teamplayer.SingleListActivity">
+        </activity>
+        <activity android:name=".module.mine.business.login.LoginActivity">
+        </activity>
+        <activity android:name=".module.mine.business.account.AccountActivity">
         </activity>
     </application>
 

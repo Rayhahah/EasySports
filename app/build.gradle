@@ -14,6 +14,7 @@ android {
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -65,5 +66,6 @@ dependencies {
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
     compile 'cn.bmob.android:bmob-sdk:3.5.5'
     compile 'cn.bmob.android:http-legacy:1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }

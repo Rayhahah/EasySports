@@ -1,6 +1,5 @@
 package com.rayhahah.easysports.module.home;
 
-import com.rayhahah.rbase.base.IRBasePresenter;
 import com.rayhahah.rbase.base.IRBaseView;
 
 /**
@@ -13,7 +12,7 @@ public class HomeContract {
 
     }
 
-    public interface IHomePresenter<I> extends IRBasePresenter {
+    public interface IHomePresenter {
 
     }
 }

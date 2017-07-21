@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context="com.rayhahah.easysports.module.mine.business.login.LoginActivity"
+    >
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/fbl_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorBgDark"
+        app:flexDirection="column"
+        >
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+
+        <EditText
+            android:id="@+id/et_login_username"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="?attr/colorBg"
+            android:drawableLeft="@mipmap/ic_launcher"
+            android:hint="@string/mine_login_hint"
+            android:padding="@dimen/dp_5"
+            android:textColor="?attr/colorTextDark"
+            android:textColorHint="?attr/colorTextLight"
+            android:textCursorDrawable="@null"/>
+
+        <EditText
+            android:id="@+id/et_login_password"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginTop="@dimen/dp_1"
+            android:background="?attr/colorBg"
+            android:drawableLeft="@mipmap/ic_launcher"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:padding="@dimen/dp_5"
+            android:textColor="?attr/colorTextDark"
+            android:textColorHint="?attr/colorTextLight"
+            android:textCursorDrawable="@null"/>
+
+        <Button
+            android:layout_margin="@dimen/dp_10"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"/>
+
+
+    </com.google.android.flexbox.FlexboxLayout>
+</layout>

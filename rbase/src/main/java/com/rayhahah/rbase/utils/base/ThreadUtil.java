@@ -27,15 +27,17 @@ import java.util.concurrent.Future;
 public class ThreadUtil {
 
     private static int FIX_POOL = 10;
-    private static ExecutorService mExecutorService;
+    private static volatile ExecutorService mExecutorService;
 
     private ThreadUtil() {
     }
 
     private static void initThreadPool() {
-        synchronized (ThreadUtil.class) {
-            if (mExecutorService == null) {
-                mExecutorService = Executors.newFixedThreadPool(FIX_POOL);
+        if (mExecutorService == null) {
+            synchronized (ThreadUtil.class) {
+                if (mExecutorService == null) {
+                    mExecutorService = Executors.newFixedThreadPool(FIX_POOL);
+                }
             }
         }
     }

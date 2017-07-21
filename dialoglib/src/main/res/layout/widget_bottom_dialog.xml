@@ -35,8 +35,8 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="8dp"
-        android:textSize="14sp"
         android:layout_weight="0"
-        android:background="@drawable/selector_widget_actiondialog_single" />
+        android:background="@drawable/selector_widget_actiondialog_single"
+        android:textSize="14sp"/>
 
 </LinearLayout>

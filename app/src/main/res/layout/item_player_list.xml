@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fbl_item_player"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_80"
+    android:background="@drawable/selector_bg_click"
+    app:flexDirection="row"
+    >
+
+    <ImageView
+        android:id="@+id/iv_item_player_cover"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:padding="@dimen/dp_10"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_logo"
+        app:layout_flexGrow="1"/>
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:flexDirection="column"
+        app:layout_flexGrow="4">
+
+        <TextView
+            android:id="@+id/tv_item_player_name"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="left|bottom"
+            android:padding="@dimen/dp_5"
+            android:text="阿莱克斯-阿布里内斯"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_18"
+            app:layout_flexGrow="1"/>
+
+        <TextView
+            android:id="@+id/tv_item_player_desc"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center_vertical|left"
+            android:padding="@dimen/dp_5"
+            android:text="8号  雷霆  后卫-前锋"
+            android:textColor="?attr/colorTextLight"
+            android:textSize="@dimen/sp_12"
+            app:layout_flexGrow="1"/>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+
+</com.google.android.flexbox.FlexboxLayout>

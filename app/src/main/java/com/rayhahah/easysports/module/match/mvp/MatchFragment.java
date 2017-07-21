@@ -13,7 +13,7 @@ import com.rayhahah.easysports.common.C;
 import com.rayhahah.easysports.databinding.FragmentMatchBinding;
 import com.rayhahah.easysports.module.match.bean.MatchListBean;
 import com.rayhahah.easysports.module.match.domain.MatchLiveListAdapter;
-import com.rayhahah.easysports.view.MatchListItemDecoration;
+import com.rayhahah.easysports.view.TextListItemDecoration;
 import com.rayhahah.rbase.utils.base.DateTimeUitl;
 import com.rayhahah.rbase.utils.base.StringUtils;
 
@@ -25,7 +25,8 @@ import java.util.List;
  */
 
 public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBinding>
-        implements MatchContract.IMatchView, BaseQuickAdapter.RequestLoadMoreListener,
+        implements MatchContract.IMatchView
+        , BaseQuickAdapter.RequestLoadMoreListener,
         SwipeRefreshLayout.OnRefreshListener {
 
     private BaseQuickAdapter<MatchListBean.DataBean.MatchesBean.MatchInfoBean, BaseViewHolder> mMatchListAdapter;
@@ -33,7 +34,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
     private String mBeforeDate;
     private String mCurrentDate;
     private List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> totalData = new ArrayList<>();
-    private MatchListItemDecoration mItemDecor;
+    private TextListItemDecoration mItemDecor;
 
     @Override
     protected int setFragmentLayoutRes() {
@@ -176,11 +177,12 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         mBinding.rvMatchList.setLayoutManager(
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mMatchListAdapter = new MatchLiveListAdapter();
-        mItemDecor = new MatchListItemDecoration(getActivity(), totalData
+        mItemDecor = new TextListItemDecoration(getActivity(), totalData
                 , mThemeColorMap.get(C.ATTRS.COLOR_TEXT_DARK)
                 , mThemeColorMap.get(C.ATTRS.COLOR_BG_DARK)
                 , mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY)
-                , new MatchListItemDecoration.DecorationCallback() {
+                , TextListItemDecoration.GRAVITY_MIDDLE
+                , new TextListItemDecoration.DecorationCallback() {
             @Override
             public String getGroupId(int position) {
 

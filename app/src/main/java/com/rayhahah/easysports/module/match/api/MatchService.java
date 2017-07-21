@@ -2,9 +2,9 @@ package com.rayhahah.easysports.module.match.api;
 
 import com.rayhahah.easysports.module.match.bean.MatchListBean;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * Created by a on 2017/5/16.

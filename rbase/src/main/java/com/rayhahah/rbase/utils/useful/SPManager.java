@@ -4,8 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-
-import java.util.HashMap;
+import android.support.v4.util.ArrayMap;
 
 /**
  * @author Rayhahah
@@ -18,14 +17,14 @@ import java.util.HashMap;
 
 public class SPManager {
 
-    private static HashMap<String, SharedPreferences> spMap = new HashMap<>();
+    private static ArrayMap<String, SharedPreferences> spMap = new ArrayMap<>();
 
     private static Context mContext;
     private static String mPackageName;
     private static SharedPreferences currentSP;
     private static SharedPreferences.Editor currentEditor;
     private static SPManager mInstance;
-    private static HashMap<String, Object> valueMap;
+    private static ArrayMap<String, Object> valueMap;
 
     private static String DEFAULT_STRING = "";
     private static float DEFAULT_FLOAT = 0;
@@ -48,7 +47,7 @@ public class SPManager {
      * 单例初始化，系统默认的SharedPreferences文件
      * (默认是当前应用包名)
      *
-     * @param appContext
+     * @param appContext 上下文
      */
     public static void init(Context appContext) {
         if (mContext == null && mInstance == null) {
@@ -90,7 +89,7 @@ public class SPManager {
             currentSP = sp;
         }
         currentEditor = currentSP.edit();
-        valueMap = new HashMap<>();
+        valueMap = new ArrayMap<>();
 
         return mInstance;
     }
@@ -191,7 +190,7 @@ public class SPManager {
      *
      * @return
      */
-    public static HashMap<String, Object> exportValue() {
+    public static ArrayMap<String, Object> exportValue() {
         return valueMap;
     }
 

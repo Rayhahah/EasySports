@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fbl_item_team"
+    android:layout_width="@dimen/dp_120"
+    android:layout_height="@dimen/dp_120"
+    android:background="@drawable/selector_bg_click"
+    app:flexDirection="column"
+    >
+
+    <ImageView
+        android:id="@+id/iv_item_team_cover"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="@dimen/dp_12"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_logo"
+        app:layout_flexGrow="3"/>
+
+    <TextView
+        android:id="@+id/tv_item_team_name"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="湖人"
+        android:textColor="?attr/colorTextDark"
+        android:textSize="@dimen/sp_20"
+        app:layout_flexGrow="1"/>
+
+</com.google.android.flexbox.FlexboxLayout>

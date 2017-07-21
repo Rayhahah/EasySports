@@ -2,7 +2,6 @@ package com.rayhahah.dialoglib;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -10,7 +9,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.rayhahah.dialoglib.utils.ScreenSizeUtils;
@@ -21,6 +22,7 @@ import com.rayhahah.dialoglib.utils.ScreenSizeUtils;
  */
 public class MDEditDialog {
 
+    private LinearLayout mLLMdDialog;
     private Dialog mDialog;
     private View mDialogView;
     private TextView mTitle;
@@ -35,6 +37,7 @@ public class MDEditDialog {
         mBuilder = builder;
         mDialog = new Dialog(mBuilder.getContext(), R.style.MyDialogStyle);
         mDialogView = View.inflate(mBuilder.getContext(), R.layout.widget_edit_dialog, null);
+        mLLMdDialog = ((LinearLayout) mDialogView.findViewById(R.id.ll_md_dialog));
         mTitle = (TextView) mDialogView.findViewById(R.id.edit_dialog_title);
         mEdit = (EditText) mDialogView.findViewById(R.id.edit_dialog_exittext);
         mLeftBtn = (TextView) mDialogView.findViewById(R.id.edit_dialog_leftbtn);
@@ -50,6 +53,10 @@ public class MDEditDialog {
                 builder.getWidth());
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         lp.gravity = Gravity.CENTER;
+        //显示dialog的时候,就显示软键盘
+        lp.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE;
+        //就是这个属性导致不能获取焦点,默认的是FLAG_NOT_FOCUSABLE,故名思义不能获取输入焦点,
+        lp.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         dialogWindow.setAttributes(lp);
         initDialog();
 
@@ -67,6 +74,7 @@ public class MDEditDialog {
             mTitle.setVisibility(View.GONE);
         }
 
+        mLLMdDialog.setBackgroundResource(mBuilder.getDialogBgResource());
         mTitle.setText(mBuilder.getTitleText());
         mTitle.setTextColor(mBuilder.getTitleTextColor());
         mTitle.setTextSize(mBuilder.getTitleTextSize());
@@ -77,9 +85,12 @@ public class MDEditDialog {
         mLeftBtn.setText(mBuilder.getLeftButtonText());
         mLeftBtn.setTextColor(mBuilder.getLeftButtonTextColor());
         mLeftBtn.setTextSize(mBuilder.getButtonTextSize());
+        mLeftBtn.setBackgroundResource(mBuilder.getButtonBgResource());
         mRightBtn.setText(mBuilder.getRightButtonText());
         mRightBtn.setTextColor(mBuilder.getRightButtonTextColor());
         mRightBtn.setTextSize(mBuilder.getButtonTextSize());
+        mRightBtn.setBackgroundResource(mBuilder.getButtonBgResource());
+        lineView.setVisibility(mBuilder.getLineViewVisibility());
         lineView.setBackgroundColor(mBuilder.getLineColor());
         mLeftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +99,6 @@ public class MDEditDialog {
 
                     mBuilder.getListener().clickLeftButton(MDEditDialog.this, mLeftBtn);
                 }
-
 
             }
         });
@@ -103,6 +113,7 @@ public class MDEditDialog {
             }
         });
 
+        mEdit.setClickable(true);
         mEdit.setHint(mBuilder.getHintText());
         mEdit.setHintTextColor(mBuilder.getHintTextColor());
         if (mBuilder.getLines() != -1) {
@@ -118,9 +129,28 @@ public class MDEditDialog {
             mEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(mBuilder.getMaxLength
                     ())});
         }
+        mEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //调用系统输入法
+                InputMethodManager inputManager = (InputMethodManager) mEdit
+                        .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.showSoftInput(mEdit, 0);
+            }
+        });
+        mEdit.setGravity(Gravity.TOP);
+        mEdit.setSingleLine(false);
+        mEdit.setHorizontallyScrolling(false);
+        mEdit.setFocusable(true);
+        mEdit.setFocusableInTouchMode(true);
+        mEdit.requestFocus();
+        //调用系统输入法
+        InputMethodManager inputManager = (InputMethodManager) mEdit
+                .getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(mEdit, 0);
     }
 
-    public String getEditTextContent(){
+    public String getEditTextContent() {
 
         return mEdit.getText().toString();
     }
@@ -143,6 +173,7 @@ public class MDEditDialog {
 
     public static class Builder {
 
+        private int dialogBgResource;
         private String titleText;
         private int titleTextColor;
         private int titleTextSize;
@@ -167,10 +198,13 @@ public class MDEditDialog {
         private DialogInterface.OnLeftAndRightClickListener<MDEditDialog> listener;
         private int inputTpye;
         private Context mContext;
+        private int buttonBgResource;
+        private int mLineViewVisibility;
 
         public Builder(Context context) {
 
             mContext = context;
+            dialogBgResource = R.drawable.shape_white_corner4;
             titleText = "提示";
             titleTextColor = ContextCompat.getColor(mContext, R.color.black_light);
             contentText = "";
@@ -194,11 +228,22 @@ public class MDEditDialog {
             contentTextSize = 18;
             buttonTextSize = 16;
             inputTpye = InputType.TYPE_NULL;
+            buttonBgResource = R.drawable.selector_widget_md_dialog;
+            mLineViewVisibility = View.VISIBLE;
         }
 
         public Context getContext() {
 
             return mContext;
+        }
+
+        public int getDialogBgResource() {
+            return dialogBgResource;
+        }
+
+        public Builder setDialogBgResource(int bgRes) {
+            this.dialogBgResource = bgRes;
+            return this;
         }
 
         public String getTitleText() {
@@ -214,8 +259,8 @@ public class MDEditDialog {
             return titleTextColor;
         }
 
-        public Builder setTitleTextColor(@ColorRes int titleTextColor) {
-            this.titleTextColor = ContextCompat.getColor(mContext, titleTextColor);
+        public Builder setTitleTextColor(int titleTextColor) {
+            this.titleTextColor = titleTextColor;
             return this;
         }
 
@@ -232,8 +277,8 @@ public class MDEditDialog {
             return contentTextColor;
         }
 
-        public Builder setContentTextColor(@ColorRes int contentTextColor) {
-            this.contentTextColor = ContextCompat.getColor(mContext, contentTextColor);
+        public Builder setContentTextColor(int contentTextColor) {
+            this.contentTextColor = contentTextColor;
             return this;
         }
 
@@ -250,8 +295,8 @@ public class MDEditDialog {
             return leftButtonTextColor;
         }
 
-        public Builder setLeftButtonTextColor(@ColorRes int leftButtonTextColor) {
-            this.leftButtonTextColor = ContextCompat.getColor(mContext, leftButtonTextColor);
+        public Builder setLeftButtonTextColor(int leftButtonTextColor) {
+            this.leftButtonTextColor = leftButtonTextColor;
             return this;
         }
 
@@ -268,8 +313,8 @@ public class MDEditDialog {
             return rightButtonTextColor;
         }
 
-        public Builder setRightButtonTextColor(@ColorRes int rightButtonTextColor) {
-            this.rightButtonTextColor = ContextCompat.getColor(mContext, rightButtonTextColor);
+        public Builder setRightButtonTextColor(int rightButtonTextColor) {
+            this.rightButtonTextColor = rightButtonTextColor;
             return this;
         }
 
@@ -295,6 +340,11 @@ public class MDEditDialog {
             return height;
         }
 
+        /**
+         * 设置Dialog相对于屏幕的半分比长度
+         *
+         * @param height 设置百分比 （0-1）
+         */
         public Builder setMinHeight(float height) {
             this.height = height;
             return this;
@@ -323,8 +373,8 @@ public class MDEditDialog {
             return lineColor;
         }
 
-        public Builder setLineColor(@ColorRes int lineColor) {
-            this.lineColor = ContextCompat.getColor(mContext, lineColor);
+        public Builder setLineColor(int lineColor) {
+            this.lineColor = lineColor;
             return this;
         }
 
@@ -387,7 +437,7 @@ public class MDEditDialog {
         }
 
         public Builder setHintTextColor(int hintTextColor) {
-            this.hintTextColor = ContextCompat.getColor(mContext, hintTextColor);
+            this.hintTextColor = hintTextColor;
             return this;
         }
 
@@ -398,6 +448,24 @@ public class MDEditDialog {
         public Builder setInputTpye(int inputTpye) {
             this.inputTpye = inputTpye;
             return this;
+        }
+
+        public int getButtonBgResource() {
+            return buttonBgResource;
+        }
+
+        public Builder setButtonBgResource(int bgRes) {
+            this.buttonBgResource = bgRes;
+            return this;
+        }
+
+        public Builder setLineViewVisibility(int visibility) {
+            mLineViewVisibility = visibility;
+            return this;
+        }
+
+        public int getLineViewVisibility() {
+            return mLineViewVisibility;
         }
 
         public DialogInterface.OnLeftAndRightClickListener<MDEditDialog> getListener() {
@@ -413,6 +481,7 @@ public class MDEditDialog {
 
             return new MDEditDialog(this);
         }
+
     }
 
 }
