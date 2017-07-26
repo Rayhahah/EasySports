@@ -1,13 +1,17 @@
 package com.rayhahah.easysports.module.mine.domain;
 
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.rayhahah.easysports.R;
-import com.rayhahah.easysports.app.MyApplication;
+import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
+import com.rayhahah.easysports.utils.glide.GlideCircleTransform;
 import com.rayhahah.rbase.utils.base.CacheUtils;
+import com.rayhahah.rbase.utils.base.StringUtils;
+import com.rayhahah.rbase.utils.useful.GlideUtil;
 
 import java.util.List;
 
@@ -35,7 +39,7 @@ public class MineListAdapter extends BaseQuickAdapter<MineListBean, BaseViewHold
                         .setVisible(R.id.iv_mine_list_goto, false)
                         .setVisible(R.id.tv_mine_list_desc, false)
                         .setVisible(R.id.cb_mine_list_theme, true);
-                if (MyApplication.isNightTheme()) {
+                if (MyApp.isNightTheme()) {
                     helper.setChecked(R.id.cb_mine_list_theme, true);
                 } else {
                     helper.setChecked(R.id.cb_mine_list_theme, false);
@@ -55,10 +59,17 @@ public class MineListAdapter extends BaseQuickAdapter<MineListBean, BaseViewHold
                         .setVisible(R.id.cb_mine_list_theme, false);
                 break;
         }
+
         helper.setText(R.id.tv_mine_list_desc, CacheUtils.getCacheSize(mContext));
-        helper.setImageResource(R.id.iv_mine_list_cover, item.getCoverRes())
-                .setText(R.id.tv_mine_list_title, item.getTitle());
+
+        helper.setText(R.id.tv_mine_list_title, item.getTitle())
+                .setImageResource(R.id.iv_mine_list_cover, item.getCoverRes());
         helper.addOnClickListener(R.id.fbl_mine_item);
+        if (StringUtils.isNotEmpty(item.getCoverPath())) {
+            GlideUtil.loadWithTransform(mContext, item.getCoverPath()
+                    , ((ImageView) helper.getView(R.id.iv_mine_list_cover)), new GlideCircleTransform(mContext));
+        }
+
     }
 
     public void setItemCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -1,18 +1,17 @@
 package com.rayhahah.easysports.module.mine.mvp;
 
+import android.content.Context;
+
 import com.rayhahah.easysports.R;
-import com.rayhahah.easysports.app.MyApplication;
+import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.bean.db.LocalUser;
 import com.rayhahah.easysports.common.C;
 import com.rayhahah.easysports.module.mine.bean.BmobFeedback;
 import com.rayhahah.easysports.module.mine.bean.BmobUsers;
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
-import com.rayhahah.greendao.gen.LocalUserDao;
 import com.rayhahah.rbase.base.RBasePresenter;
 import com.rayhahah.rbase.utils.useful.RxSchedulers;
 import com.rayhahah.rbase.utils.useful.SPManager;
-
-import org.greenrobot.greendao.query.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,17 +31,17 @@ public class MinePresenter extends RBasePresenter<MineContract.IMineView>
     }
 
     @Override
-    public List<MineListBean> getMineListData() {
+    public List<MineListBean> getMineListData(Context context) {
         List<MineListBean> mData = new ArrayList<>();
 
         MineListBean login = new MineListBean();
+
         login.setCoverRes(R.drawable.ic_svg_person_colorful_24);
         login.setTitle("账号/登陆");
         login.setSectionData("账号");
         login.setType(MineListBean.TYPE_NULL);
         login.setId(C.MINE.ID_LOGIN);
         mData.add(login);
-
 
         MineListBean team = new MineListBean();
         team.setCoverRes(R.drawable.ic_svg_team_colorful_24);
@@ -105,38 +104,44 @@ public class MinePresenter extends RBasePresenter<MineContract.IMineView>
 
     @Override
     public void uploadFeedback(final String editTextContent) {
-        Observable.just(C.SP.CURRENT_USER)
-                .map(new Function<String, BmobUsers>() {
-                    @Override
-                    public BmobUsers apply(@NonNull String str) throws Exception {
-                        String userName = SPManager.get().getStringValue(str);
-                        LocalUserDao localUserDao = MyApplication.getDaoSession().getLocalUserDao();
-                        Query<LocalUser> build = localUserDao.queryBuilder()
-                                .where(LocalUserDao.Properties.User_name.eq(userName))
-                                .build();
-                        LocalUser localUser = build.unique();
-                        BmobUsers bmobUsers = new BmobUsers(localUser.getUser_name()
-                                , localUser.getPassword()
-                                , localUser.getScreen_name()
-                                , localUser.getTel()
-                                , localUser.getHupu_user_name()
-                                , localUser.getHupu_password()
-                                , localUser.getHupu_screen_name());
-                        return bmobUsers;
-                    }
-                }).compose(RxSchedulers.<BmobUsers>ioMain())
-                .subscribe(new Consumer<BmobUsers>() {
-                    @Override
-                    public void accept(@NonNull BmobUsers bmobUsers) throws Exception {
-                        BmobFeedback bmobFeedback = new BmobFeedback(editTextContent, bmobUsers);
-                        bmobFeedback.save(new SaveListener<String>() {
+        Observable.just(C.SP.CURRENT_USER).map(new Function<String, BmobUsers>() {
+            @Override
+            public BmobUsers apply(@NonNull String str) throws Exception {
+                LocalUser localUser = MyApp.getCurrentUser();
+                BmobUsers bmobUsers = new BmobUsers(localUser.getUser_name()
+                        , localUser.getPassword()
+                        , localUser.getScreen_name()
+                        , localUser.getTel()
+                        , localUser.getCover()
+                        , localUser.getHupu_user_name()
+                        , localUser.getHupu_password());
+                return bmobUsers;
+            }
+        }).compose(RxSchedulers.<BmobUsers>ioMain()).subscribe(new Consumer<BmobUsers>() {
+            @Override
+            public void accept(@NonNull BmobUsers bmobUsers) throws Exception {
+                BmobFeedback bmobFeedback = new BmobFeedback(editTextContent, bmobUsers);
+                bmobFeedback.save(new SaveListener<String>() {
 
-                            @Override
-                            public void done(String s, BmobException e) {
-                                mView.uploadFeedbackDone(e);
-                            }
-                        });
+                    @Override
+                    public void done(String s, BmobException e) {
+                        mView.uploadFeedbackDone(e);
                     }
                 });
+            }
+        });
+    }
+
+    @Override
+    public void updateCurrentUser(final MineListBean mineListBean) {
+        if (C.TRUE.equals(SPManager.get().getStringValue(C.SP.IS_LOGIN))) {
+            LocalUser currentUser = MyApp.getCurrentUser();
+            mineListBean.setTitle(currentUser.getScreen_name());
+            mineListBean.setCoverPath(currentUser.getCover());
+        } else {
+            mineListBean.setTitle("账号/登陆");
+            mineListBean.setCoverPath(C.NULL);
+        }
+        mView.updateCurrentUserSuccess(mineListBean);
     }
 }

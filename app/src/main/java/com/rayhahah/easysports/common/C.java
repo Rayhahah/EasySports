@@ -7,7 +7,11 @@ import com.rayhahah.rbase.utils.base.FileUtils;
  */
 public class C {
 
-    public static final String PIC_DIR = FileUtils.getRootFilePath() + "EasySport/images";
+
+    public interface DIR {
+        String PIC_DIR = FileUtils.getRootFilePath() + "EasySport/images";
+        String CRASH = FileUtils.getRootFilePath() + "EasySport/crashLog";
+    }
 
     //数据库名字
     public static final String DB_EASYSPORTS = "easysports.db";
@@ -36,6 +40,7 @@ public class C {
      */
     public interface EventAction {
 
+        String UPDATE_CURRENT_USER = "UPDATE_CURRENT_USER";
     }
 
 
@@ -100,8 +105,19 @@ public class C {
         int ID_ABOUT = 8;
     }
 
+
+    public interface ACCOUNT {
+        int ID_RESET_PASSWORD = 1;
+        int ID_HUPU = 2;
+        int ID_TEL = 3;
+        int ID_SCREENNAME = 4;
+        int CODE_TAKE_PHOTO = 101;
+        int CODE_CHOOSE_PHOTO = 102;
+    }
+
     public static final String TRUE = "true";
     public static final String FALSE = "false";
+    public static final String NULL = "";
 
 
     public interface Utils {

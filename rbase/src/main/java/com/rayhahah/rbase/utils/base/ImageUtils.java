@@ -1,8 +1,10 @@
 package com.rayhahah.rbase.utils.base;
 
 import android.annotation.TargetApi;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -35,7 +37,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -336,35 +337,6 @@ public class ImageUtils {
         options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeResource(BaseApplication.getAppContext().getResources(), id, options);
-    }
-
-    /**
-     * 获取bitmap
-     *
-     * @param fd 文件描述
-     * @return bitmap
-     */
-    public static Bitmap getBitmap(FileDescriptor fd) {
-        if (fd == null) return null;
-        return BitmapFactory.decodeFileDescriptor(fd);
-    }
-
-    /**
-     * 获取bitmap
-     *
-     * @param fd        文件描述
-     * @param maxWidth  最大宽度
-     * @param maxHeight 最大高度
-     * @return bitmap
-     */
-    public static Bitmap getBitmap(FileDescriptor fd, int maxWidth, int maxHeight) {
-        if (fd == null) return null;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFileDescriptor(fd, null, options);
-        options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFileDescriptor(fd, null, options);
     }
 
 
@@ -972,9 +944,9 @@ public class ImageUtils {
     /**
      * 图片文件插入系统图库
      *
-     * @param context 上下文
-     * @param imagePath 插入图片的绝对路径
-     * @param name 图片的名字
+     * @param context     上下文
+     * @param imagePath   插入图片的绝对路径
+     * @param name        图片的名字
      * @param description 描述
      * @return
      */
@@ -1033,6 +1005,22 @@ public class ImageUtils {
             }
         }
         return true;
+    }
+
+    /**
+     * 本地资源转换成String
+     *
+     * @param context
+     * @param resId
+     * @return
+     */
+    public static Uri resToString(Context context, int resId) {
+        Resources r = context.getResources();
+        Uri uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
+                + r.getResourcePackageName(resId) + "/"
+                + r.getResourceTypeName(resId) + "/"
+                + r.getResourceEntryName(resId));
+        return uri;
     }
 
 }

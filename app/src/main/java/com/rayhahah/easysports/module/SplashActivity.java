@@ -1,7 +1,6 @@
 package com.rayhahah.easysports.module;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.View;
 
 import com.rayhahah.easysports.R;
@@ -10,10 +9,21 @@ import com.rayhahah.easysports.databinding.ActivitySplashBinding;
 import com.rayhahah.easysports.module.home.HomeActivity;
 import com.rayhahah.rbase.base.RBasePresenter;
 import com.rayhahah.rbase.utils.useful.GlideUtil;
+import com.rayhahah.rbase.utils.useful.RxSchedulers;
+
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 public class SplashActivity extends BaseActivity<RBasePresenter, ActivitySplashBinding> {
 
-    private CountDownTimer mTimer;
+    private int count = 4;
+    private Disposable timer;
 
     @Override
     protected void setStatusColor() {
@@ -29,28 +39,44 @@ public class SplashActivity extends BaseActivity<RBasePresenter, ActivitySplashB
 
     @Override
     protected void initEventAndData(Bundle savedInstanceState) {
+        timer = Observable
+                .interval(0, 1, TimeUnit.SECONDS)
+                .take(count + 1)
+                .map(new Function<Long, Long>() {
+                    @Override
+                    public Long apply(@NonNull Long aLong) throws Exception {
+                        return count - aLong;
+                    }
+                }).compose(RxSchedulers.<Long>ioMain())
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(@NonNull Long aLong) throws Exception {
+                        mBinding.tvSplashSkip.setText("跳过(" + aLong + "s)");
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        HomeActivity.start(SplashActivity.this, SplashActivity.this);
+                        finish();
+                    }
+                });
+
         GlideUtil.load(this, R.mipmap.bryant_cover, mBinding.ivSplashCover);
         mBinding.tvSplashSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 HomeActivity.start(SplashActivity.this, SplashActivity.this);
-                mTimer.cancel();
+                if (timer != null && !timer.isDisposed()) {
+                    timer.dispose();
+                }
                 finish();
             }
         });
-        mTimer = new CountDownTimer(5000, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                mBinding.tvSplashSkip.setText("跳过(" + millisUntilFinished / 1000 + "s)");
-            }
-
-            @Override
-            public void onFinish() {
-                HomeActivity.start(SplashActivity.this, SplashActivity.this);
-                finish();
-            }
-        };
-        mTimer.start();
     }
 
     @Override
@@ -71,6 +97,8 @@ public class SplashActivity extends BaseActivity<RBasePresenter, ActivitySplashB
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mTimer.cancel();
+        if (timer != null && !timer.isDisposed()) {
+            timer.dispose();
+        }
     }
 }

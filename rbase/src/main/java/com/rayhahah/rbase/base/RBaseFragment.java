@@ -1,5 +1,6 @@
 package com.rayhahah.rbase.base;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -38,6 +39,17 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
     protected V mBinding;
     protected ArrayMap<String, Integer> mThemeColorMap;
     private boolean isFirstInit;
+    protected RBaseActivity mContext;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mContext = (RBaseActivity) context;
+        }catch (Exception e){
+            throw new IllegalArgumentException("这个fragment的父activity必须继承BaseActivity");
+        }
+    }
 
     @Nullable
     @Override

@@ -6,7 +6,7 @@
     >
 
     <com.google.android.flexbox.FlexboxLayout
-        android:id="@+id/fbl_login"
+        android:id="@+id/fbl_mine_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorBgDark"
@@ -18,36 +18,115 @@
             layout="@layout/toolbar"/>
 
         <EditText
-            android:id="@+id/et_login_username"
+            android:id="@+id/et_mine_login_username"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_50"
             android:layout_marginTop="@dimen/dp_10"
             android:background="?attr/colorBg"
-            android:drawableLeft="@mipmap/ic_launcher"
+            android:drawableLeft="@drawable/ic_svg_account_text_light_24"
             android:hint="@string/mine_login_hint"
-            android:padding="@dimen/dp_5"
+            android:padding="@dimen/dp_10"
             android:textColor="?attr/colorTextDark"
             android:textColorHint="?attr/colorTextLight"
             android:textCursorDrawable="@null"/>
 
         <EditText
-            android:id="@+id/et_login_password"
+            android:id="@+id/et_mine_login_password"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_50"
             android:layout_marginTop="@dimen/dp_1"
             android:background="?attr/colorBg"
-            android:drawableLeft="@mipmap/ic_launcher"
+            android:drawableLeft="@drawable/ic_svg_lock_text_light_24"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:padding="@dimen/dp_5"
+            android:padding="@dimen/dp_10"
             android:textColor="?attr/colorTextDark"
             android:textColorHint="?attr/colorTextLight"
             android:textCursorDrawable="@null"/>
 
         <Button
-            android:layout_margin="@dimen/dp_10"
+            android:id="@+id/btn_mine_login"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50"/>
+            android:layout_height="@dimen/dp_50"
+            android:layout_margin="@dimen/dp_15"
+            android:background="@drawable/selector_color_click_corner"
+            android:text="@string/login"
+            android:textColor="?attr/colorBg"
+            android:textSize="@dimen/sp_20"/>
+
+        <TextView
+            android:id="@+id/tv_mine_register_now"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_20"
+            android:gravity="right"
+            android:padding="@dimen/dp_10"
+            android:text="@string/mine_register_now"
+            android:textColor="@color/blueLight"
+            android:textSize="@dimen/sp_16"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:background="?attr/colorTextLight"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_10"
+            android:gravity="center"
+            android:text="@string/mine_other_register_way"
+            android:textColor="?attr/colorTextLight"
+            android:textSize="@dimen/sp_18"/>
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_80"
+            app:flexDirection="row"
+            app:justifyContent="center"
+            >
+
+            <ImageView
+                android:id="@+id/iv_mine_login_wechat"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_25"
+                android:layout_marginLeft="@dimen/dp_25"
+                android:background="@drawable/ic_svg_wechat_green_24"
+                android:scaleType="fitXY"
+                />
+
+            <ImageView
+                android:id="@+id/iv_mine_login_qq"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_25"
+                android:layout_marginLeft="@dimen/dp_25"
+                android:background="@drawable/ic_svg_qq_blue_24"
+                android:scaleType="fitXY"
+                />
+
+            <ImageView
+                android:id="@+id/iv_mine_login_tel"
+                android:layout_width="@dimen/dp_60"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_25"
+                android:layout_marginLeft="@dimen/dp_25"
+                android:background="@drawable/ic_svg_phone_orange_24"
+                android:scaleType="fitXY"
+                />
+
+
+        </com.google.android.flexbox.FlexboxLayout>
 
 
     </com.google.android.flexbox.FlexboxLayout>

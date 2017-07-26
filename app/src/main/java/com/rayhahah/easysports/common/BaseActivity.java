@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 
 import com.rayhahah.easysports.R;
-import com.rayhahah.easysports.app.MyApplication;
+import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.view.ProgressLayout;
 import com.rayhahah.rbase.base.RBaseActivity;
 import com.rayhahah.rbase.base.RBasePresenter;
@@ -27,7 +27,7 @@ public abstract class BaseActivity<T extends RBasePresenter, V extends ViewDataB
 
     @Override
     protected void initTheme() {
-        if (MyApplication.isNightTheme()) {
+        if (MyApp.isNightTheme()) {
             setTheme(R.style.AppNightTheme);
         } else {
             setTheme(R.style.AppDayTheme);

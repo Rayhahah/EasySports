@@ -1,5 +1,7 @@
 package com.rayhahah.easysports.module.mine.mvp;
 
+import android.content.Context;
+
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
 import com.rayhahah.rbase.base.IRBaseView;
 
@@ -15,12 +17,16 @@ public class MineContract {
     public interface IMineView extends IRBaseView {
 
         void uploadFeedbackDone(BmobException e);
+
+        void updateCurrentUserSuccess(MineListBean mineListBean);
     }
 
     public interface IMinePresenter  {
 
-        List<MineListBean> getMineListData();
+        List<MineListBean> getMineListData(Context context);
 
         void uploadFeedback(String editTextContent);
+
+        void updateCurrentUser(MineListBean mineListBean);
     }
 }

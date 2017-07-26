@@ -30,13 +30,16 @@ import org.greenrobot.greendao.annotation.Generated;
 public class LocalUser {
 
     @Unique
+    private String bmobId;
+    @Unique
     private String user_name;
     @NotNull
     private String password;
     @NotNull
     private String screen_name;
-    @NotNull
     private String tel;
+
+    private String cover;
 
     private String hupu_user_name;
     private String hupu_password;
@@ -44,14 +47,16 @@ public class LocalUser {
 
     private String is_day_theme;
 
-    @Generated(hash = 1250608706)
-    public LocalUser(String user_name, @NotNull String password, @NotNull String screen_name,
-            @NotNull String tel, String hupu_user_name, String hupu_password,
-            String hupu_screen_name, String is_day_theme) {
+    @Generated(hash = 1619478263)
+    public LocalUser(String bmobId, String user_name, @NotNull String password,
+            @NotNull String screen_name, String tel, String cover, String hupu_user_name,
+            String hupu_password, String hupu_screen_name, String is_day_theme) {
+        this.bmobId = bmobId;
         this.user_name = user_name;
         this.password = password;
         this.screen_name = screen_name;
         this.tel = tel;
+        this.cover = cover;
         this.hupu_user_name = hupu_user_name;
         this.hupu_password = hupu_password;
         this.hupu_screen_name = hupu_screen_name;
@@ -124,6 +129,22 @@ public class LocalUser {
 
     public void setIs_day_theme(String is_day_theme) {
         this.is_day_theme = is_day_theme;
+    }
+
+    public String getCover() {
+        return this.cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public String getBmobId() {
+        return this.bmobId;
+    }
+
+    public void setBmobId(String bmobId) {
+        this.bmobId = bmobId;
     }
 
 }

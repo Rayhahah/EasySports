@@ -29,20 +29,19 @@ public class BmobUsers extends BmobObject {
     private String password;
     private String screenName;
     private String tel;
+    private String cover;
 
     private String hupuUserName;
     private String hupuPassword;
-    private String hupuScreenName;
 
-
-    public BmobUsers(String userName, String password, String screenName, String tel, String hupuUserName, String hupuPassword, String hupuScreenName) {
+    public BmobUsers(String userName, String password, String screenName, String tel, String cover, String hupuUserName, String hupuPassword) {
         this.userName = userName;
         this.password = password;
         this.screenName = screenName;
         this.tel = tel;
+        this.cover = cover;
         this.hupuUserName = hupuUserName;
         this.hupuPassword = hupuPassword;
-        this.hupuScreenName = hupuScreenName;
     }
 
     public String getUserName() {
@@ -77,6 +76,14 @@ public class BmobUsers extends BmobObject {
         this.tel = tel;
     }
 
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
     public String getHupuUserName() {
         return hupuUserName;
     }
@@ -93,11 +100,4 @@ public class BmobUsers extends BmobObject {
         this.hupuPassword = hupuPassword;
     }
 
-    public String getHupuScreenName() {
-        return hupuScreenName;
-    }
-
-    public void setHupuScreenName(String hupuScreenName) {
-        this.hupuScreenName = hupuScreenName;
-    }
 }

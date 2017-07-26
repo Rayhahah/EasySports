@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,6 +9,50 @@
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/fbl_account"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.google.android.flexbox.FlexboxLayout>
+        android:layout_height="match_parent"
+        android:background="?attr/colorBgDark"
+        app:flexDirection="column"
+        >
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+
+        <ImageView
+            android:id="@+id/iv_account_cover"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120"
+            android:layout_margin="@dimen/dp_10"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/tv_account_screenname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
+            android:gravity="center"
+            android:text="@string/example_screenname"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_25"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_account_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_flexGrow="1"
+            />
+
+        <Button
+            android:id="@+id/btn_account_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_color_click"
+            android:text="@string/logout"
+            android:textColor="?attr/colorBg"
+            android:textSize="@dimen/sp_20"/>
+
+
+    </com.google.android.flexbox.FlexboxLayout>
 
 </layout>

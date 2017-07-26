@@ -107,6 +107,10 @@ public class HomeActivity extends BaseActivity<HomePresenter, ActivityHomeBindin
      * 初始化底部导航栏
      */
     private void initBnb() {
+        if (SPManager.get().getStringValue(C.SP.IS_LOGIN).equals(C.TRUE)) {
+            mPresenter.getCurrentUser(SPManager.get().getStringValue(C.SP.CURRENT_USER));
+        }
+
         mBinding.bnbHome
                 .addItem(getBnbItem(getResources().getString(R.string.match), R.drawable.ic_svg_match_white_24))
                 .addItem(getBnbItem(getResources().getString(R.string.news), R.drawable.ic_svg_news_white_24))

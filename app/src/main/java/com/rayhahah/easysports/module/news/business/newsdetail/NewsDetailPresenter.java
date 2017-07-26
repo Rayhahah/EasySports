@@ -2,7 +2,7 @@ package com.rayhahah.easysports.module.news.business.newsdetail;
 
 import android.graphics.Bitmap;
 
-import com.rayhahah.easysports.app.MyApplication;
+import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.common.C;
 import com.rayhahah.easysports.module.news.api.NewsApiFactory;
 import com.rayhahah.easysports.module.news.bean.NewsDetail;
@@ -57,9 +57,9 @@ public class NewsDetailPresenter extends RBasePresenter<NewsDetailContract.INews
             @Override
             public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
                 String fileName = System.currentTimeMillis() + ".jpg";
-                File file = new File(C.PIC_DIR, fileName);
+                File file = new File(C.DIR.PIC_DIR, fileName);
                 if (ImageUtils.save(bitmap, file, Bitmap.CompressFormat.JPEG)) {
-                    if (ImageUtils.insertImage(MyApplication.getAppContext(), file.getAbsolutePath(), fileName, null)) {
+                    if (ImageUtils.insertImage(MyApp.getAppContext(), file.getAbsolutePath(), fileName, null)) {
                         e.onNext(true);
                     } else {
                         e.onNext(false);

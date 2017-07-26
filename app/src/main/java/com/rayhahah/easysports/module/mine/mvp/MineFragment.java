@@ -11,20 +11,27 @@ import com.rayhahah.dialoglib.DialogInterface;
 import com.rayhahah.dialoglib.MDAlertDialog;
 import com.rayhahah.dialoglib.MDEditDialog;
 import com.rayhahah.easysports.R;
-import com.rayhahah.easysports.app.MyApplication;
+import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.common.BaseFragment;
 import com.rayhahah.easysports.common.C;
 import com.rayhahah.easysports.databinding.FragmentMineBinding;
 import com.rayhahah.easysports.module.home.HomeActivity;
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
+import com.rayhahah.easysports.module.mine.business.account.AccountActivity;
+import com.rayhahah.easysports.module.mine.business.login.LoginActivity;
 import com.rayhahah.easysports.module.mine.business.teamplayer.SingleListActivity;
 import com.rayhahah.easysports.module.mine.domain.MineListAdapter;
 import com.rayhahah.easysports.view.TextListItemDecoration;
+import com.rayhahah.rbase.bean.MsgEvent;
 import com.rayhahah.rbase.utils.base.CacheUtils;
 import com.rayhahah.rbase.utils.base.DialogUtil;
 import com.rayhahah.rbase.utils.base.StringUtils;
 import com.rayhahah.rbase.utils.base.ToastUtils;
 import com.rayhahah.rbase.utils.useful.SPManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -47,16 +54,24 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
         mBinding.toolbar.tvToolbarTitle.setText(getResources().getString(R.string.mine));
         initRv();
+        mPresenter.updateCurrentUser(mData.get(0));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initRv() {
-        mData = mPresenter.getMineListData();
+        mData = mPresenter.getMineListData(mContext);
         mMineListAdapter = new MineListAdapter(mData) {
             @Override
             public void setItemCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (!MyApplication.isNightTheme()) {
+                if (!MyApp.isNightTheme()) {
                     SPManager.get().putString(C.SP.THEME, C.TRUE);
                     getActivity().setTheme(R.style.AppNightTheme);
                 } else {
@@ -126,9 +141,9 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
             //登陆与注册
             case C.MINE.ID_LOGIN:
                 if (C.TRUE.equals(isLogin)) {
-
+                    AccountActivity.start(mContext, mContext);
                 } else {
-
+                    LoginActivity.start(mContext, mContext);
                 }
                 break;
             //清除缓存
@@ -162,6 +177,28 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void loginSuccess(MsgEvent event) {
+        if (C.EventAction.UPDATE_CURRENT_USER.equals(event.getAction())) {
+            mPresenter.updateCurrentUser(mData.get(0));
+        }
+    }
+
+    @Override
+    public void uploadFeedbackDone(BmobException e) {
+        DialogUtil.dismissDialog();
+        if (e == null) {
+            ToastUtils.showShort("感谢您的建议！");
+        } else {
+            ToastUtils.showShort("提交失败~");
+        }
+    }
+
+    @Override
+    public void updateCurrentUserSuccess(MineListBean mineListBean) {
+        mData.set(0, mineListBean);
+        mMineListAdapter.setNewData(mData);
+    }
 
     /**
      * 切换皮肤刷新UI
@@ -177,7 +214,7 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
      */
     private MDAlertDialog initCleanDialog() {
         return new MDAlertDialog.Builder(getActivity())
-                .setDialogBgResource(R.drawable.shape_color_bg_corner4)
+                .setDialogBgResource(R.drawable.shape_bg_corner4)
                 .setTitleVisible(false)
                 .setContentText(getResources().getString(R.string.mine_clean_ask))
                 .setContentTextColor(mThemeColorMap.get(C.ATTRS.COLOR_TEXT_DARK))
@@ -209,7 +246,7 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
      */
     private MDEditDialog initFeedbackDialog() {
         MDEditDialog mdEditDialog = new MDEditDialog.Builder(getActivity())
-                .setDialogBgResource(R.drawable.shape_color_bg_corner4)
+                .setDialogBgResource(R.drawable.shape_bg_corner4)
                 .setTitleTextSize(20)
                 .setTitleTextColor(mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY))
                 .setTitleText(getResources().getString(R.string.mine_feedback_title))
@@ -233,25 +270,15 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
 
                     @Override
                     public void clickRightButton(final MDEditDialog dialog, View view) {
-                        ToastUtils.showShort(dialog.getEditTextContent());
-                        dialog.dismiss();
                         DialogUtil.showLoadingDialog(getActivity(), "提交ing");
                         mPresenter.uploadFeedback(dialog.getEditTextContent());
+                        ToastUtils.showShort("请先登录账号");
+                        dialog.dismiss();
                     }
                 })
                 .setButtonBgResource(R.drawable.selector_md_dialog_color_primary)
                 .setCanceledOnTouchOutside(false)
                 .build();
         return mdEditDialog;
-    }
-
-    @Override
-    public void uploadFeedbackDone(BmobException e) {
-        DialogUtil.dismissDialog();
-        if (e == null) {
-            ToastUtils.showShort("感谢您的建议！");
-        } else {
-            ToastUtils.showShort("提交失败~");
-        }
     }
 }

@@ -1,4 +1,19 @@
 <resources>
+    <!--common-->
+    <string name="login">登陆</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="register">注册</string>
+    <string name="telephone">电话</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+    <string name="search_hint">请输入关键字</string>
+    <string name="must">必填</string>
+    <string name="screenname">昵称</string>
+    <string name="save_picture">保存图片</string>
+    <string name="not_null">不能为空</string>
+
+    <!--homepage-->
     <string name="app_name">EasySports</string>
     <string name="match">比赛</string>
     <string name="live">ֱ直播</string>
@@ -8,30 +23,56 @@
     <string name="reload">重新加载</string>
     <string name="network_error">网络好像开小差了</string>
 
+    <!--news-->
     <string name="news_banner">今日头条</string>
     <string name="news_news">新闻资讯</string>
     <string name="news_videos">视频集锦</string>
     <string name="news_depth">最佳时刻</string>
     <string name="news_highlight">赛场花絮</string>
 
+    <!--example-->
     <string name="example_date">2017-12-05</string>
     <string name="example_date_detail">2017-06-12 09:40:21</string>
     <string name="example_title">洛瑞：我想要一枚总冠军戒指，这是驱动我的因素</string>
     <string name="example_title_video">视频-2017总决赛官方十佳球 阿杜致胜三分死神降临</string>
+    <string name="example_screenname">rayhahah</string>
 
-    <string name="save_picture">保存图片</string>
-    <string name="cancel">取消</string>
+    <!--mine-->
     <string name="mine_all_team">全部球队</string>
     <string name="mine_all_player">全部球员</string>
     <string name="mine_clean_ask">是否确认清楚缓存？</string>
     <string name="mine_clean_success">清除缓存成功</string>
     <string name="mine_feedback_title">欢迎您提出宝贵的意见！</string>
     <string name="mine_feedback_hint">大胆畅所欲言吧！O(∩_∩)O~~</string>
-
-    <string name="search_hint">请输入关键字</string>
     <string name="mine_login_hint">账号/手机号</string>
-    <string name="password">密码</string>
+    <string name="mine_login_myaccount">我的账号</string>
+    <string name="mine_register_now">立即注册</string>
+    <string name="mine_other_register_way">其他注册方式</string>
 
+    <!--register-->
+    <string name="register_username">登录账号</string>
+    <string name="register_welcome">欢迎注册O(∩_∩)O~~</string>
+    <string name="register_username_hint">请输入登陆账号</string>
+    <string name="register_password_hint">请输入登陆密码</string>
+    <string name="register_password">登录密码</string>
+    <string name="register_screenname_hint">请输入用户昵称</string>
+    <string name="register_tel_hint">请输入电话</string>
+    <string name="register_hupu_username">虎扑账号</string>
+    <string name="register_hupu_hint">虎扑社区使用</string>
+    <string name="register_hupu_password">虎扑密码</string>
+    <string name="illegal">不合法</string>
+    <string name="registering">正在注册</string>
+    <string name="register_regist_fail">注册失败，用户名已存在</string>
+    <string name="register_regist_success">注册成功</string>
+
+    <!--account-->
+    <string name="account_manage">账号管理</string>
+    <string name="account_setting">详细设置</string>
+    <string name="hupu">虎扑</string>
+    <string name="message">信息</string>
+    <string name="logout">登出</string>
+    <string name="take_photo">拍摄</string>
+    <string name="select_photo">相册图片</string>
 
     <string-array name="ad">
         <item>/d/js/js/</item>

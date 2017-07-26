@@ -5,6 +5,7 @@
     android:id="@+id/fbl_mine_item"
     android:layout_width="match_parent"
     android:layout_height="70dp"
+    android:layout_margin="@dimen/dp_1"
     android:background="@drawable/selector_bg_click"
     android:padding="@dimen/dp_5"
     app:flexDirection="row"
@@ -32,10 +33,10 @@
 
 
     <View
-        android:visibility="gone"
         android:id="@+id/view_mine_list_empty"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:visibility="gone"
         app:layout_flexGrow="3"/>
 
     <CheckBox

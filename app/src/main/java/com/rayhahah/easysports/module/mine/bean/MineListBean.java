@@ -13,9 +13,18 @@ public class MineListBean extends BaseSection {
     public final static int TYPE_TEXTVIEW = 2;
 
     private int coverRes;
+    private String coverPath;
     private String title;
     private int type;
     private int id;
+
+    public String getCoverPath() {
+        return coverPath;
+    }
+
+    public void setCoverPath(String coverPath) {
+        this.coverPath = coverPath;
+    }
 
     public int getCoverRes() {
         return coverRes;

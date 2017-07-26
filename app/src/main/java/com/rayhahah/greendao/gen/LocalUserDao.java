@@ -24,14 +24,16 @@ public class LocalUserDao extends AbstractDao<LocalUser, Void> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property User_name = new Property(0, String.class, "user_name", false, "USER_NAME");
-        public final static Property Password = new Property(1, String.class, "password", false, "PASSWORD");
-        public final static Property Screen_name = new Property(2, String.class, "screen_name", false, "SCREEN_NAME");
-        public final static Property Tel = new Property(3, String.class, "tel", false, "TEL");
-        public final static Property Hupu_user_name = new Property(4, String.class, "hupu_user_name", false, "HUPU_USER_NAME");
-        public final static Property Hupu_password = new Property(5, String.class, "hupu_password", false, "HUPU_PASSWORD");
-        public final static Property Hupu_screen_name = new Property(6, String.class, "hupu_screen_name", false, "HUPU_SCREEN_NAME");
-        public final static Property Is_day_theme = new Property(7, String.class, "is_day_theme", false, "IS_DAY_THEME");
+        public final static Property BmobId = new Property(0, String.class, "bmobId", false, "BMOB_ID");
+        public final static Property User_name = new Property(1, String.class, "user_name", false, "USER_NAME");
+        public final static Property Password = new Property(2, String.class, "password", false, "PASSWORD");
+        public final static Property Screen_name = new Property(3, String.class, "screen_name", false, "SCREEN_NAME");
+        public final static Property Tel = new Property(4, String.class, "tel", false, "TEL");
+        public final static Property Cover = new Property(5, String.class, "cover", false, "COVER");
+        public final static Property Hupu_user_name = new Property(6, String.class, "hupu_user_name", false, "HUPU_USER_NAME");
+        public final static Property Hupu_password = new Property(7, String.class, "hupu_password", false, "HUPU_PASSWORD");
+        public final static Property Hupu_screen_name = new Property(8, String.class, "hupu_screen_name", false, "HUPU_SCREEN_NAME");
+        public final static Property Is_day_theme = new Property(9, String.class, "is_day_theme", false, "IS_DAY_THEME");
     }
 
 
@@ -47,14 +49,16 @@ public class LocalUserDao extends AbstractDao<LocalUser, Void> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"LOCAL_USER\" (" + //
-                "\"USER_NAME\" TEXT UNIQUE ," + // 0: user_name
-                "\"PASSWORD\" TEXT NOT NULL ," + // 1: password
-                "\"SCREEN_NAME\" TEXT NOT NULL ," + // 2: screen_name
-                "\"TEL\" TEXT NOT NULL ," + // 3: tel
-                "\"HUPU_USER_NAME\" TEXT," + // 4: hupu_user_name
-                "\"HUPU_PASSWORD\" TEXT," + // 5: hupu_password
-                "\"HUPU_SCREEN_NAME\" TEXT," + // 6: hupu_screen_name
-                "\"IS_DAY_THEME\" TEXT);"); // 7: is_day_theme
+                "\"BMOB_ID\" TEXT UNIQUE ," + // 0: bmobId
+                "\"USER_NAME\" TEXT UNIQUE ," + // 1: user_name
+                "\"PASSWORD\" TEXT NOT NULL ," + // 2: password
+                "\"SCREEN_NAME\" TEXT NOT NULL ," + // 3: screen_name
+                "\"TEL\" TEXT," + // 4: tel
+                "\"COVER\" TEXT," + // 5: cover
+                "\"HUPU_USER_NAME\" TEXT," + // 6: hupu_user_name
+                "\"HUPU_PASSWORD\" TEXT," + // 7: hupu_password
+                "\"HUPU_SCREEN_NAME\" TEXT," + // 8: hupu_screen_name
+                "\"IS_DAY_THEME\" TEXT);"); // 9: is_day_theme
     }
 
     /** Drops the underlying database table. */
@@ -67,32 +71,46 @@ public class LocalUserDao extends AbstractDao<LocalUser, Void> {
     protected final void bindValues(DatabaseStatement stmt, LocalUser entity) {
         stmt.clearBindings();
  
+        String bmobId = entity.getBmobId();
+        if (bmobId != null) {
+            stmt.bindString(1, bmobId);
+        }
+ 
         String user_name = entity.getUser_name();
         if (user_name != null) {
-            stmt.bindString(1, user_name);
+            stmt.bindString(2, user_name);
         }
-        stmt.bindString(2, entity.getPassword());
-        stmt.bindString(3, entity.getScreen_name());
-        stmt.bindString(4, entity.getTel());
+        stmt.bindString(3, entity.getPassword());
+        stmt.bindString(4, entity.getScreen_name());
+ 
+        String tel = entity.getTel();
+        if (tel != null) {
+            stmt.bindString(5, tel);
+        }
+ 
+        String cover = entity.getCover();
+        if (cover != null) {
+            stmt.bindString(6, cover);
+        }
  
         String hupu_user_name = entity.getHupu_user_name();
         if (hupu_user_name != null) {
-            stmt.bindString(5, hupu_user_name);
+            stmt.bindString(7, hupu_user_name);
         }
  
         String hupu_password = entity.getHupu_password();
         if (hupu_password != null) {
-            stmt.bindString(6, hupu_password);
+            stmt.bindString(8, hupu_password);
         }
  
         String hupu_screen_name = entity.getHupu_screen_name();
         if (hupu_screen_name != null) {
-            stmt.bindString(7, hupu_screen_name);
+            stmt.bindString(9, hupu_screen_name);
         }
  
         String is_day_theme = entity.getIs_day_theme();
         if (is_day_theme != null) {
-            stmt.bindString(8, is_day_theme);
+            stmt.bindString(10, is_day_theme);
         }
     }
 
@@ -100,32 +118,46 @@ public class LocalUserDao extends AbstractDao<LocalUser, Void> {
     protected final void bindValues(SQLiteStatement stmt, LocalUser entity) {
         stmt.clearBindings();
  
+        String bmobId = entity.getBmobId();
+        if (bmobId != null) {
+            stmt.bindString(1, bmobId);
+        }
+ 
         String user_name = entity.getUser_name();
         if (user_name != null) {
-            stmt.bindString(1, user_name);
+            stmt.bindString(2, user_name);
         }
-        stmt.bindString(2, entity.getPassword());
-        stmt.bindString(3, entity.getScreen_name());
-        stmt.bindString(4, entity.getTel());
+        stmt.bindString(3, entity.getPassword());
+        stmt.bindString(4, entity.getScreen_name());
+ 
+        String tel = entity.getTel();
+        if (tel != null) {
+            stmt.bindString(5, tel);
+        }
+ 
+        String cover = entity.getCover();
+        if (cover != null) {
+            stmt.bindString(6, cover);
+        }
  
         String hupu_user_name = entity.getHupu_user_name();
         if (hupu_user_name != null) {
-            stmt.bindString(5, hupu_user_name);
+            stmt.bindString(7, hupu_user_name);
         }
  
         String hupu_password = entity.getHupu_password();
         if (hupu_password != null) {
-            stmt.bindString(6, hupu_password);
+            stmt.bindString(8, hupu_password);
         }
  
         String hupu_screen_name = entity.getHupu_screen_name();
         if (hupu_screen_name != null) {
-            stmt.bindString(7, hupu_screen_name);
+            stmt.bindString(9, hupu_screen_name);
         }
  
         String is_day_theme = entity.getIs_day_theme();
         if (is_day_theme != null) {
-            stmt.bindString(8, is_day_theme);
+            stmt.bindString(10, is_day_theme);
         }
     }
 
@@ -137,28 +169,32 @@ public class LocalUserDao extends AbstractDao<LocalUser, Void> {
     @Override
     public LocalUser readEntity(Cursor cursor, int offset) {
         LocalUser entity = new LocalUser( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // user_name
-            cursor.getString(offset + 1), // password
-            cursor.getString(offset + 2), // screen_name
-            cursor.getString(offset + 3), // tel
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // hupu_user_name
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // hupu_password
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // hupu_screen_name
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // is_day_theme
+            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // bmobId
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // user_name
+            cursor.getString(offset + 2), // password
+            cursor.getString(offset + 3), // screen_name
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // tel
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // cover
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // hupu_user_name
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // hupu_password
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // hupu_screen_name
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // is_day_theme
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, LocalUser entity, int offset) {
-        entity.setUser_name(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setPassword(cursor.getString(offset + 1));
-        entity.setScreen_name(cursor.getString(offset + 2));
-        entity.setTel(cursor.getString(offset + 3));
-        entity.setHupu_user_name(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setHupu_password(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setHupu_screen_name(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setIs_day_theme(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setBmobId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setUser_name(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setPassword(cursor.getString(offset + 2));
+        entity.setScreen_name(cursor.getString(offset + 3));
+        entity.setTel(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setCover(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setHupu_user_name(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setHupu_password(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setHupu_screen_name(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setIs_day_theme(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
      }
     
     @Override

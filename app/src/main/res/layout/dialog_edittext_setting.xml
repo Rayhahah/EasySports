@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/fbl_et_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bg_corner4"
+        app:flexDirection="row"
+        app:flexWrap="wrap"
+        android:padding="@dimen/dp_10"
+        app:justifyContent="center"
+        >
+
+        <TextView
+            android:id="@+id/tv_desc_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/example_screenname"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_20"/>
+
+        <EditText
+            android:id="@+id/et_edit_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="@string/example_screenname"
+            android:textColor="?attr/colorTextDark"
+            android:textColorHint="?attr/colorTextLight"
+            android:textSize="@dimen/sp_20"/>
+
+        <TextView
+            android:id="@+id/tv_desc_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/example_screenname"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_20"/>
+
+        <EditText
+            android:id="@+id/et_edit_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="@string/example_screenname"
+            android:textColor="?attr/colorTextDark"
+            android:textColorHint="?attr/colorTextLight"
+            android:textSize="@dimen/sp_20"/>
+
+        <TextView
+            android:id="@+id/tv_desc_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/example_screenname"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_20"/>
+
+
+        <EditText
+            android:id="@+id/et_edit_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:hint="@string/example_screenname"
+            android:textColor="?attr/colorTextDark"
+            android:textColorHint="?attr/colorTextLight"
+            android:textSize="@dimen/sp_20"/>
+
+        <Button
+            android:id="@+id/btn_edit_cancel"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@drawable/selector_color_click_corner"
+            android:text="@string/cancel"
+            android:textColor="?attr/colorBg"
+            android:textSize="@dimen/sp_20"
+            app:layout_flexGrow="1"/>
+
+        <Button
+            android:id="@+id/btn_edit_confirm"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="@drawable/selector_color_click_corner"
+            android:text="@string/confirm"
+            android:textColor="?attr/colorBg"
+            android:textSize="@dimen/sp_20"
+            app:layout_flexGrow="1"/>
+    </com.google.android.flexbox.FlexboxLayout>
+
+
+</layout>

@@ -14,5 +14,6 @@ public class HomeContract {
 
     public interface IHomePresenter {
 
+        void getCurrentUser(String username);
     }
 }

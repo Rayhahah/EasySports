@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.rayhahah.easysports.bean.CrashMessage;
+import com.rayhahah.easysports.bean.db.LocalUser;
 import com.rayhahah.easysports.common.C;
 import com.rayhahah.greendao.gen.DaoMaster;
 import com.rayhahah.greendao.gen.DaoSession;
@@ -12,7 +13,6 @@ import com.rayhahah.rbase.net.ApiClient;
 import com.rayhahah.rbase.net.OkHttpManager;
 import com.rayhahah.rbase.utils.RCrashHandler;
 import com.rayhahah.rbase.utils.base.DateTimeUitl;
-import com.rayhahah.rbase.utils.base.FileUtils;
 import com.rayhahah.rbase.utils.useful.RLog;
 import com.rayhahah.rbase.utils.useful.SPManager;
 
@@ -23,7 +23,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import okhttp3.OkHttpClient;
 
-public class MyApplication extends BaseApplication {
+public class MyApp extends BaseApplication {
 
 
     private static DaoSession daoSession;
@@ -37,6 +37,7 @@ public class MyApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
 
         Bmob.initialize(mAppContext, C.BMOB_APPID);
 
@@ -90,7 +91,7 @@ public class MyApplication extends BaseApplication {
                 });
             }
         };
-        RCrashHandler.getInstance(FileUtils.getRootFilePath() + "EasySport/crashLog")
+        RCrashHandler.getInstance(C.DIR.CRASH)
                 .init(mAppContext, mCrashUploader);
     }
 
@@ -140,4 +141,13 @@ public class MyApplication extends BaseApplication {
         return daoSession;
     }
 
+    public static LocalUser mCurrentUser;
+
+    public static LocalUser getCurrentUser() {
+        return mCurrentUser;
+    }
+
+    public static void setCurrentUser(LocalUser mCurrentUser) {
+        MyApp.mCurrentUser = mCurrentUser;
+    }
 }

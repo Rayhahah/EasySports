@@ -1,6 +1,13 @@
 package com.rayhahah.easysports.module.mine.business.account;
 
+import android.app.Activity;
+import android.content.Context;
+
+import com.rayhahah.easysports.bean.db.LocalUser;
+import com.rayhahah.easysports.module.mine.bean.MineListBean;
 import com.rayhahah.rbase.base.IRBaseView;
+
+import java.util.List;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -26,10 +33,28 @@ import com.rayhahah.rbase.base.IRBaseView;
 public class AccountContract {
     public interface IAccountView extends IRBaseView {
 
+        void getCurrentUserSuccess(LocalUser localUser);
+
+        void updateUserSuccess();
+
+        void updateUserFailed();
+
+        void uploadCoverSuccess(String url);
+
+        void uploadCoverFailed(int code, String msg);
     }
 
     public interface IAccountPresenter {
 
+        List<MineListBean> getListData(Context context);
+
+        void updateUser(LocalUser localUser);
+
+        void takePhoto(Activity context);
+
+        void uploadCover(String path);
+
+        void choosePhoto(Activity context);
     }
 
 }
