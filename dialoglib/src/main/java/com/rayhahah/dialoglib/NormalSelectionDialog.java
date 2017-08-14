@@ -56,6 +56,7 @@ public class NormalSelectionDialog {
         linearLayout = (LinearLayout) dialogView.findViewById(R.id.action_dialog_linearlayout);
         bottomBtn = (Button) dialogView.findViewById(R.id.action_dialog_botbtn);
         bottomBtn.setText(builder.getCancleButtonText());
+        bottomBtn.setBackgroundResource(builder.getCancelBgResResources());
         bottomBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -219,6 +220,7 @@ public class NormalSelectionDialog {
         private int mMiddleBgResId;
         private int mBottomBgResId;
         private int mSingleBgResId;
+        private int mCancelBgResId;
 
         public Builder(Context context) {
 
@@ -243,6 +245,7 @@ public class NormalSelectionDialog {
             mMiddleBgResId = R.drawable.selector_widget_actiondialog_middle;
             mBottomBgResId = R.drawable.selector_widget_actiondialog_bottom;
             mSingleBgResId = R.drawable.selector_widget_actiondialog_single;
+            mCancelBgResId = R.drawable.selector_widget_actiondialog_top;
         }
 
         public Context getContext() {
@@ -394,6 +397,15 @@ public class NormalSelectionDialog {
 
         public Builder setSingleBgResResources(@DrawableRes int singleBgResId) {
             this.mSingleBgResId = singleBgResId;
+            return this;
+        }
+
+        public int getCancelBgResResources() {
+            return mCancelBgResId;
+        }
+
+        public Builder setCancelBgResResources(@DrawableRes int cancelBgResId) {
+            this.mCancelBgResId = cancelBgResId;
             return this;
         }
 

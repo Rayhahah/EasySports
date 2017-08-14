@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_35"
+    android:background="?attr/colorBg"
+    app:flexDirection="row"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+
+    <TextView
+        android:gravity="center"
+        app:layout_flexGrow="1"
+        android:id="@+id/tv_playerrank_rank"
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="match_parent"
+        android:text="1"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/sp_16"/>
+
+    <ImageView
+        android:id="@+id/iv_playerrank_cover"
+        app:layout_flexGrow="1"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="@dimen/dp_1"
+        android:padding="@dimen/dp_3"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:gravity="left|center_vertical"
+        app:layout_flexGrow="4"
+        android:id="@+id/tv_playerrank_name"
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="match_parent"
+        android:text="@string/example_player_name"
+        android:textColor="?attr/colorTextDark"
+        android:textSize="@dimen/sp_12"/>
+    <TextView
+        android:gravity="center"
+        app:layout_flexGrow="2"
+        android:id="@+id/tv_playerrank_team"
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="match_parent"
+        android:text="@string/example_team_name"
+        android:textColor="?attr/colorTextDark"
+        android:textSize="@dimen/sp_12"/>
+
+    <TextView
+        android:gravity="center"
+        app:layout_flexGrow="2"
+        android:id="@+id/tv_playerrank_value"
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="match_parent"
+        android:text="@string/example_value"
+        android:textColor="?attr/colorTextDark"
+        android:textSize="@dimen/sp_12"/>
+
+</com.google.android.flexbox.FlexboxLayout>

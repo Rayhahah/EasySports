@@ -1,13 +1,16 @@
-package com.rayhahah.easysports.utils.glide;
+package com.rayhahah.easysports.module.info.domain;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.support.annotation.Nullable;
+import android.widget.ImageView;
 
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.module.info.bean.StatusRank;
+import com.rayhahah.easysports.utils.glide.GlideCircleTransform;
+import com.rayhahah.rbase.utils.useful.GlideUtil;
+
+import java.util.List;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -26,45 +29,24 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
  * └────┴────┴────┴───────────────────────┴────┴────┴────┴────┘└───┴───┴───┘└───────┴───┴───┘
  *
  * @author Rayhahah
- * @time 2017/7/25
+ * @time 2017/8/13
  * @tips 这个类是Object的子类
- * @fuction Glide加载图片资源后转化成圆形
+ * @fuction 球员排行榜
  */
-public class GlideCircleTransform extends BitmapTransformation {
-    public GlideCircleTransform(Context context) {
-        super(context);
+public class InfoPlayerListAdapter extends BaseQuickAdapter<StatusRank.PlayerBean, BaseViewHolder> {
+    public InfoPlayerListAdapter(@Nullable List<StatusRank.PlayerBean> data) {
+        super(R.layout.item_player_rank, data);
     }
 
     @Override
-    protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
-        return circleCrop(pool, toTransform);
-    }
+    protected void convert(BaseViewHolder helper, StatusRank.PlayerBean item) {
+        helper.setText(R.id.tv_playerrank_rank, item.getSerial())
+                .setText(R.id.tv_playerrank_name, item.getPlayerName())
+                .setText(R.id.tv_playerrank_team, item.getTeamName())
+                .setText(R.id.tv_playerrank_value, item.getValue());
+        GlideUtil.loadWithTransform(mContext, item.getPlayerIcon(), (ImageView) helper.getView(R.id.iv_playerrank_cover)
+                , new GlideCircleTransform(mContext));
+        // TODO: 2017/8/13 点击事件
 
-    private static Bitmap circleCrop(BitmapPool pool, Bitmap source) {
-        if (source == null) return null;
-
-        int size = Math.min(source.getWidth(), source.getHeight());
-        int x = (source.getWidth() - size) / 2;
-        int y = (source.getHeight() - size) / 2;
-
-        Bitmap squared = Bitmap.createBitmap(source, x, y, size, size);
-
-        Bitmap result = pool.get(size, size, Bitmap.Config.ARGB_8888);
-        if (result == null) {
-            result = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(result);
-        Paint paint = new Paint();
-        paint.setShader(new BitmapShader(squared, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
-        paint.setAntiAlias(true);
-        float r = size / 2f;
-        canvas.drawCircle(r, r, r, paint);
-        return result;
-    }
-
-    @Override
-    public String getId() {
-        return getClass().getName();
     }
 }

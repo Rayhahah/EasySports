@@ -5,18 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
 
-    <LinearLayout
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/fbl_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorBg"
-        android:orientation="vertical">
+        app:flexDirection="row"
+        app:flexWrap="wrap">
 
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar"/>
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/tl_news"
+            android:visibility="visible"
+            android:id="@+id/tl_info_selection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabBackground="?attr/colorBg"
@@ -25,17 +28,21 @@
             app:tabIndicatorHeight="@dimen/dp_3"
             app:tabMode="fixed"
             app:tabSelectedTextColor="?attr/colorPrimary"
-            app:tabTextColor="?attr/colorTextDark"
-            >
-        </android.support.design.widget.TabLayout>
-
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_news"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            app:tabTextColor="?attr/colorTextLight"
             />
-    </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_info_index"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            app:layout_flexGrow="2"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_info_list"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            app:layout_flexGrow="8"/>
+
+    </com.google.android.flexbox.FlexboxLayout>
 
 </layout>

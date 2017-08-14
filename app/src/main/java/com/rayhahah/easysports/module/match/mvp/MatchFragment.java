@@ -1,8 +1,11 @@
 package com.rayhahah.easysports.module.match.mvp;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -13,7 +16,7 @@ import com.rayhahah.easysports.common.C;
 import com.rayhahah.easysports.databinding.FragmentMatchBinding;
 import com.rayhahah.easysports.module.match.bean.MatchListBean;
 import com.rayhahah.easysports.module.match.domain.MatchLiveListAdapter;
-import com.rayhahah.easysports.view.TextListItemDecoration;
+import com.rayhahah.easysports.view.TitleItemDecoration;
 import com.rayhahah.rbase.utils.base.DateTimeUitl;
 import com.rayhahah.rbase.utils.base.StringUtils;
 
@@ -34,7 +37,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
     private String mBeforeDate;
     private String mCurrentDate;
     private List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> totalData = new ArrayList<>();
-    private TextListItemDecoration mItemDecor;
+    private TitleItemDecoration mItemDecor;
 
     @Override
     protected int setFragmentLayoutRes() {
@@ -92,7 +95,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
                 break;
         }
         totalData = mMatchListAdapter.getData();
-        mItemDecor.setNewData(totalData);
+//        mItemDecor.setNewData(totalData);
 
         mMatchListAdapter.notifyDataSetChanged();
         showContent(mBinding.srlMatchList, mBinding.pl);
@@ -177,12 +180,14 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         mBinding.rvMatchList.setLayoutManager(
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mMatchListAdapter = new MatchLiveListAdapter();
-        mItemDecor = new TextListItemDecoration(getActivity(), totalData
+        final ViewDataBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.decoration_team_rank, null, false);
+
+        mItemDecor = new TitleItemDecoration(getActivity()
                 , mThemeColorMap.get(C.ATTRS.COLOR_TEXT_DARK)
                 , mThemeColorMap.get(C.ATTRS.COLOR_BG_DARK)
                 , mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY)
-                , TextListItemDecoration.GRAVITY_MIDDLE
-                , new TextListItemDecoration.DecorationCallback() {
+                , TitleItemDecoration.GRAVITY_MIDDLE
+                , new TitleItemDecoration.DecorationCallback() {
             @Override
             public String getGroupId(int position) {
 
@@ -192,7 +197,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
                 }
                 return null;
             }
-
+        }, new TitleItemDecoration.TitleTextCallback() {
             @Override
             public String getGroupFirstLine(int position) {
                 if (position < totalData.size()
@@ -207,8 +212,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
                 return "今日";
             }
         });
-        mBinding.rvMatchList.addItemDecoration(
-                mItemDecor);
+        mBinding.rvMatchList.addItemDecoration(mItemDecor);
         mMatchListAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
         mMatchListAdapter.setOnLoadMoreListener(this, mBinding.rvMatchList);
         mBinding.rvMatchList.setAdapter(mMatchListAdapter);

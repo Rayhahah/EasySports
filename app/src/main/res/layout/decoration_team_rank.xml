@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:background="?attr/colorBgDark"
+        android:padding="@dimen/dp_3"
+        app:flexDirection="row"
+        >
+
+        <TextView
+            android:id="@+id/tv_decoration_rank_name"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/dp_10"
+            android:text="@string/team"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_flexGrow="5"/>
+
+        <TextView
+            android:id="@+id/tv_decoration_rank_winlose"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/win_lose"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_flexGrow="2"/>
+
+
+        <TextView
+            android:id="@+id/tv_decoration_rank_difference"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/difference"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_flexGrow="2"/>
+
+        <TextView
+            android:id="@+id/tv_decoration_rank_rate"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/rate"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_flexGrow="2"/>
+
+    </com.google.android.flexbox.FlexboxLayout>
+</layout>

@@ -7,6 +7,9 @@ import android.animation.ValueAnimator;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * Created by a on 2017/6/22.
  */
@@ -32,17 +35,22 @@ public class AnimatorUtil {
 //                animatorSet.setDuration(3000);
 //		animatorSet.playTogether(objectAnimator5,objectAnimator6,objectAnimator7);
 
-    public static final String ALPHA = "alpha";
-    public static final String TRANSLATION_X = "translationX";
-    public static final String TRANSLATION_Y = "translationY";
-    public static final String X = "x";
-    public static final String Y = "Y";
-    public static final String ROTATION = "rotation";
-    public static final String ROTATION_X = "rotationX";
-    public static final String ROTATION_Y = "rotationY";
-    public static final String SCALE_X = "scaleX";
-    public static final String SCALE_Y = "scaleY";
+
     public static final int DEFAULT_DURATION = 1000;
+
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Anim{
+        String ALPHA = "alpha";
+        String TRANSLATION_X = "translationX";
+        String TRANSLATION_Y = "translationY";
+        String X = "x";
+        String Y = "Y";
+        String ROTATION = "rotation";
+        String ROTATION_X = "rotationX";
+        String ROTATION_Y = "rotationY";
+        String SCALE_X = "scaleX";
+        String SCALE_Y = "scaleY";
+    }
 
     /**
      * 淡入效果
@@ -50,7 +58,7 @@ public class AnimatorUtil {
      * @param target 动画载体
      */
     public static void animAplhaIn(View target, long duration, final AnimListener listener) {
-        ObjectAnimator oa = ObjectAnimator.ofFloat(target, ALPHA, 0, 1);
+        ObjectAnimator oa = ObjectAnimator.ofFloat(target, Anim.ALPHA, 0, 1);
         oa = baseOption(oa, duration
                 , new AccelerateDecelerateInterpolator()
                 , 0, ValueAnimator.RESTART
@@ -99,7 +107,7 @@ public class AnimatorUtil {
      * @param target 动画载体
      */
     public static void animAplhaOut(View target, long duration, final AnimListener listener) {
-        ObjectAnimator oa = ObjectAnimator.ofFloat(target, ALPHA, 1, 0);
+        ObjectAnimator oa = ObjectAnimator.ofFloat(target, Anim.ALPHA, 1, 0);
         oa = baseOption(oa, duration
                 , new AccelerateDecelerateInterpolator()
                 , 0, ValueAnimator.RESTART

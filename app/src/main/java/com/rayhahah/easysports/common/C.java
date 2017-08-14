@@ -2,6 +2,9 @@ package com.rayhahah.easysports.common;
 
 import com.rayhahah.rbase.utils.base.FileUtils;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * 常量配置类
  */
@@ -25,7 +28,8 @@ public class C {
     /**
      * 主机地址常量保存类
      */
-    public interface BaseURL {
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface BaseURL {
         String HUPU_FORUM_SERVER = "http://bbs.mobileapi.hupu.com/1/7.0.8/";
         String HUPU_GAMES_SERVER = "http://games.mobileapi.hupu.com/1/7.0.8/";
         String HUPU_LOGIN_SERVER = "http://passport.hupu.com/";
@@ -57,7 +61,8 @@ public class C {
     /**
      * 主题属性常量保存类
      */
-    public interface ATTRS {
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ATTRS {
         String COLOR_PRIMARY = "COLOR_PRIMARY";
         String COLOR_PRIMARY_DARK = "COLOR_PRIMARY_DARK";
         String COLOR_ACCENT = "COLOR_ACCENT";
@@ -80,7 +85,8 @@ public class C {
     /**
      * 新闻模块常量
      */
-    public interface NEWS {
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface NEWS {
         String BANNER = "banner";
         String NEWS = "news";
         String VIDEOS = "videos";
@@ -94,7 +100,34 @@ public class C {
         int ITEM_TYPE_VIDEOS = 2;
     }
 
-    public interface MINE {
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface INFO {
+        int ID_EAST = 11;
+        int ID_WEST = 12;
+        int ID_POINT = 0;
+        int ID_REBOUND = 1;
+        int ID_ASSIST = 2;
+        int ID_BLOCK = 3;
+        int ID_STEAL = 4;
+
+        int TYPE_TEAM = 101;
+        int TYPE_PLAYER = 102;
+
+        String POINT = "point";
+        String REBOUND = "rebound";
+        String ASSIST = "assist";
+        String BLOCK = "block";
+        String STEAL = "steal";
+
+        String CURRENT_SEASON="2016";
+
+        String TAG_TYPE_DAILY="0";
+        String TAG_TYPE_SEASON="1";
+        String TAG_TYPE_NORMAL="2";
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface MINE {
         int ID_LOGIN = 1;
         int ID_TEAM = 2;
         int ID_PLAYER = 3;
@@ -132,19 +165,6 @@ public class C {
                 , "http://img1.pxpbj.com"
                 , "http://img1.pxpbj.com"};
 
-    }
-
-    public interface Anim {
-        String ALPHA = "alpha";
-        String TRANSLATION_X = "translationX";
-        String TRANSLATION_Y = "translationY";
-        String X = "x";
-        String Y = "Y";
-        String ROTATION = "rotation";
-        String ROTATION_X = "rotationX";
-        String ROTATION_Y = "rotationY";
-        String SCALE_X = "scaleX";
-        String SCALE_Y = "scaleY";
     }
 
 }

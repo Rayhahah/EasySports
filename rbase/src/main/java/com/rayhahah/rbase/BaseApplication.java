@@ -3,6 +3,7 @@ package com.rayhahah.rbase;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.stetho.Stetho;
 import com.rayhahah.rbase.utils.useful.RLog;
 import com.rayhahah.rbase.utils.useful.SPManager;
 import com.squareup.leakcanary.LeakCanary;
@@ -25,8 +26,7 @@ public class BaseApplication extends Application {
         initLog();
 
         LeakCanary.install(mAppContext);
-
-
+        Stetho.initializeWithDefaults(mAppContext);
     }
 
     public static Context getAppContext() {

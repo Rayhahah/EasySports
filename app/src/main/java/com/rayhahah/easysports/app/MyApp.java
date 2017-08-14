@@ -9,7 +9,7 @@ import com.rayhahah.easysports.common.C;
 import com.rayhahah.greendao.gen.DaoMaster;
 import com.rayhahah.greendao.gen.DaoSession;
 import com.rayhahah.rbase.BaseApplication;
-import com.rayhahah.rbase.net.ApiClient;
+import com.rayhahah.easysports.net.ApiClient;
 import com.rayhahah.rbase.net.OkHttpManager;
 import com.rayhahah.rbase.utils.RCrashHandler;
 import com.rayhahah.rbase.utils.base.DateTimeUitl;

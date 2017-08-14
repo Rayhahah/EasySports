@@ -1,13 +1,8 @@
-package com.rayhahah.easysports.utils.glide;
+package com.rayhahah.easysports.module.info.bean;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import com.rayhahah.easysports.common.C;
 
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import java.util.List;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -26,45 +21,47 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
  * └────┴────┴────┴───────────────────────┴────┴────┴────┴────┘└───┴───┴───┘└───────┴───┴───┘
  *
  * @author Rayhahah
- * @time 2017/7/25
+ * @time 2017/8/13
  * @tips 这个类是Object的子类
- * @fuction Glide加载图片资源后转化成圆形
+ * @fuction
  */
-public class GlideCircleTransform extends BitmapTransformation {
-    public GlideCircleTransform(Context context) {
-        super(context);
+public class InfoData {
+
+    int id;
+    int type;
+    List<TeamRank.TeamBean> teamData;
+    List<StatusRank.PlayerBean> playerData;
+    public String playerType;
+
+    public int getId() {
+        return id;
     }
 
-    @Override
-    protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
-        return circleCrop(pool, toTransform);
+    public void setId(@C.INFO int id) {
+        this.id = id;
     }
 
-    private static Bitmap circleCrop(BitmapPool pool, Bitmap source) {
-        if (source == null) return null;
-
-        int size = Math.min(source.getWidth(), source.getHeight());
-        int x = (source.getWidth() - size) / 2;
-        int y = (source.getHeight() - size) / 2;
-
-        Bitmap squared = Bitmap.createBitmap(source, x, y, size, size);
-
-        Bitmap result = pool.get(size, size, Bitmap.Config.ARGB_8888);
-        if (result == null) {
-            result = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(result);
-        Paint paint = new Paint();
-        paint.setShader(new BitmapShader(squared, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
-        paint.setAntiAlias(true);
-        float r = size / 2f;
-        canvas.drawCircle(r, r, r, paint);
-        return result;
+    public int getType() {
+        return type;
     }
 
-    @Override
-    public String getId() {
-        return getClass().getName();
+    public void setType(@C.INFO int type) {
+        this.type = type;
+    }
+
+    public List<TeamRank.TeamBean> getTeamData() {
+        return teamData;
+    }
+
+    public void setTeamData(List<TeamRank.TeamBean> teamData) {
+        this.teamData = teamData;
+    }
+
+    public List<StatusRank.PlayerBean> getPlayerData() {
+        return playerData;
+    }
+
+    public void setPlayerData(List<StatusRank.PlayerBean> playerData) {
+        this.playerData = playerData;
     }
 }

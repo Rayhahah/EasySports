@@ -24,7 +24,7 @@ import com.rayhahah.easysports.databinding.DialogEdittextSettingBinding;
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
 import com.rayhahah.easysports.module.mine.domain.AccountListAdapter;
 import com.rayhahah.easysports.utils.glide.GlideCircleTransform;
-import com.rayhahah.easysports.view.TextListItemDecoration;
+import com.rayhahah.easysports.view.TitleItemDecoration;
 import com.rayhahah.rbase.bean.MsgEvent;
 import com.rayhahah.rbase.utils.base.DialogUtil;
 import com.rayhahah.rbase.utils.base.FileUtils;
@@ -35,6 +35,7 @@ import com.rayhahah.rbase.utils.useful.SPManager;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,12 +197,12 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
         final List<MineListBean> mData = mPresenter.getListData(mContext);
         mAdapter = new AccountListAdapter(mData);
         mAdapter.setOnItemChildClickListener(this);
-        TextListItemDecoration<MineListBean> decor = new TextListItemDecoration<>(mContext, mData
+        TitleItemDecoration decor = new TitleItemDecoration(mContext
                 , mThemeColorMap.get(C.ATTRS.COLOR_BG)
                 , mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY_DARK)
                 , mThemeColorMap.get(C.ATTRS.COLOR_BG)
-                , TextListItemDecoration.GRAVITY_MIDDLE
-                , new TextListItemDecoration.DecorationCallback() {
+                , TitleItemDecoration.GRAVITY_MIDDLE
+                , new TitleItemDecoration.DecorationCallback() {
             @Override
             public String getGroupId(int position) {
                 if (position < mData.size()
@@ -211,6 +212,7 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                 return null;
             }
 
+        }, new TitleItemDecoration.TitleTextCallback() {
             @Override
             public String getGroupFirstLine(int position) {
                 if (position < mData.size()
@@ -418,6 +420,7 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                 .setCancleButtonText(getResources().getString(R.string.cancel))  //设置最底部“取消”按钮文本
                 .setTopBgResResources(R.drawable.selector_actiondialog_top_color_bg)
                 .setMiddleBgResResources(R.drawable.selector_actiondialog_middle_color_bg)
+                .setCancelBgResResources(R.drawable.selector_bg_click_corner)
                 .setBottomBgResResources(R.drawable.selector_actiondialog_bottom_color_bg)
                 .setSingleBgResResources(R.drawable.selector_actiondialog_single_color_bg)
                 .setOnItemListener(new DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
@@ -445,12 +448,19 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
         switch (requestCode) {
             case C.ACCOUNT.CODE_TAKE_PHOTO:
                 path = FileUtils.getPathFromUri(mContext, mPresenter.getUri());
+                File file = new File(path);
+                if (file.length() > 0) {
+                    DialogUtil.showProgressDialog(mContext, "正在上传图片");
+                    mPresenter.uploadCover(path);
+                }
                 break;
             case C.ACCOUNT.CODE_CHOOSE_PHOTO:
-                path = FileUtils.getPathFromUri(mContext, data.getData());
+                if (data != null) {
+                    path = FileUtils.getPathFromUri(mContext, data.getData());
+                    DialogUtil.showProgressDialog(mContext, "正在上传图片");
+                    mPresenter.uploadCover(path);
+                }
                 break;
         }
-        DialogUtil.showProgressDialog(mContext, "正在上传图片");
-        mPresenter.uploadCover(path);
     }
 }

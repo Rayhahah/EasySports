@@ -3,7 +3,7 @@ package com.rayhahah.easysports.module.mine.api;
 import com.rayhahah.easysports.common.C;
 import com.rayhahah.easysports.module.mine.bean.PlayerListBean;
 import com.rayhahah.easysports.module.mine.bean.TeamListBean;
-import com.rayhahah.rbase.net.ApiClient;
+import com.rayhahah.easysports.net.ApiClient;
 import com.rayhahah.rbase.utils.useful.RxSchedulers;
 
 import io.reactivex.Observable;

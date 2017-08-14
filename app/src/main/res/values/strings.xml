@@ -13,10 +13,23 @@
     <string name="save_picture">保存图片</string>
     <string name="not_null">不能为空</string>
 
+    <string name="hupu">虎扑</string>
+    <string name="message">信息</string>
+    <string name="logout">登出</string>
+    <string name="take_photo">拍摄</string>
+    <string name="select_photo">相册图片</string>
+
+    <string name="team">球队</string>
+    <string name="data">数据</string>
+    <string name="win_lose">胜负</string>
+    <string name="difference">胜场差</string>
+    <string name="rate">胜率</string>
+
+
     <!--homepage-->
     <string name="app_name">EasySports</string>
     <string name="match">比赛</string>
-    <string name="live">ֱ直播</string>
+    <string name="info">ֱ数据</string>
     <string name="forum">社区</string>
     <string name="news">新闻</string>
     <string name="mine">我的</string>
@@ -30,12 +43,25 @@
     <string name="news_depth">最佳时刻</string>
     <string name="news_highlight">赛场花絮</string>
 
+    <!--info-->
+    <string name="info_data_daily">每日数据</string>
+    <string name="info_data_season">季后赛</string>
+
     <!--example-->
     <string name="example_date">2017-12-05</string>
     <string name="example_date_detail">2017-06-12 09:40:21</string>
     <string name="example_title">洛瑞：我想要一枚总冠军戒指，这是驱动我的因素</string>
     <string name="example_title_video">视频-2017总决赛官方十佳球 阿杜致胜三分死神降临</string>
     <string name="example_screenname">rayhahah</string>
+    <string name="example_index">东部排行</string>
+    <string name="example_team_name">凯尔特人</string>
+    <string name="example_win_lose">53-29</string>
+    <string name="example_difference">2.0</string>
+    <string name="example_rate">64.6%</string>
+    <string name="example_value">11.0</string>
+    <string name="example_player_rank">NO.1</string>
+    <string name="example_player_name">拉塞尔·威斯布鲁克</string>
+    <string name="example_rank_type">得分榜</string>
 
     <!--mine-->
     <string name="mine_all_team">全部球队</string>
@@ -68,11 +94,7 @@
     <!--account-->
     <string name="account_manage">账号管理</string>
     <string name="account_setting">详细设置</string>
-    <string name="hupu">虎扑</string>
-    <string name="message">信息</string>
-    <string name="logout">登出</string>
-    <string name="take_photo">拍摄</string>
-    <string name="select_photo">相册图片</string>
+    <string name="info_data_normal">常规赛</string>
 
     <string-array name="ad">
         <item>/d/js/js/</item>

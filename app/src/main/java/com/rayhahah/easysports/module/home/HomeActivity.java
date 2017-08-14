@@ -13,7 +13,7 @@ import com.rayhahah.easysports.common.BaseActivity;
 import com.rayhahah.easysports.common.C;
 import com.rayhahah.easysports.databinding.ActivityHomeBinding;
 import com.rayhahah.easysports.module.forum.mvp.ForumFragment;
-import com.rayhahah.easysports.module.live.mvp.LiveFragment;
+import com.rayhahah.easysports.module.info.mvp.InfoFragment;
 import com.rayhahah.easysports.module.match.mvp.MatchFragment;
 import com.rayhahah.easysports.module.mine.mvp.MineFragment;
 import com.rayhahah.easysports.module.news.mvp.NewsFragment;
@@ -56,13 +56,13 @@ public class HomeActivity extends BaseActivity<HomePresenter, ActivityHomeBindin
     private void initFragment() {
         MatchFragment matchFragment = new MatchFragment();
         NewsFragment newsFragment = new NewsFragment();
-        LiveFragment liveFragment = new LiveFragment();
+        InfoFragment infoFragment = new InfoFragment();
         ForumFragment forumFragment = new ForumFragment();
         MineFragment mineFragment = new MineFragment();
         mFragmentList = new ArrayList<>();
         mFragmentList.add(matchFragment);
         mFragmentList.add(newsFragment);
-        mFragmentList.add(liveFragment);
+        mFragmentList.add(infoFragment);
         mFragmentList.add(forumFragment);
         mFragmentList.add(mineFragment);
 
@@ -98,7 +98,7 @@ public class HomeActivity extends BaseActivity<HomePresenter, ActivityHomeBindin
             ToastUtils.showShort("再按一次退出程序");
             exitTime = System.currentTimeMillis();
         } else {
-            finish();
+            moveTaskToBack(true);
         }
 
     }
@@ -112,11 +112,11 @@ public class HomeActivity extends BaseActivity<HomePresenter, ActivityHomeBindin
         }
 
         mBinding.bnbHome
-                .addItem(getBnbItem(getResources().getString(R.string.match), R.drawable.ic_svg_match_white_24))
-                .addItem(getBnbItem(getResources().getString(R.string.news), R.drawable.ic_svg_news_white_24))
-                .addItem(getBnbItem(getResources().getString(R.string.live), R.drawable.ic_svg_live_white_24))
-                .addItem(getBnbItem(getResources().getString(R.string.forum), R.drawable.ic_svg_forum_white_24))
-                .addItem(getBnbItem(getResources().getString(R.string.mine), R.drawable.ic_svg_mine_white_24))
+                .addItem(getBnbItem(getResources().getString(R.string.match), R.drawable.ic_svg_match_bg_dark_24))
+                .addItem(getBnbItem(getResources().getString(R.string.news), R.drawable.ic_svg_news_bg_dark_24))
+                .addItem(getBnbItem(getResources().getString(R.string.info), R.drawable.ic_svg_info_bg_dark_24))
+                .addItem(getBnbItem(getResources().getString(R.string.forum), R.drawable.ic_svg_forum_bg_dark_24))
+                .addItem(getBnbItem(getResources().getString(R.string.mine), R.drawable.ic_svg_mine_bg_dark_24))
                 .setMode(BottomNavigationBar.MODE_SHIFTING)
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC)
                 .initialise();

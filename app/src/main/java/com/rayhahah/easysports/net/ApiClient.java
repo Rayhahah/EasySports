@@ -1,4 +1,6 @@
-package com.rayhahah.rbase.net;
+package com.rayhahah.easysports.net;
+
+import com.rayhahah.easysports.common.C;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,7 +38,7 @@ public class ApiClient {
     }
 
 
-    public static void create(String baseUrl, OkHttpClient okHttpClient) {
+    public static void create(@C.BaseURL String baseUrl, OkHttpClient okHttpClient) {
         new ApiClient(okHttpClient, baseUrl);
     }
 

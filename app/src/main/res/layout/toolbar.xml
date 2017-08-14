@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:layout_margin="@dimen/dp_5"
             android:scaleType="center"
-            android:src="@drawable/ic_svg_arrow_left_white_24"/>
+            app:srcCompat="@drawable/ic_svg_arrow_left_white_24"/>
 
         <TextView
             android:id="@+id/tv_toolbar_title"

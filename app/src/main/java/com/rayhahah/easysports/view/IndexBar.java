@@ -76,6 +76,7 @@ public class IndexBar extends View {
                     break;
             }
         }
+        ta.recycle();
     }
 
     /**

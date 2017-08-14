@@ -1,13 +1,11 @@
-package com.rayhahah.easysports.utils.glide;
+package com.rayhahah.easysports.module.info.domain;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.module.info.bean.InfoIndex;
 
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import java.util.List;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -26,45 +24,35 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
  * └────┴────┴────┴───────────────────────┴────┴────┴────┴────┘└───┴───┴───┘└───────┴───┴───┘
  *
  * @author Rayhahah
- * @time 2017/7/25
+ * @time 2017/8/13
  * @tips 这个类是Object的子类
- * @fuction Glide加载图片资源后转化成圆形
+ * @fuction
  */
-public class GlideCircleTransform extends BitmapTransformation {
-    public GlideCircleTransform(Context context) {
-        super(context);
+public class InfoIndexListAdapter extends BaseQuickAdapter<InfoIndex, BaseViewHolder> {
+
+    int checkedPos = 0;
+
+    public void setCheckedPos(int checkedPos) {
+        this.checkedPos = checkedPos;
+        notifyDataSetChanged();
+    }
+
+    public InfoIndexListAdapter(List<InfoIndex> data) {
+        super(R.layout.item_info_index, data);
     }
 
     @Override
-    protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
-        return circleCrop(pool, toTransform);
-    }
-
-    private static Bitmap circleCrop(BitmapPool pool, Bitmap source) {
-        if (source == null) return null;
-
-        int size = Math.min(source.getWidth(), source.getHeight());
-        int x = (source.getWidth() - size) / 2;
-        int y = (source.getHeight() - size) / 2;
-
-        Bitmap squared = Bitmap.createBitmap(source, x, y, size, size);
-
-        Bitmap result = pool.get(size, size, Bitmap.Config.ARGB_8888);
-        if (result == null) {
-            result = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+    protected void convert(BaseViewHolder helper, final InfoIndex item) {
+        helper.setText(R.id.tv_index_title, item.getTitle());
+        if (checkedPos == helper.getAdapterPosition()) {
+            helper.setVisible(R.id.view_index_tag, true);
+            helper.setTextColor(R.id.tv_index_title, item.getAttrs().get(InfoIndex.ATTR.CHECKED_TEXT_COLOR));
+            helper.setBackgroundColor(R.id.fbl_item_index, item.getAttrs().get(InfoIndex.ATTR.CHECKED_BG_COLOR));
+        } else {
+            helper.setVisible(R.id.view_index_tag, false);
+            helper.setTextColor(R.id.tv_index_title, item.getAttrs().get(InfoIndex.ATTR.UNCHECKED_TEXT_COLOR));
+            helper.setBackgroundColor(R.id.fbl_item_index, item.getAttrs().get(InfoIndex.ATTR.UNCHECKED_BG_COLOR));
         }
-
-        Canvas canvas = new Canvas(result);
-        Paint paint = new Paint();
-        paint.setShader(new BitmapShader(squared, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
-        paint.setAntiAlias(true);
-        float r = size / 2f;
-        canvas.drawCircle(r, r, r, paint);
-        return result;
-    }
-
-    @Override
-    public String getId() {
-        return getClass().getName();
+        helper.addOnClickListener(R.id.fbl_item_index);
     }
 }

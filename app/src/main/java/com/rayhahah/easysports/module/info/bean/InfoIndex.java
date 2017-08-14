@@ -1,13 +1,11 @@
-package com.rayhahah.easysports.utils.glide;
+package com.rayhahah.easysports.module.info.bean;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.support.v4.util.ArrayMap;
 
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.rayhahah.easysports.common.C;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -26,45 +24,44 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
  * └────┴────┴────┴───────────────────────┴────┴────┴────┴────┘└───┴───┴───┘└───────┴───┴───┘
  *
  * @author Rayhahah
- * @time 2017/7/25
+ * @time 2017/8/13
  * @tips 这个类是Object的子类
- * @fuction Glide加载图片资源后转化成圆形
+ * @fuction
  */
-public class GlideCircleTransform extends BitmapTransformation {
-    public GlideCircleTransform(Context context) {
-        super(context);
+public class InfoIndex {
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ATTR {
+        String CHECKED_TEXT_COLOR = "ACTIVE_TEXT_COLOR";
+        String UNCHECKED_TEXT_COLOR = "UNCHECKED_TEXT_COLOR";
+        String CHECKED_BG_COLOR = "CHECKED_BG_COLOR";
+        String UNCHECKED_BG_COLOR = "UNCHECKED_BG_COLOR";
     }
 
-    @Override
-    protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
-        return circleCrop(pool, toTransform);
+    private ArrayMap<String, Integer> attrs;
+    private int id;
+    private String title;
+
+    public int getId() {
+        return id;
     }
 
-    private static Bitmap circleCrop(BitmapPool pool, Bitmap source) {
-        if (source == null) return null;
-
-        int size = Math.min(source.getWidth(), source.getHeight());
-        int x = (source.getWidth() - size) / 2;
-        int y = (source.getHeight() - size) / 2;
-
-        Bitmap squared = Bitmap.createBitmap(source, x, y, size, size);
-
-        Bitmap result = pool.get(size, size, Bitmap.Config.ARGB_8888);
-        if (result == null) {
-            result = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(result);
-        Paint paint = new Paint();
-        paint.setShader(new BitmapShader(squared, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
-        paint.setAntiAlias(true);
-        float r = size / 2f;
-        canvas.drawCircle(r, r, r, paint);
-        return result;
+    public void setId(@C.INFO int id) {
+        this.id = id;
     }
 
-    @Override
-    public String getId() {
-        return getClass().getName();
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public ArrayMap<String, Integer> getAttrs() {
+        return attrs;
+    }
+
+    public void setAttrs(ArrayMap<String, Integer> attrs) {
+        this.attrs = attrs;
     }
 }

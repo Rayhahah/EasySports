@@ -1,12 +1,15 @@
 package com.rayhahah.easysports.view;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -27,12 +30,19 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     private int mOrientation;
     //系统自带的参数
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
-    //水平
+    /**
+     * 水平绘制（垂直列表）
+     */
     public static final int HORIZONTAL_LIST = RecyclerView.HORIZONTAL;
-    //垂直
+    /**
+     * 垂直绘制（水平列表）
+     */
     public static final int VERTICAL_LIST = RecyclerView.VERTICAL;
-    //水平+垂直
+    /**
+     * 水平+垂直绘制（表格布局）
+     */
     public static final int BOTH_SET = 2;
+    private View mView;
 
 
     /**
@@ -60,10 +70,10 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
      * @param orientation 列表方向
      * @param drawableId  分割线图片
      */
-    public DividerItemDecoration(Context context, int orientation, int drawableId) {
+    public DividerItemDecoration(Context context, int orientation, Drawable drawable) {
         this.setOrientation(orientation);
         //旧的getDrawable方法弃用了，这个是新的
-        mDrawable = ContextCompat.getDrawable(context, drawableId);
+        mDrawable = drawable;
         mDividerHeight = mDrawable.getIntrinsicHeight();
     }
 
@@ -307,4 +317,5 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         }
         return false;
     }
+
 }

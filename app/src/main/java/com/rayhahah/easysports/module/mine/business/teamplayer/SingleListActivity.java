@@ -23,7 +23,7 @@ import com.rayhahah.easysports.module.mine.bean.TeamListBean;
 import com.rayhahah.easysports.module.mine.domain.PlayerListAdapter;
 import com.rayhahah.easysports.module.mine.domain.TeamListAdapter;
 import com.rayhahah.easysports.view.IndexBar;
-import com.rayhahah.easysports.view.TextListItemDecoration;
+import com.rayhahah.easysports.view.TitleItemDecoration;
 import com.rayhahah.rbase.utils.base.StringUtils;
 
 import java.util.ArrayList;
@@ -131,12 +131,12 @@ public class SingleListActivity extends BaseActivity<SingleListPresenter, Activi
                 }
             }
         });
-        mBinding.rvSingleList.addItemDecoration(new TextListItemDecoration<PlayerListBean.DataBean>(this, playerList
+        mBinding.rvSingleList.addItemDecoration(new TitleItemDecoration(this
                 , mThemeColorMap.get(C.ATTRS.COLOR_TEXT_DARK)
                 , mThemeColorMap.get(C.ATTRS.COLOR_BG_DARK)
                 , mThemeColorMap.get(C.ATTRS.COLOR_TEXT_DARK)
-                , TextListItemDecoration.GRAVITY_LEFT
-                , new TextListItemDecoration.DecorationCallback() {
+                , TitleItemDecoration.GRAVITY_LEFT
+                , new TitleItemDecoration.DecorationCallback() {
             @Override
             public String getGroupId(int position) {
                 if (position < currentPlayerData.size()
@@ -145,7 +145,7 @@ public class SingleListActivity extends BaseActivity<SingleListPresenter, Activi
                 }
                 return null;
             }
-
+        }, new TitleItemDecoration.TitleTextCallback() {
             @Override
             public String getGroupFirstLine(int position) {
                 if (position < currentPlayerData.size()

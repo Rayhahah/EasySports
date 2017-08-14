@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fbl_item_index"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_35"
+    android:background="?attr/colorBgDark"
+    app:flexDirection="row">
+
+    <View
+        android:id="@+id/view_index_tag"
+        android:layout_width="@dimen/dp_2"
+        android:layout_height="match_parent"
+        android:background="?attr/colorPrimary"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/tv_index_title"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/example_index"
+        android:textColor="?attr/colorTextLight"
+        android:textSize="@dimen/sp_14"
+        app:layout_flexGrow="1"/>
+
+</com.google.android.flexbox.FlexboxLayout>

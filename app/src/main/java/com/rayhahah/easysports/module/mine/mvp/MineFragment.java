@@ -21,7 +21,7 @@ import com.rayhahah.easysports.module.mine.business.account.AccountActivity;
 import com.rayhahah.easysports.module.mine.business.login.LoginActivity;
 import com.rayhahah.easysports.module.mine.business.teamplayer.SingleListActivity;
 import com.rayhahah.easysports.module.mine.domain.MineListAdapter;
-import com.rayhahah.easysports.view.TextListItemDecoration;
+import com.rayhahah.easysports.view.TitleItemDecoration;
 import com.rayhahah.rbase.bean.MsgEvent;
 import com.rayhahah.rbase.utils.base.CacheUtils;
 import com.rayhahah.rbase.utils.base.DialogUtil;
@@ -82,12 +82,12 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
             }
         };
         mBinding.rvMineList.setAdapter(mMineListAdapter);
-        TextListItemDecoration<MineListBean> decor = new TextListItemDecoration<>(getActivity(), mData
+        TitleItemDecoration decor = new TitleItemDecoration(getActivity()
                 , mThemeColorMap.get(C.ATTRS.COLOR_TEXT_DARK)
                 , mThemeColorMap.get(C.ATTRS.COLOR_BG_DARK)
                 , mThemeColorMap.get(C.ATTRS.COLOR_TEXT_DARK)
-                , TextListItemDecoration.GRAVITY_LEFT
-                , new TextListItemDecoration.DecorationCallback() {
+                , TitleItemDecoration.GRAVITY_LEFT
+                , new TitleItemDecoration.DecorationCallback() {
             @Override
             public String getGroupId(int position) {
                 if (position < mData.size()
@@ -96,6 +96,8 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
                 }
                 return null;
             }
+
+        }, new TitleItemDecoration.TitleTextCallback() {
 
             @Override
             public String getGroupFirstLine(int position) {

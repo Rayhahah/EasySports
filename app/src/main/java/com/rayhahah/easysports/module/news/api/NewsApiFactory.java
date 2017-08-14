@@ -3,7 +3,7 @@ package com.rayhahah.easysports.module.news.api;
 import com.rayhahah.easysports.common.C;
 import com.rayhahah.easysports.module.news.bean.NewsDetail;
 import com.rayhahah.easysports.module.news.bean.NewsIndex;
-import com.rayhahah.rbase.net.ApiClient;
+import com.rayhahah.easysports.net.ApiClient;
 import com.rayhahah.rbase.utils.useful.RxSchedulers;
 
 import io.reactivex.Observable;

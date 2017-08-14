@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.flexbox.FlexboxLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_35"
+    android:background="?attr/colorBg"
+    app:flexDirection="row">
+
+    <TextView
+        android:gravity="center"
+        app:layout_flexGrow="1"
+        android:id="@+id/tv_teamrank_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="1"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/sp_16"/>
+
+
+    <ImageView
+        android:padding="@dimen/dp_3"
+        android:id="@+id/iv_teamrank_cover"
+        app:layout_flexGrow="1"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:gravity="left|center_vertical"
+        app:layout_flexGrow="3"
+        android:id="@+id/tv_teamrank_team"
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="match_parent"
+        android:text="@string/example_team_name"
+        android:textColor="?attr/colorTextDark"
+        android:textSize="@dimen/sp_14"/>
+    <TextView
+        android:gravity="center"
+        app:layout_flexGrow="2"
+        android:id="@+id/tv_teamrank_wl"
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="match_parent"
+        android:text="@string/example_win_lose"
+        android:textColor="?attr/colorTextDark"
+        android:textSize="@dimen/sp_14"/>
+
+    <TextView
+        android:gravity="center"
+        app:layout_flexGrow="2"
+        android:id="@+id/tv_teamrank_difference"
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="match_parent"
+        android:text="@string/example_difference"
+        android:textColor="?attr/colorTextDark"
+        android:textSize="@dimen/sp_14"/>
+
+    <TextView
+        android:gravity="center"
+        app:layout_flexGrow="2"
+        android:id="@+id/tv_teamrank_rate"
+        android:layout_width="@dimen/dp_1"
+        android:layout_height="match_parent"
+        android:text="@string/example_rate"
+        android:textColor="?attr/colorTextDark"
+        android:textSize="@dimen/sp_14"/>
+
+
+</com.google.android.flexbox.FlexboxLayout>

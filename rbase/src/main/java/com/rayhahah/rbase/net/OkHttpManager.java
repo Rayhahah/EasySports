@@ -2,6 +2,7 @@ package com.rayhahah.rbase.net;
 
 import android.util.Log;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.rayhahah.rbase.BaseApplication;
 import com.rayhahah.rbase.net.download.ProgressListener;
 import com.rayhahah.rbase.net.download.ProgressResponseBody;
@@ -42,6 +43,7 @@ public class OkHttpManager {
                 .readTimeout(10, TimeUnit.SECONDS)
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .addNetworkInterceptor(interceptor)
+                .addNetworkInterceptor(new StethoInterceptor())
                 .cache(cache)
                 .build();
         return okHttpClient;

@@ -1,13 +1,18 @@
-package com.rayhahah.easysports.utils.glide;
+package com.rayhahah.easysports.module.info.domain;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.app.Activity;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.module.info.bean.InfoData;
+
+import java.util.List;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -26,45 +31,34 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
  * └────┴────┴────┴───────────────────────┴────┴────┴────┴────┘└───┴───┴───┘└───────┴───┴───┘
  *
  * @author Rayhahah
- * @time 2017/7/25
+ * @time 2017/8/13
  * @tips 这个类是Object的子类
- * @fuction Glide加载图片资源后转化成圆形
+ * @fuction 数据排行榜
  */
-public class GlideCircleTransform extends BitmapTransformation {
-    public GlideCircleTransform(Context context) {
-        super(context);
+public class InfoDataListAdapter extends BaseQuickAdapter<InfoData, BaseViewHolder> {
+    private Activity mActivity;
+    private LayoutInflater mInflater;
+
+    public InfoDataListAdapter(@Nullable List<InfoData> data, Activity context) {
+        super(R.layout.item_info_list, data);
+        mActivity = context;
+        mInflater = LayoutInflater.from(mActivity);
     }
 
     @Override
-    protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
-        return circleCrop(pool, toTransform);
-    }
+    protected void convert(BaseViewHolder helper, final InfoData item) {
+        RecyclerView view = (RecyclerView) helper.getView(R.id.rv_item_info_list);
+        view.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
 
-    private static Bitmap circleCrop(BitmapPool pool, Bitmap source) {
-        if (source == null) return null;
-
-        int size = Math.min(source.getWidth(), source.getHeight());
-        int x = (source.getWidth() - size) / 2;
-        int y = (source.getHeight() - size) / 2;
-
-        Bitmap squared = Bitmap.createBitmap(source, x, y, size, size);
-
-        Bitmap result = pool.get(size, size, Bitmap.Config.ARGB_8888);
-        if (result == null) {
-            result = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+        switch (item.getType()) {
+            case C.INFO.TYPE_TEAM:
+                InfoTeamListAdapter teamAdapter = new InfoTeamListAdapter(item.getTeamData());
+                view.setAdapter(teamAdapter);
+                break;
+            case C.INFO.TYPE_PLAYER:
+                InfoPlayerListAdapter playerAdapter = new InfoPlayerListAdapter(item.getPlayerData());
+                view.setAdapter(playerAdapter);
+                break;
         }
-
-        Canvas canvas = new Canvas(result);
-        Paint paint = new Paint();
-        paint.setShader(new BitmapShader(squared, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
-        paint.setAntiAlias(true);
-        float r = size / 2f;
-        canvas.drawCircle(r, r, r, paint);
-        return result;
-    }
-
-    @Override
-    public String getId() {
-        return getClass().getName();
     }
 }
