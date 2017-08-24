@@ -15,6 +15,7 @@ android {
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -58,8 +59,13 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    def dependencies = rootProject.ext.dependencies
-    compile project(path: ':rbase')
+    compile(name: 'hotfix_core-release-3.1.0', ext: 'aar')
+
+    compile(project(path: ':rbase')) {
+        exclude group: 'com.squareup.okhttp3'
+        exclude module: 'okio'
+        exclude module: 'gson'
+    }
     compile project(path: ':rvideoplayer')
     compile project(path: ':dialoglib')
     //如果你想应用能够兼容Android6.0，请添加此依赖(org.apache.http.legacy.jar)
@@ -72,8 +78,16 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-3.0.0.jar')
     compile files('libs/ShareSDK-Wechat-Core-3.0.0.jar')
     compile files('libs/ShareSDK-Wechat-Moments-3.0.0.jar')
+    compile files('libs/zxing.jar')
+    compile files('libs/alicloud-android-utils-1.0.3.jar')
+    compile files('libs/utdid4all-1.1.5.3_proguard.jar')
     compile 'cn.bmob.android:bmob-sdk:3.5.5'
     compile 'cn.bmob.android:http-legacy:1.0'
+    compile 'com.tencent.sonic:sdk:1.0.0'
+    //    阿里云热修复远程依赖失败
+
+    //    compile 'com.aliyun.ams:alicloud-android-hotfix:3.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:multidex:1.0.1'
     testCompile 'junit:junit:4.12'
 }

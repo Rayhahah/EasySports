@@ -1,7 +1,7 @@
 package com.rayhahah.easysports.module.mine.bean;
 
 import com.rayhahah.easysports.bean.BaseSection;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 
 /**
  * Created by a on 2017/6/26.
@@ -55,7 +55,7 @@ public class MineListBean extends BaseSection {
         return id;
     }
 
-    public void setId(@C.MINE int id) {
+    public void setId(@C.ACCOUNT int id) {
         this.id = id;
     }
 }

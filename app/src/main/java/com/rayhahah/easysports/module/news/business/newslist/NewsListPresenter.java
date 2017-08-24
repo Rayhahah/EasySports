@@ -1,6 +1,6 @@
 package com.rayhahah.easysports.module.news.business.newslist;
 
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.module.news.api.NewsApiFactory;
 import com.rayhahah.easysports.module.news.bean.NewsIndex;
 import com.rayhahah.easysports.module.news.bean.NewsItem;

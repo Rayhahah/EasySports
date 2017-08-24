@@ -7,11 +7,11 @@ import android.view.View;
 
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.common.BaseActivity;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.databinding.ActivityRegisterBinding;
 import com.rayhahah.easysports.module.mine.business.account.AccountActivity;
 import com.rayhahah.rbase.bean.MsgEvent;
-import com.rayhahah.rbase.utils.base.DialogUtil;
+import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.rbase.utils.base.StringUtils;
 import com.rayhahah.rbase.utils.base.ToastUtils;
 
@@ -60,7 +60,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, ActivityRe
 
     @Override
     public void registerSuccess() {
-        DialogUtil.dismissDialog();
+        DialogUtil.dismissDialog(true);
         ToastUtils.showShort(getResources().getString(R.string.register_regist_success));
         EventBus.getDefault().post(new MsgEvent(C.EventAction.UPDATE_CURRENT_USER, null));
         AccountActivity.start(mContext, mContext);
@@ -69,7 +69,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, ActivityRe
 
     @Override
     public void registerFailed(BmobException e) {
-        DialogUtil.dismissDialog();
+        DialogUtil.dismissDialog(false);
         ToastUtils.showShort(getResources().getString(R.string.register_regist_fail));
     }
 
@@ -83,7 +83,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, ActivityRe
                 if (!checkNecessaryMessage()) {
                     return;
                 }
-                DialogUtil.showLoadingDialog(mContext, getResources().getString(R.string.registering));
+                DialogUtil.showLoadingDialog(mContext, getResources().getString(R.string.registering), mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
                 mPresenter.registerNewUser(mBinding.etRegisterUsername.getText().toString()
                         , mBinding.etRegisterPassword.getText().toString()
                         , mBinding.etRegisterScreenname.getText().toString()

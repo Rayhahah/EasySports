@@ -10,7 +10,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.common.BaseActivity;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.databinding.ActivityHomeBinding;
 import com.rayhahah.easysports.module.forum.mvp.ForumFragment;
 import com.rayhahah.easysports.module.info.mvp.InfoFragment;

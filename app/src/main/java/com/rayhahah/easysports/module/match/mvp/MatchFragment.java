@@ -1,18 +1,15 @@
 package com.rayhahah.easysports.module.match.mvp;
 
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.common.BaseFragment;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.databinding.FragmentMatchBinding;
 import com.rayhahah.easysports.module.match.bean.MatchListBean;
 import com.rayhahah.easysports.module.match.domain.MatchLiveListAdapter;
@@ -72,8 +69,11 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
      */
     @Override
     public void addMatchListData(final List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> data, int status) {
+//        DiffUtil.DiffResult diffResult /= DiffUtil.calculateDiff(
+//                new MatchLiveListAdapter.DiffCallBack(mMatchListAdapter.getData(), data), true);
         switch (status) {
             case C.STATUS.INIT:
+//                diffResult.dispatchUpdatesTo(mMatchListAdapter);
                 mMatchListAdapter.setNewData(data);
                 if (data.size() == 0) {
                     getFutureMatchListData();
@@ -82,6 +82,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
             case C.STATUS.REFRESH:
                 mMatchListAdapter.addData(0, data);
                 mBinding.srlMatchList.setRefreshing(false);
+                mBinding.rvMatchList.smoothScrollToPosition(0);
                 if (data.size() == 0) {
                     getBeforeMatchListData();
                 }
@@ -97,8 +98,8 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         totalData = mMatchListAdapter.getData();
 //        mItemDecor.setNewData(totalData);
 
-        mMatchListAdapter.notifyDataSetChanged();
-        showContent(mBinding.srlMatchList, mBinding.pl);
+//        mMatchListAdapter.notifyDataSetChanged();
+        mBinding.pl.showContent(mBinding.srlMatchList);
     }
 
 
@@ -120,14 +121,16 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
                 mMatchListAdapter.loadMoreFail();
                 break;
         }
-        showError(mBinding.srlMatchList, mBinding.pl);
+        mBinding.pl.showError(mBinding.srlMatchList);
+//        showError(mBinding.srlMatchList, mBinding.pl);
         mFutureDate = mCurrentDate;
         mBeforeDate = mCurrentDate;
     }
 
     @Override
     public void showViewLoading() {
-        showLoading(mBinding.srlMatchList, mBinding.pl);
+        mBinding.pl.showLoading(mBinding.srlMatchList);
+//        showLoading(mBinding.srlMatchList, mBinding.pl);
     }
 
     @Override
@@ -180,8 +183,6 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         mBinding.rvMatchList.setLayoutManager(
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mMatchListAdapter = new MatchLiveListAdapter();
-        final ViewDataBinding dataBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.decoration_team_rank, null, false);
-
         mItemDecor = new TitleItemDecoration(getActivity()
                 , mThemeColorMap.get(C.ATTRS.COLOR_TEXT_DARK)
                 , mThemeColorMap.get(C.ATTRS.COLOR_BG_DARK)

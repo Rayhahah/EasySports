@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_60"
+    android:background="@color/transparent"
+    android:orientation="horizontal"
+    android:padding="@dimen/dp_5">
+
+    <TextView
+        android:id="@+id/qrcode_btn_photo"
+        style="@style/text_middle_center"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/selector_ic_photo"
+        android:text="@string/photo_album"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/sp_16"/>
+
+    <TextView
+        android:id="@+id/qrcode_btn_flash"
+        style="@style/text_middle_center"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/selector_ic_flash"
+        android:text="@string/flash_light"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/sp_16"/>
+
+    <TextView
+        android:id="@+id/qrcode_btn_encode"
+        style="@style/text_middle_center"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/selector_ic_qrcode"
+        android:text="@string/qrcode"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="@dimen/sp_16"/>
+
+</LinearLayout>

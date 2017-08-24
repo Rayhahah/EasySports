@@ -5,16 +5,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
 
-    <LinearLayout
+    <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#0ff"
-        android:orientation="vertical">
+        android:background="?attr/colorBg"
+        app:flexDirection="column">
 
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar"/>
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/btn_forum_bind_hupu"
+            android:text="@string/login_first"
+            android:textColor="?attr/colorTextLight"
+            android:layout_margin="@dimen/dp_10"
+            android:textSize="@dimen/sp_20"
+            android:background="@drawable/selector_color_click_corner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_forum_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_flexGrow="1"
+            android:visibility="gone"
+            />
+
+    </com.google.android.flexbox.FlexboxLayout>
 
 </layout>

@@ -7,7 +7,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.util.MultiTypeDelegate;
 import com.rayhahah.easysports.R;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.module.news.api.NewsApiFactory;
 import com.rayhahah.easysports.module.news.bean.NewsItem;
 import com.rayhahah.easysports.module.news.bean.VideoInfo;
@@ -70,29 +70,29 @@ public class NewsListAdapter extends BaseQuickAdapter<NewsItem.DataBean.ItemInfo
                 helper.addOnClickListener(R.id.iv_goto_web);
                 final JCVideoPlayerStandard newsPlayer = (JCVideoPlayerStandard) helper.getView(R.id.jc_news_list_player);
 
-                if (StringUtils.isEmpty(item.getVideoUrl())) {
-                    NewsApiFactory.getVideoInfo(item.getVid())
-                            .subscribe(new Consumer<ResponseBody>() {
-                                @Override
-                                public void accept(@NonNull ResponseBody responseBody) throws Exception {
-                                    VideoInfo videoInfo = JsonParser.parseVideoInfo(responseBody.string());
+//                if (StringUtils.isEmpty(item.getVideoUrl())) {
+                NewsApiFactory.getVideoInfo(item.getVid())
+                        .subscribe(new Consumer<ResponseBody>() {
+                            @Override
+                            public void accept(@NonNull ResponseBody responseBody) throws Exception {
+                                VideoInfo videoInfo = JsonParser.parseVideoInfo(responseBody.string());
 
-                                    if (videoInfo.vl.vi != null && videoInfo.vl.vi.size() > 0) {
-                                        String vid = videoInfo.vl.vi.get(0).vid;
-                                        String vkey = videoInfo.vl.vi.get(0).fvkey;
-                                        String url = videoInfo.vl.vi.get(0).ul.ui.get(0).url + vid + ".mp4?vkey=" + vkey;
+                                if (videoInfo.vl.vi != null && videoInfo.vl.vi.size() > 0) {
+                                    String vid = videoInfo.vl.vi.get(0).vid;
+                                    String vkey = videoInfo.vl.vi.get(0).fvkey;
+                                    String url = videoInfo.vl.vi.get(0).ul.ui.get(0).url + vid + ".mp4?vkey=" + vkey;
 
-                                        item.setVideoUrl(url);
-                                        newsPlayer.setUp(item.getVideoUrl(), JCVideoPlayer.SCREEN_LAYOUT_NORMAL, item.getTitle());
-                                    }
-                                }
-                            }, new Consumer<Throwable>() {
-                                @Override
-                                public void accept(@NonNull Throwable throwable) throws Exception {
+                                    item.setVideoUrl(url);
                                     newsPlayer.setUp(item.getVideoUrl(), JCVideoPlayer.SCREEN_LAYOUT_NORMAL, item.getTitle());
                                 }
-                            });
-                }
+                            }
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(@NonNull Throwable throwable) throws Exception {
+                                newsPlayer.setUp(item.getVideoUrl(), JCVideoPlayer.SCREEN_LAYOUT_NORMAL, item.getTitle());
+                            }
+                        });
+//                }
 
                 newsPlayer.setPlayerClick(new JCVideoPlayerStandard.playerClickListenr() {
                     @Override

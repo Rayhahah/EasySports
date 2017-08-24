@@ -161,6 +161,10 @@ public class MatchListBean {
                 private List<TabsBean> tabs;
                 private List<String> broadcasters;
 
+                public String getId(){
+                    return startTime+leftName+rightName;
+                }
+
                 public String getMatchType() {
                     return matchType;
                 }

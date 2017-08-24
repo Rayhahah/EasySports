@@ -6,6 +6,7 @@ import com.rayhahah.easysports.module.news.bean.NewsIndex;
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -39,7 +40,7 @@ public interface NewsService {
      * @param vids 视频id
      * @return
      */
-    @GET("getinfo?platform=11001&charge=0&otype=json")
+    @POST("getinfo?platform=11001&charge=0&otype=json")
     Observable<ResponseBody> getVideosInfo(@Query("vids") String vids);
 
     /**

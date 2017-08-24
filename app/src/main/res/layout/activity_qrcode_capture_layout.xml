@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <SurfaceView
+            android:id="@+id/preview_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center" />
+
+        <com.rayhahah.easysports.zxing.view.ViewfinderView
+            android:id="@+id/viewfinder_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:background="@color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50">
+
+
+                <ImageView
+                    android:visibility="visible"
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/iv_qrcode_back"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:src="@drawable/selector_ic_arrow_left_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_centerInParent="true"
+                    android:textSize="@dimen/sp_20"
+                    android:gravity="center"
+                    android:text="@string/decode_qrcode"
+                    android:textColor="?attr/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <include
+                android:id="@+id/include2"
+                layout="@layout/layout_qrcode_bottom_feature"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_60" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

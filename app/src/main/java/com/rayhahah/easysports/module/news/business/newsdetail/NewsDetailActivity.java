@@ -14,7 +14,7 @@ import com.rayhahah.dialoglib.DialogInterface;
 import com.rayhahah.dialoglib.NormalSelectionDialog;
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.common.BaseActivity;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.databinding.ActivityNewsDetailBinding;
 import com.rayhahah.easysports.module.news.bean.NewsDetail;
 import com.rayhahah.easysports.utils.AnimatorUtil;
@@ -77,12 +77,12 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
 
     @Override
     public void showViewLoading() {
-        showLoading(mBinding.slNewsDetailContent, mBinding.pl);
+        mBinding.pl.showLoading(mBinding.slNewsDetailContent);
     }
 
     @Override
     public void showViewError(Throwable t) {
-        showError(mBinding.slNewsDetailContent, mBinding.pl);
+        mBinding.pl.showError(mBinding.slNewsDetailContent);
     }
 
     @Override
@@ -110,8 +110,6 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
                 mBinding.rlNewsDetailPic.setVisibility(View.GONE);
 
                 break;
-
-
         }
     }
 
@@ -137,7 +135,7 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
 
         GlideUtil.load(this, data.getImgurl(), mBinding.pvNewsDetailPic);
         mBinding.pvNewsDetailPic.setDrawingCacheEnabled(true);
-        showContent(mBinding.slNewsDetailContent, mBinding.pl);
+        mBinding.pl.showContent(mBinding.slNewsDetailContent);
     }
 
     /**
@@ -233,6 +231,7 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
                 .setCancleButtonText(getResources().getString(R.string.cancel))  //设置最底部“取消”按钮文本
                 .setTopBgResResources(R.drawable.selector_actiondialog_top_color_bg)
                 .setMiddleBgResResources(R.drawable.selector_actiondialog_middle_color_bg)
+                .setCancelBgResResources(R.drawable.selector_actiondialog_bottom_color_bg)
                 .setBottomBgResResources(R.drawable.selector_actiondialog_bottom_color_bg)
                 .setSingleBgResResources(R.drawable.selector_actiondialog_single_color_bg)
                 .setOnItemListener(new DialogInterface.OnItemClickListener<NormalSelectionDialog>() {

@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.common.CommonAdapterDCB;
 import com.rayhahah.easysports.module.match.bean.MatchListBean;
 import com.rayhahah.rbase.utils.useful.GlideUtil;
 
@@ -55,5 +56,17 @@ public class MatchLiveListAdapter extends BaseQuickAdapter<MatchListBean.DataBea
 
         GlideUtil.load(mContext, item.getLeftBadge(), (ImageView) helper.getView(R.id.iv_left_team));
         GlideUtil.load(mContext, item.getRightBadge(), (ImageView) helper.getView(R.id.iv_right_team));
+    }
+
+   public static class DiffCallBack extends CommonAdapterDCB<MatchListBean.DataBean.MatchesBean.MatchInfoBean> {
+
+        public DiffCallBack(List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> oldData, List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> newData) {
+            super(oldData, newData);
+        }
+
+        @Override
+        public boolean areContentsSame(MatchListBean.DataBean.MatchesBean.MatchInfoBean oldDataBean, MatchListBean.DataBean.MatchesBean.MatchInfoBean newDataBean) {
+            return oldDataBean.getId().equals(newDataBean.getId());
+        }
     }
 }

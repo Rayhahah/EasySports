@@ -25,6 +25,10 @@
     <string name="difference">胜场差</string>
     <string name="rate">胜率</string>
 
+    <string name="photo_album">相册</string>
+    <string name="flash_light">闪光灯</string>
+    <string name="qrcode">二维码</string>
+
 
     <!--homepage-->
     <string name="app_name">EasySports</string>
@@ -95,6 +99,10 @@
     <string name="account_manage">账号管理</string>
     <string name="account_setting">详细设置</string>
     <string name="info_data_normal">常规赛</string>
+    <string name="bind_failed">绑定失败</string>
+    <string name="bind_success">绑定成功</string>
+    <string name="login_first">请先登陆</string>
+    <string name="bind_hupu_first">请先绑定虎扑</string>
 
     <string-array name="ad">
         <item>/d/js/js/</item>
@@ -107,4 +115,36 @@
         <item>http://img1.pxpbj.com</item>
         <item>http://www.jrszhibo.com/img/arrow_left.png</item>
     </string-array>
+
+    <!-- QR_Code -->
+    <string name="button_ok">OK</string>
+    <string name="msg_camera_framework_bug">Sorry, the Android camera encountered a problem. You may need to restart the
+        device.
+    </string>
+    <string name="msg_bulk_mode_scanned">Bulk mode: barcode scanned and saved</string>
+    <string name="scan_text">放入框中即可进行二维码扫描</string>
+    <string name="contents_contact">Contact info</string>
+    <string name="contents_email">Email address</string>
+    <string name="contents_location">Geographic coordinates</string>
+    <string name="contents_phone">Phone number</string>
+    <string name="contents_sms">SMS address</string>
+    <string name="contents_text">Plain text</string>
+    <string name="preferences_vibrate">preferences_vibrate</string>
+    <string name="preferences_play_beep">preferences_play_beep</string>
+    <string name="preferences_actions_title">When a barcode is found\u2026</string>
+    <string name="preferences_copy_to_clipboard_title">Copy to clipboard</string>
+    <string name="preferences_decode_1D_title">1D barcodes</string>
+    <string name="preferences_decode_Data_Matrix_title">Data Matrix</string>
+    <string name="preferences_decode_QR_title">QR Codes</string>
+    <string name="preferences_play_beep_title">Beep</string>
+    <string name="preferences_remember_duplicates_summary">Store multiple scans of the same barcode in History</string>
+    <string name="preferences_remember_duplicates_title">Remember duplicates</string>
+    <string name="preferences_scanning_title">When scanning for barcodes, decode\u2026</string>
+    <string name="preferences_supplemental_summary">Try to retrieve more information about the barcode contents</string>
+    <string name="preferences_supplemental_title">Retrieve more info</string>
+    <string name="preferences_vibrate_title">Vibrate</string>
+    <string name="preview_msg"> preview pages available,click Download for more.</string>
+    <string name="detail_content">详细内容</string>
+    <string name="decode_qrcode">扫一扫</string>
+
 </resources>

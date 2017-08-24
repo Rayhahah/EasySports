@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4">
+
+        <com.rayhahah.dialoglib.view.PathLoadingView
+            android:id="@+id/plv_loading"
+            android:background="#00ffffff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </FrameLayout>
+
+    <TextView
+        android:padding="5dp"
+        android:id="@+id/tv_loading_tips"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center_horizontal"
+        android:text="正在加载中"
+        android:textColor="@color/black"
+        android:textSize="16sp"/>
+
+</LinearLayout>

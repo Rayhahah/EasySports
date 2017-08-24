@@ -2,7 +2,7 @@ package com.rayhahah.easysports.module.info.bean;
 
 import android.support.v4.util.ArrayMap;
 
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

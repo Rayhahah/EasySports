@@ -1,6 +1,6 @@
 package com.rayhahah.easysports.module.info.bean;
 
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 
 import java.util.List;
 

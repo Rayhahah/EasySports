@@ -1,6 +1,6 @@
 package com.rayhahah.easysports.module.match.api;
 
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.module.match.bean.MatchListBean;
 import com.rayhahah.easysports.net.ApiClient;
 import com.rayhahah.rbase.utils.useful.RxSchedulers;

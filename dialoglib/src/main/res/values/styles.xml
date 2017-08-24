@@ -37,6 +37,24 @@
         </item>
     </style>
 
+    <style name="bottomLoadingDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>  <!--边框 -->
+        <item name="android:windowIsFloating">true</item> <!-- 是否悬浮在activity上 -->
+        <item name="android:windowIsTranslucent">false</item> <!-- 是否半透明 -->
+        <item name="android:windowNoTitle">true</item>  <!-- 无标题 -->
+        <item name="android:windowBackground">@android:color/transparent</item> <!-- 背景资源 -->
+        <item name="android:windowAnimationStyle">@style/bottomLoadingDialogAnim</item> <!-- 弹窗进出动画 -->
+        <item name="android:backgroundDimEnabled">true</item>  <!-- 背景模糊 默认true，设置false之后背景昏暗效果消失 -->
+        <item name="android:backgroundDimAmount">0.5</item> <!--设置四周灰色部分的透明度-->
+    </style>
+
+    <style name="bottomLoadingDialogAnim" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/bottom_loading_dialog_enter
+        </item>
+        <item name="@android:windowExitAnimation">@anim/bottom_loading_dialog_exit
+        </item>
+    </style>
+
     <style name="MyDialogStyle">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowFrame">@null</item>

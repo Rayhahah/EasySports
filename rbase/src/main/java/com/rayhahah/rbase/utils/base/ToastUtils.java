@@ -20,8 +20,6 @@ import com.rayhahah.rbase.BaseApplication;
 
 public class ToastUtils {
 
-
-
     private static Toast sToast;
     private static int gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
     private static int xOffset = 0;

@@ -12,7 +12,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.common.BaseFragment;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.databinding.DecorationPlayerRankBinding;
 import com.rayhahah.easysports.databinding.FragmentInfoBinding;
 import com.rayhahah.easysports.module.info.bean.InfoData;
@@ -50,13 +50,137 @@ public class InfoFragment extends BaseFragment<InfoPresenter, FragmentInfoBindin
     public void initView(Bundle savedInstanceState) {
         mBinding.toolbar.tvToolbarTitle.setText(getResources().getString(R.string.info));
         initTab();
+        initProgressLayout();
         initIndexRv();
         initInfoRv();
         initData();
     }
 
-    private void initData() {
-        mPresenter.getTeamRank();
+    @Override
+    protected InfoPresenter getPresenter() {
+        return new InfoPresenter(this);
+    }
+
+
+    @Override
+    public void showViewLoading() {
+        mBinding.pl.showLoading(mBinding.rvInfoList);
+    }
+
+    @Override
+    public void showViewError(Throwable t) {
+        mBinding.pl.showError(mBinding.rvInfoList);
+    }
+
+    @Override
+    public void getTeamRankSuccess(TeamRank teamRank) {
+        InfoData east = new InfoData();
+        east.setId(C.INFO.ID_EAST);
+        east.setType(C.INFO.TYPE_TEAM);
+        east.setTeamData(teamRank.east);
+        mInfoData.add(east);
+
+        InfoData west = new InfoData();
+        west.setId(C.INFO.ID_WEST);
+        west.setType(C.INFO.TYPE_TEAM);
+        west.setTeamData(teamRank.west);
+        mInfoData.add(west);
+
+        mInfoAdapter.setNewData(mInfoData);
+        mBinding.pl.showContent(mBinding.rvInfoList);
+    }
+
+    @Override
+    public void getTeamRankFailed(Throwable throwable) {
+        ToastUtils.showShort("获取数据失败");
+        showViewError(throwable);
+    }
+
+    @Override
+    public void getStatusRankSuccess(StatusRank statusRank) {
+        InfoData players = new InfoData();
+        players.setId(typePosition);
+        players.setType(C.INFO.TYPE_PLAYER);
+        players.playerType = statusRank.type;
+        players.setPlayerData(statusRank.getRankList());
+        mInfoAdapter.addData(players);
+        typePosition++;
+        mInfoAdapter.loadMoreComplete();
+        if (typePosition < targetPosition) {
+            mPresenter.getStatusRank(playerInfoType[typePosition], ROWS, currentTayType);
+        }
+        if (typePosition == targetPosition) {
+            smoothScrollToTop(targetPosition + 2);
+        }
+        if (typePosition == playerInfoType.length) {
+            mInfoAdapter.setEnableLoadMore(false);
+        }
+    }
+
+    @Override
+    public void getStatusRankFailed(Throwable throwable) {
+        ToastUtils.showShort("获取数据失败！");
+        mInfoAdapter.loadMoreFail();
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        switch (view.getId()) {
+            case R.id.fbl_item_index:
+                mIndexAdapter.setCheckedPos(position);
+                smoothScrollToTop(position);
+                targetPosition = position - 2;
+                if (targetPosition >= 0 && typePosition < playerInfoType.length) {
+                    mPresenter.getStatusRank(playerInfoType[typePosition], ROWS, currentTayType);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        if (typePosition < playerInfoType.length) {
+            mPresenter.getStatusRank(playerInfoType[typePosition], ROWS, currentTayType);
+        }
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        String tag = (String) tab.getTag();
+        if (C.INFO.TAG_TYPE_DAILY.equals(tag)) {
+            currentTayType = C.INFO.TAG_TYPE_DAILY;
+        } else if (C.INFO.TAG_TYPE_SEASON.equals(tag)) {
+            currentTayType = C.INFO.TAG_TYPE_SEASON;
+        } else if (C.INFO.TAG_TYPE_NORMAL.equals(tag)) {
+            currentTayType = C.INFO.TAG_TYPE_NORMAL;
+        }
+
+        List<InfoData> data = mInfoAdapter.getData();
+        List<InfoData> temp=new ArrayList<>();
+        temp.add(data.get(0));
+        temp.add(data.get(1));
+        mInfoAdapter.setNewData(temp);
+//        for (int i = 2; i < mInfoAdapter.getData().size(); i++) {
+//            mInfoAdapter.remove(i);
+//        }
+//        for (int i = 0; i < typePosition; i++) {
+//            mInfoAdapter.remove(i + 2);
+//        }
+        mInfoAdapter.setEnableLoadMore(true);
+        typePosition = 0;
+        targetPosition = 0;
+        mIndexAdapter.setCheckedPos(0);
+        mPresenter.getStatusRank(playerInfoType[typePosition], ROWS, currentTayType);
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
     }
 
     /**
@@ -67,6 +191,34 @@ public class InfoFragment extends BaseFragment<InfoPresenter, FragmentInfoBindin
         mBinding.tlInfoSelection.addTab(mBinding.tlInfoSelection.newTab().setTag(C.INFO.TAG_TYPE_SEASON).setText(R.string.info_data_season), 1, false);
         mBinding.tlInfoSelection.addTab(mBinding.tlInfoSelection.newTab().setTag(C.INFO.TAG_TYPE_NORMAL).setText(R.string.info_data_normal), 2, false);
         mBinding.tlInfoSelection.addOnTabSelectedListener(this);
+    }
+
+
+    /**
+     * 初始化ProgressLayout
+     */
+    private void initProgressLayout() {
+        mBinding.pl.setColor(mThemeColorMap.get(C.ATTRS.COLOR_TEXT_LIGHT)
+                , mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
+        mBinding.pl.setRefreshClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showViewLoading();
+                mPresenter.getTeamRank();
+            }
+        });
+    }
+
+    /**
+     * 初始化索引列表
+     */
+    private void initIndexRv() {
+        List<InfoIndex> data = mPresenter.getIndexData(mThemeColorMap);
+        mIndexAdapter = new InfoIndexListAdapter(data);
+        mIndexAdapter.setOnItemChildClickListener(this);
+        mIndexAdapter.openLoadAnimation();
+        mBinding.rvInfoIndex.setAdapter(mIndexAdapter);
+        mBinding.rvInfoIndex.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
     }
 
     /**
@@ -136,6 +288,11 @@ public class InfoFragment extends BaseFragment<InfoPresenter, FragmentInfoBindin
         mBinding.rvInfoList.setAdapter(mInfoAdapter);
     }
 
+    private void initData() {
+        showViewLoading();
+        mPresenter.getTeamRank();
+    }
+
     /**
      * 获取榜单中文
      *
@@ -165,138 +322,6 @@ public class InfoFragment extends BaseFragment<InfoPresenter, FragmentInfoBindin
         return strType;
     }
 
-
-    /**
-     * 初始化索引列表
-     */
-    private void initIndexRv() {
-        List<InfoIndex> data = mPresenter.getIndexData(mThemeColorMap);
-        mIndexAdapter = new InfoIndexListAdapter(data);
-        mIndexAdapter.setOnItemChildClickListener(this);
-        mIndexAdapter.openLoadAnimation();
-        mBinding.rvInfoIndex.setAdapter(mIndexAdapter);
-        mBinding.rvInfoIndex.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-    }
-
-    @Override
-    protected InfoPresenter getPresenter() {
-        return new InfoPresenter(this);
-    }
-
-
-    @Override
-    public void showViewLoading() {
-
-    }
-
-    @Override
-    public void showViewError(Throwable t) {
-
-    }
-
-    @Override
-    public void getTeamRankSuccess(TeamRank teamRank) {
-        InfoData east = new InfoData();
-        east.setId(C.INFO.ID_EAST);
-        east.setType(C.INFO.TYPE_TEAM);
-        east.setTeamData(teamRank.east);
-        mInfoData.add(east);
-
-        InfoData west = new InfoData();
-        west.setId(C.INFO.ID_WEST);
-        west.setType(C.INFO.TYPE_TEAM);
-        west.setTeamData(teamRank.west);
-        mInfoData.add(west);
-
-        mInfoAdapter.setNewData(mInfoData);
-    }
-
-    @Override
-    public void getTeamRankFailed(Throwable throwable) {
-        ToastUtils.showShort("获取数据失败");
-//        mPresenter.getTeamRank();
-    }
-
-    @Override
-    public void getStatusRankSuccess(StatusRank statusRank) {
-        InfoData players = new InfoData();
-        players.setId(typePosition);
-        players.setType(C.INFO.TYPE_PLAYER);
-        players.playerType = statusRank.type;
-        players.setPlayerData(statusRank.getRankList());
-        mInfoAdapter.addData(players);
-        typePosition++;
-        mInfoAdapter.loadMoreComplete();
-        if (typePosition < targetPosition) {
-            mPresenter.getStatusRank(playerInfoType[typePosition], ROWS, currentTayType);
-        }
-        if (typePosition == targetPosition) {
-            smoothScrollToTop(targetPosition + 2);
-        }
-        if (typePosition == playerInfoType.length) {
-            mInfoAdapter.setEnableLoadMore(false);
-        }
-    }
-
-    @Override
-    public void getStatusRankFailed(Throwable throwable) {
-        ToastUtils.showShort("获取数据失败！");
-        mInfoAdapter.loadMoreFail();
-    }
-
-    @Override
-    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-        switch (view.getId()) {
-            case R.id.fbl_item_index:
-                mIndexAdapter.setCheckedPos(position);
-                smoothScrollToTop(position);
-                targetPosition = position - 2;
-                if (targetPosition >= 0 && typePosition < playerInfoType.length) {
-                    mPresenter.getStatusRank(playerInfoType[typePosition], ROWS, currentTayType);
-                }
-                break;
-        }
-    }
-
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        String tag = (String) tab.getTag();
-        if (C.INFO.TAG_TYPE_DAILY.equals(tag)) {
-            currentTayType = C.INFO.TAG_TYPE_DAILY;
-        } else if (C.INFO.TAG_TYPE_SEASON.equals(tag)) {
-            currentTayType = C.INFO.TAG_TYPE_SEASON;
-        } else if (C.INFO.TAG_TYPE_NORMAL.equals(tag)) {
-            currentTayType = C.INFO.TAG_TYPE_NORMAL;
-        }
-
-        List<InfoData> data = mInfoAdapter.getData();
-        List<InfoData> temp=new ArrayList<>();
-        temp.add(data.get(0));
-        temp.add(data.get(1));
-        mInfoAdapter.setNewData(temp);
-//        for (int i = 2; i < mInfoAdapter.getData().size(); i++) {
-//            mInfoAdapter.remove(i);
-//        }
-//        for (int i = 0; i < typePosition; i++) {
-//            mInfoAdapter.remove(i + 2);
-//        }
-        mInfoAdapter.setEnableLoadMore(true);
-        typePosition = 0;
-        targetPosition = 0;
-        mIndexAdapter.setCheckedPos(0);
-        mPresenter.getStatusRank(playerInfoType[typePosition], ROWS, currentTayType);
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
-    }
-
     /**
      * 将列表目标位置滚动到列表最上方
      *
@@ -319,10 +344,4 @@ public class InfoFragment extends BaseFragment<InfoPresenter, FragmentInfoBindin
         }
     }
 
-    @Override
-    public void onLoadMoreRequested() {
-        if (typePosition < playerInfoType.length) {
-            mPresenter.getStatusRank(playerInfoType[typePosition], ROWS, currentTayType);
-        }
-    }
 }

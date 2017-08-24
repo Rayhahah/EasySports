@@ -42,6 +42,10 @@ public class AccountContract {
         void uploadCoverSuccess(String url);
 
         void uploadCoverFailed(int code, String msg);
+
+        void loginHupuSuccess();
+
+        void loginHupuFailed(Throwable throwable);
     }
 
     public interface IAccountPresenter {
@@ -55,6 +59,8 @@ public class AccountContract {
         void uploadCover(String path);
 
         void choosePhoto(Activity context);
+
+        void loginHupu(String hupu_user_name, String hupu_password);
     }
 
 }

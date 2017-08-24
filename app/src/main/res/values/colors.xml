@@ -27,6 +27,15 @@
     <color name="transparentIiBlack">#aa000000</color>
     <color name="transparentIBlack">#55000000</color>
 
+    <!-- QR_Code -->
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="result_view">#b0000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+    <color name="result_image_border">#ffffffff</color>
+    <color name="result_minor_text">#ffc0c0c0</color>
+    <color name="result_points">#c000ff00</color>
+    <color name="system_bar_color">#fed952</color>
+
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="blue">#0000FF</color>

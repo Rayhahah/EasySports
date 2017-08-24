@@ -4,11 +4,10 @@ import android.content.res.TypedArray;
 import android.databinding.ViewDataBinding;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatDelegate;
-import android.view.View;
 
 import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.app.MyApp;
-import com.rayhahah.easysports.view.ProgressLayout;
 import com.rayhahah.rbase.base.RBaseActivity;
 import com.rayhahah.rbase.base.RBasePresenter;
 import com.rayhahah.rbase.utils.useful.StatusBarUtils;
@@ -67,23 +66,6 @@ public abstract class BaseActivity<T extends RBasePresenter, V extends ViewDataB
     @Override
     protected void setStatusColor() {
         StatusBarUtils.setColor(this, mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY), 0);
-    }
-
-    protected void showLoading(View content, ProgressLayout pl) {
-        pl.setVisibility(View.VISIBLE);
-        pl.showLoading();
-        content.setVisibility(View.GONE);
-    }
-
-    protected void showError(View content, ProgressLayout pl) {
-        pl.setVisibility(View.VISIBLE);
-        pl.showError();
-        content.setVisibility(View.GONE);
-    }
-
-    protected void showContent(View content, ProgressLayout pl) {
-        pl.setVisibility(View.GONE);
-        content.setVisibility(View.VISIBLE);
     }
 
 }

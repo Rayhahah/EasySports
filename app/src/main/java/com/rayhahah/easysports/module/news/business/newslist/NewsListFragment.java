@@ -9,7 +9,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.common.BaseFragment;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.common.RWebActivity;
 import com.rayhahah.easysports.databinding.FragmentNewslistBinding;
 import com.rayhahah.easysports.module.news.bean.NewsIndex;
@@ -98,7 +98,8 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter, FragmentNe
                 break;
         }
 
-        showContent(mBinding.srlNewsList, mBinding.pl);
+        mBinding.pl.showContent(mBinding.srlNewsList);
+//        showContent(mBinding.srlNewsList, mBinding.pl);
 //        RLog.e("data=" + data.toString());
     }
 
@@ -115,12 +116,14 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter, FragmentNe
                 mNewsListAdapter.loadMoreFail();
                 break;
         }
-        showError(mBinding.srlNewsList, mBinding.pl);
+        mBinding.pl.showError(mBinding.srlNewsList);
+//        showError(mBinding.srlNewsList, mBinding.pl);
     }
 
     @Override
     public void showViewLoading() {
-        showLoading(mBinding.srlNewsList, mBinding.pl);
+        mBinding.pl.showLoading(mBinding.srlNewsList);
+//        showLoading(mBinding.srlNewsList, mBinding.pl);
     }
 
     @Override

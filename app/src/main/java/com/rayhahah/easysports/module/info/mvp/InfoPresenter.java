@@ -2,7 +2,7 @@ package com.rayhahah.easysports.module.info.mvp;
 
 import android.support.v4.util.ArrayMap;
 
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.module.info.api.InfoApiFactory;
 import com.rayhahah.easysports.module.info.bean.InfoIndex;
 import com.rayhahah.easysports.module.info.bean.StatusRank;

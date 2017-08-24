@@ -1,6 +1,6 @@
 package com.rayhahah.easysports.net;
 
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

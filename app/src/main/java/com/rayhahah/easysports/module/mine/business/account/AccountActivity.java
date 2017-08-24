@@ -18,7 +18,7 @@ import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.bean.db.LocalUser;
 import com.rayhahah.easysports.common.BaseActivity;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.databinding.ActivityAccountBinding;
 import com.rayhahah.easysports.databinding.DialogEdittextSettingBinding;
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
@@ -26,7 +26,7 @@ import com.rayhahah.easysports.module.mine.domain.AccountListAdapter;
 import com.rayhahah.easysports.utils.glide.GlideCircleTransform;
 import com.rayhahah.easysports.view.TitleItemDecoration;
 import com.rayhahah.rbase.bean.MsgEvent;
-import com.rayhahah.rbase.utils.base.DialogUtil;
+import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.rbase.utils.base.FileUtils;
 import com.rayhahah.rbase.utils.base.StringUtils;
 import com.rayhahah.rbase.utils.base.ToastUtils;
@@ -92,6 +92,10 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
             case R.id.btn_account_logout:
                 SPManager.get().putString(C.SP.CURRENT_USER, C.NULL);
                 SPManager.get().putString(C.SP.IS_LOGIN, C.FALSE);
+                SPManager.get().putString(C.SP.TOKEN, C.NULL);
+                SPManager.get().putString(C.SP.HUPU_NICKNAME, C.NULL);
+                SPManager.get().putString(C.SP.HUPU_UID, C.NULL);
+
                 MyApp.setCurrentUser(null);
                 EventBus.getDefault().post(new MsgEvent(C.EventAction.UPDATE_CURRENT_USER, null));
                 finish();
@@ -134,6 +138,19 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                 // TODO: 2017/7/25 短信验证
 
                 break;
+            //绑定虎扑账号
+            case C.ACCOUNT.ID_HUPU_BIND:
+                LocalUser currentUser = MyApp.getCurrentUser();
+                String hupu_user_name = currentUser.getHupu_user_name();
+                String hupu_password = currentUser.getHupu_password();
+                if (StringUtils.isEmpty(hupu_user_name)
+                        || StringUtils.isEmpty(hupu_password)) {
+                    ToastUtils.showShort("请先设置虎扑账号信息！");
+                    return;
+                }
+                DialogUtil.showLoadingDialog(mContext,"正在绑定",mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
+                mPresenter.loginHupu(hupu_user_name,hupu_password);
+                break;
         }
     }
 
@@ -153,20 +170,20 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
     @Override
     public void updateUserSuccess() {
         getCurrentUserSuccess(MyApp.getCurrentUser());
-        DialogUtil.dismissDialog();
+        DialogUtil.dismissDialog(true);
         ToastUtils.showShort("设置信息成功");
     }
 
     @Override
     public void updateUserFailed() {
-        DialogUtil.dismissDialog();
+        DialogUtil.dismissDialog(false);
         ToastUtils.showShort("设置信息失败");
     }
 
     @Override
     public void uploadCoverSuccess(String url) {
-        DialogUtil.dismissDialog();
-        DialogUtil.showLoadingDialog(mContext, "正在设置信息");
+        DialogUtil.dismissDialog(true);
+        DialogUtil.showLoadingDialog(mContext, "正在设置信息", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
         LocalUser localUser = mLocalUser;
         localUser.setCover(url);
         mPresenter.updateUser(localUser);
@@ -174,8 +191,44 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
 
     @Override
     public void uploadCoverFailed(int code, String msg) {
-        DialogUtil.dismissDialog();
+        DialogUtil.dismissDialog(false);
         ToastUtils.showShort("上传图片失败");
+    }
+
+    @Override
+    public void loginHupuSuccess() {
+        DialogUtil.dismissDialog(true);
+        ToastUtils.showShort(R.string.bind_success);
+    }
+
+    @Override
+    public void loginHupuFailed(Throwable throwable) {
+        DialogUtil.dismissDialog(false);
+        ToastUtils.showShort(R.string.bind_failed);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String path = "";
+        switch (requestCode) {
+            case C.ACCOUNT.CODE_TAKE_PHOTO:
+                path = FileUtils.getPathFromUri(mContext, mPresenter.getUri());
+                File file = new File(path);
+                if (file.length() > 0) {
+                    DialogUtil.showProgressDialog(mContext, "正在上传图片");
+                    mPresenter.uploadCover(path);
+                }
+                break;
+            case C.ACCOUNT.CODE_CHOOSE_PHOTO:
+                if (data != null) {
+                    path = FileUtils.getPathFromUri(mContext, data.getData());
+                    DialogUtil.showProgressDialog(mContext, "正在上传图片");
+                    mPresenter.uploadCover(path);
+                }
+                break;
+        }
     }
 
 
@@ -227,6 +280,7 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                 return getResources().getString(R.string.account_setting);
             }
         });
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         mBinding.rvAccountList.addItemDecoration(decor);
         mBinding.rvAccountList.setAdapter(mAdapter);
     }
@@ -292,7 +346,7 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                 if (!checkInputLegal(settingBinding)) {
                     return;
                 }
-                DialogUtil.showLoadingDialog(mContext, "正在重置密码");
+                DialogUtil.showLoadingDialog(mContext, "正在重置密码", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
                 LocalUser localUser = mLocalUser;
                 localUser.setPassword(settingBinding.etEditTwo.getText().toString());
                 mPresenter.updateUser(localUser);
@@ -332,7 +386,7 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                 String screen_name = settingBinding.etEditOne.getText().toString();
                 if (StringUtils.isNotEmpty(screen_name)) {
                     localUser.setScreen_name(screen_name);
-                    DialogUtil.showLoadingDialog(mContext, "正在更新");
+                    DialogUtil.showLoadingDialog(mContext, "正在更新", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
                     mPresenter.updateUser(localUser);
                     dismiss();
                 } else {
@@ -368,7 +422,7 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
             public void onClick(View v) {
                 if (StringUtils.isNotEmpty(settingBinding.etEditOne.getText().toString())
                         && StringUtils.isNotEmpty(settingBinding.etEditTwo.getText().toString())) {
-                    DialogUtil.showLoadingDialog(mContext, "正在绑定虎扑");
+                    DialogUtil.showLoadingDialog(mContext, "正在绑定虎扑", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
                     LocalUser localUser = mLocalUser;
                     localUser.setHupu_user_name(settingBinding.etEditOne.getText().toString());
                     localUser.setHupu_password(settingBinding.etEditTwo.getText().toString());
@@ -420,7 +474,7 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                 .setCancleButtonText(getResources().getString(R.string.cancel))  //设置最底部“取消”按钮文本
                 .setTopBgResResources(R.drawable.selector_actiondialog_top_color_bg)
                 .setMiddleBgResResources(R.drawable.selector_actiondialog_middle_color_bg)
-                .setCancelBgResResources(R.drawable.selector_bg_click_corner)
+                .setCancelBgResResources(R.drawable.selector_actiondialog_bottom_color_bg)
                 .setBottomBgResResources(R.drawable.selector_actiondialog_bottom_color_bg)
                 .setSingleBgResResources(R.drawable.selector_actiondialog_single_color_bg)
                 .setOnItemListener(new DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
@@ -441,26 +495,4 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                 .build();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        String path = "";
-        switch (requestCode) {
-            case C.ACCOUNT.CODE_TAKE_PHOTO:
-                path = FileUtils.getPathFromUri(mContext, mPresenter.getUri());
-                File file = new File(path);
-                if (file.length() > 0) {
-                    DialogUtil.showProgressDialog(mContext, "正在上传图片");
-                    mPresenter.uploadCover(path);
-                }
-                break;
-            case C.ACCOUNT.CODE_CHOOSE_PHOTO:
-                if (data != null) {
-                    path = FileUtils.getPathFromUri(mContext, data.getData());
-                    DialogUtil.showProgressDialog(mContext, "正在上传图片");
-                    mPresenter.uploadCover(path);
-                }
-                break;
-        }
-    }
 }

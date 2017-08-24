@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.rayhahah.easysports.R;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.module.info.bean.InfoData;
 
 import java.util.List;

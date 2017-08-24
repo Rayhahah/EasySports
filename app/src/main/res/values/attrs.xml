@@ -5,6 +5,10 @@
     <attr name="colorBg" format="reference|color"/>
     <attr name="colorBgDark" format="reference|color"/>
 
+    <attr name="textHighLight" format="color" />
+    <attr name="textNormal" format="color" />
+    <attr name="textWeak" format="color" />
+
     <declare-styleable name="IndexBar">
         <attr name="normalTextColor" format="reference|color"/>
         <attr name="activeTextColor" format="reference|color"/>

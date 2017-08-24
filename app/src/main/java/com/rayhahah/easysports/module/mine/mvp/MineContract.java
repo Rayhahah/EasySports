@@ -1,6 +1,7 @@
 package com.rayhahah.easysports.module.mine.mvp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
 import com.rayhahah.rbase.base.IRBaseView;
@@ -19,6 +20,10 @@ public class MineContract {
         void uploadFeedbackDone(BmobException e);
 
         void updateCurrentUserSuccess(MineListBean mineListBean);
+
+        void saveBitmapSuccess();
+
+        void saveBitmapFailed(Throwable throwable);
     }
 
     public interface IMinePresenter  {
@@ -28,5 +33,7 @@ public class MineContract {
         void uploadFeedback(String editTextContent);
 
         void updateCurrentUser(MineListBean mineListBean);
+
+        void saveBitmap(Bitmap bitmap);
     }
 }

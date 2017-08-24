@@ -2,7 +2,7 @@ package com.rayhahah.easysports.module.mine.business.register;
 
 import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.bean.db.LocalUser;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.module.mine.bean.BmobUsers;
 import com.rayhahah.greendao.gen.LocalUserDao;
 import com.rayhahah.rbase.base.RBasePresenter;
@@ -48,7 +48,7 @@ public class RegisterPresenter extends RBasePresenter<RegisterContract.IRegister
         usersBmobQuery.addWhereEqualTo("userName", userName).findObjects(new FindListener<BmobUsers>() {
             @Override
             public void done(List<BmobUsers> list, BmobException e) {
-                if (list.size() != 0) {
+                if (list == null || list.size() != 0) {
                     mView.registerFailed(e);
                     return;
                 }

@@ -26,8 +26,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.rayhahah.easysports.R;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
+import com.rayhahah.easysports.sonic.SonicSessionClientImpl;
 import com.rayhahah.rbase.utils.base.ConvertUtils;
+import com.tencent.sonic.sdk.SonicEngine;
+import com.tencent.sonic.sdk.SonicSession;
+import com.tencent.sonic.sdk.SonicSessionConfig;
 
 
 /**
@@ -50,6 +54,8 @@ public class BrowserLayout extends LinearLayout {
     private String mLoadUrl;
 
     private OnReceiveTitleListener listener;
+    private SonicSession sonicSession;
+    private SonicSessionClientImpl sonicSessionClient;
 
     public BrowserLayout(Context context) {
         super(context);
@@ -71,33 +77,10 @@ public class BrowserLayout extends LinearLayout {
         addView(mProgressBar, LayoutParams.MATCH_PARENT, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, mBarHeight, getResources().getDisplayMetrics()));
 
         mWebView = new WebView(context);
-        mWebView.setLayerType(LAYER_TYPE_HARDWARE, null);
-        mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        mWebView.getSettings().setDefaultTextEncodingName("UTF-8");
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        mWebView.getSettings().setBuiltInZoomControls(false);
-        mWebView.getSettings().setSupportMultipleWindows(true);
-        mWebView.getSettings().setUseWideViewPort(true);
-        mWebView.getSettings().setLoadWithOverviewMode(true);
-        mWebView.getSettings().setSupportZoom(false);
-        mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
-        mWebView.getSettings().setDomStorageEnabled(true);
-        mWebView.getSettings().setLoadsImagesAutomatically(true);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        //mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        mWebView.getSettings().setAppCacheEnabled(true);
-        //mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
+        initWebView();
 
         LayoutParams lps = new LayoutParams(LayoutParams.MATCH_PARENT, 0, 1);
         addView(mWebView, lps);
-
-        mWebView.setWebChromeClient(new AppCacheWebChromeClient());
-
-        mWebView.setWebViewClient(new MonitorWebClient());
 
         mBrowserControllerView = LayoutInflater.from(context).inflate(R.layout.layout_browser_controller, null);
         mGoBackBtn = (ImageButton) mBrowserControllerView.findViewById(R.id.browser_controller_back);
@@ -148,13 +131,62 @@ public class BrowserLayout extends LinearLayout {
         addView(mBrowserControllerView, LayoutParams.MATCH_PARENT, ConvertUtils.dp2px(45));
     }
 
+    private void initWebView() {
+        mWebView.setLayerType(LAYER_TYPE_HARDWARE, null);
+        mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        mWebView.getSettings().setDefaultTextEncodingName("UTF-8");
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        mWebView.getSettings().setBuiltInZoomControls(false);
+        mWebView.getSettings().setSupportMultipleWindows(true);
+        mWebView.getSettings().setUseWideViewPort(true);
+        mWebView.getSettings().setLoadWithOverviewMode(true);
+        mWebView.getSettings().setSupportZoom(false);
+        mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
+        mWebView.getSettings().setDomStorageEnabled(true);
+        mWebView.getSettings().setLoadsImagesAutomatically(true);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        //mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        mWebView.getSettings().setAppCacheEnabled(true);
+        //mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+
+        mWebView.setWebChromeClient(new AppCacheWebChromeClient());
+
+        mWebView.setWebViewClient(new MonitorWebClient());
+    }
+
     /**
      * 加载Url网页数据
      *
      * @param url
      */
     public void loadUrl(String url) {
-        mWebView.loadUrl(url);
+        // step 2: Create SonicSession
+        sonicSession = SonicEngine.getInstance().createSession(url, new SonicSessionConfig.Builder().build());
+        if (null != sonicSession) {
+            sonicSession.bindClient(sonicSessionClient = new SonicSessionClientImpl());
+        } else {
+            // this only happen when a same sonic session is already running,
+            // u can comment following codes to feedback as a default mode.
+            throw new UnknownError("create session fail!");
+        }
+        initWebView();
+        if (sonicSessionClient != null) {
+            sonicSessionClient.bindWebView(mWebView);
+            sonicSessionClient.clientReady();
+        } else { // default mode
+            mWebView.loadUrl(url);
+        }
+    }
+
+    public void destory(){
+        if (null != sonicSession) {
+            sonicSession.destroy();
+            sonicSession = null;
+        }
     }
 
     /**
@@ -238,10 +270,20 @@ public class BrowserLayout extends LinearLayout {
                 url = request.getUrl().toString().toLowerCase();
             }
             if (!hasAd(getContext(), url)) {
-                return super.shouldInterceptRequest(view, request);
+                return shouldInterceptRequest(view, url);
             } else {
                 return new WebResourceResponse(null, null, null);
             }
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+            if (sonicSession != null) {
+                //step 6: Call sessionClient.requestResource when host allow the application
+                // to return the local data .
+                return (WebResourceResponse) sonicSession.getSessionClient().requestResource(url);
+            }
+            return null;
         }
 
         @Override
@@ -279,6 +321,9 @@ public class BrowserLayout extends LinearLayout {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             mLoadUrl = url;
+            if (sonicSession != null) {
+                sonicSession.getSessionClient().pageFinish(url);
+            }
             if (listener != null) {
                 listener.onPageFinished();
             }

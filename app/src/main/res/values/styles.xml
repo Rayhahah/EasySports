@@ -44,5 +44,20 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <style name="text_center">
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="text_big_center" parent="text_center">
+        <item name="android:textColor">?attr/textHighLight</item>
+        <item name="android:textSize">@dimen/sp_35</item>
+    </style>
+
+    <style name="text_middle_center" parent="text_center">
+        <item name="android:textColor">?attr/textHighLight</item>
+        <item name="android:textSize">@dimen/sp_20</item>
+    </style>
+
 
 </resources>

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android" >
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+     android:interpolator="@android:interpolator/anticipate_overshoot"
+     android:shareInterpolator="true"
+    >
 
     <translate
-        android:duration="300"
+        android:duration="500"
         android:fromYDelta="100%p"
-        android:toYDelta="0%p" />
+        android:toYDelta="0%p"/>
 
 </set>

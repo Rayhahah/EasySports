@@ -1,4 +1,4 @@
-package com.rayhahah.easysports.common;
+package com.rayhahah.easysports.app;
 
 import com.rayhahah.rbase.utils.base.FileUtils;
 
@@ -14,6 +14,7 @@ public class C {
     public interface DIR {
         String PIC_DIR = FileUtils.getRootFilePath() + "EasySport/images";
         String CRASH = FileUtils.getRootFilePath() + "EasySport/crashLog";
+        String SONIC = FileUtils.getRootFilePath() + "EasySport/sonic";
     }
 
     //数据库名字
@@ -22,8 +23,18 @@ public class C {
     //打印Log的标签
     public static final String LOG_TAG = "lzh";
 
-    //Bmob APPID配置
-    public static final String BMOB_APPID = "3c3ed1d32d5cc139e228eed122e7dedc";
+    public static final String DeviceId = "Android";
+
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface AppKey {
+        //Bmob APPID配置
+        String BMOB_APPID = "3c3ed1d32d5cc139e228eed122e7dedc";
+
+        //阿里云
+        String ALIYUN_KEY = "24594916-1";
+        String ALIYUN_SECRECT = "7452a4dc80e687201f2a41ecc61a3c24";
+
+    }
 
     /**
      * 主机地址常量保存类
@@ -56,6 +67,9 @@ public class C {
         String IS_LOGIN = "IS_LOGIN";
         String TAG_MINE_SELECTED = "TAG_MINE_SELECTED";
         String CURRENT_USER = "CURRENT_USER";
+        String TOKEN = "TOKEN";
+        String HUPU_UID = "uid";
+        String HUPU_NICKNAME = "HUPU_NICKNAME";
     }
 
     /**
@@ -119,11 +133,11 @@ public class C {
         String BLOCK = "block";
         String STEAL = "steal";
 
-        String CURRENT_SEASON="2016";
+        String CURRENT_SEASON = "2016";
 
-        String TAG_TYPE_DAILY="0";
-        String TAG_TYPE_SEASON="1";
-        String TAG_TYPE_NORMAL="2";
+        String TAG_TYPE_DAILY = "0";
+        String TAG_TYPE_SEASON = "1";
+        String TAG_TYPE_NORMAL = "2";
     }
 
     @Retention(RetentionPolicy.SOURCE)
@@ -136,14 +150,17 @@ public class C {
         int ID_CLEAN = 6;
         int ID_FEEDBACK = 7;
         int ID_ABOUT = 8;
+        int ID_QRCODE = 9;
     }
 
 
-    public interface ACCOUNT {
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ACCOUNT {
         int ID_RESET_PASSWORD = 1;
         int ID_HUPU = 2;
         int ID_TEL = 3;
         int ID_SCREENNAME = 4;
+        int ID_HUPU_BIND = 5;
         int CODE_TAKE_PHOTO = 101;
         int CODE_CHOOSE_PHOTO = 102;
     }

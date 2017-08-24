@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.databinding.ActivityRwebBinding;
 import com.rayhahah.rbase.base.RBasePresenter;
 
@@ -65,6 +66,7 @@ public class RWebActivity extends BaseActivity<RBasePresenter, ActivityRwebBindi
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mBinding.blWebview.destory();
         if (mBinding.blWebview.getWebView() != null) {
             mBinding.blWebview.getWebView().removeAllViews();
             mBinding.blWebview.getWebView().destroy();

@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- 允许读取手机状态 用于创建BmobInstallation -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
@@ -26,6 +27,12 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <!-- 调用硬件相机权限 -->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:name=".app.MyApp"
@@ -59,6 +66,18 @@
         </activity>
         <activity android:name=".module.mine.business.account.AccountActivity">
         </activity>
+        <activity android:name=".zxing.app.CaptureActivity" android:screenOrientation="portrait"/>
+
+        <!--阿里云移动热修复-->
+        <meta-data
+            android:name="com.taobao.android.hotfix.IDSECRET"
+            android:value="24594916-1" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.APPSECRET"
+            android:value="7452a4dc80e687201f2a41ecc61a3c24" />
+        <meta-data
+            android:name="com.taobao.android.hotfix.RSASECRET"
+            android:value="MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCCAwMsYacsak/49+H7GK6nXEQS2U4qN0JOr2C7rgZLdck49UEcrepZBDpynrTxoEQdteJJkNv5sVGXhBlrgSFUesDs0wkXv3+JVjXxUZrSnVQWkeqTFDzI5EbV4WZm+to2zmg00G+6+ogiu1wyc7lirDuSsnzNest4DwWTmptJH+vWVbT6rmCXab/YZJe8nAgGrhK29NlH2UvRXi1TpkA4l4BpIwtEM/869zf1f8qz8XYGN+Pw17CKEtmwq1DNrl/emgUvNhvD/hTMRS4qNAUiCksl6+4YXVk4jTl6lIzYQgR6+AasUPMAN+eWnUNuzZMR7f/7vagDheGptBhEj5JbAgMBAAECggEAGxm/ppewfjym8PHS5EFv3qkH85nihkBAjSBXnKeY3k/uIvZUnULPb8DG4i+c7iUHLd5FDiqo//JrXJcHqXYgWXjBEFypL48Waa1TzzrAeBidd5rw97mnNgUHkvvKGbs+k2ARLrkoISSqDftaK5Yd1airPlgAVeC72wnekrcOmX5FtZWYuPp0VoJUySBkc9TFBycfePJSGEdnrtP2UwSmL2mvaFsyqNDpoAiJOKJaE0lDIPfRenLZE4jOKJYJ7ypFWnINIEHqqv39jIXMs3w62XlJyb+wxk4gitrfGPKFjMqP99WTljX07oa8xazvDj5hlmMB751GoEMrG2t/MohvuQKBgQDZOu1SKeXCqGbzkA0gs/rklkybud59uF5VosAgYobrzPKbIqOzifwwzf/gcTNk00r6cu9oGyuwbDoYprhjmbZhBrW4DFfUTDuK8aeLtieCwjSm0xuf/ZrkORl+lX0VUvMk7u9agOpJftZOk514nYiV/IQU8uRfZZo28AHxF/eybwKBgQCZNyVUlN7HoTEsM45l9TYQTrP7U1SNnwGH0inYHZxDFdam/A2JnJSFYVNxDjXShF7teDShWJk2spC+dtcgTT6TzwoIK0zcur2/8fo0Eox0xmlva9c1zKyNrZccb/CJIUZQVR3z47Zbw9ZuyK/8YUr9CCKSJD3ty5ewOUgdDeek1QKBgA4PhGD3GUoaQF+viUn+nFTDbb3+r+oPTvvYBvuRpQ4KPAHSoiny2oIGM3PBoAP8sTO40Mo6R/+pYbFKyVCZGHb7SjPZiK3TKV96+M9QQQpzq5jIvVcDwUzYbVAGOQxyTA6t8Iw5H/EV5qU7ZMvz1m1u5NW+Sw3ps6uuqVGDraK9AoGAe1Z2OamB0WhEYlW6ev8zn1sL7fS96yemHsUjJDNp+GMbId9jsnSW5uxbNHaBA0/F7xpGG+Brril+9aRLN1iXWHthkwPwYvv9BghwJv0LjnGurKA+ZbO28HJeY+kE1A8yQDbU3uFfim2TMClj6iIUMK8czVJZfBTZrmXeVG0+HWUCgYACCakakZ1R6Jom7/Gh5zqwckpYbdVyF1979RpQh9zlbaj/yz000s5QCfrpmb9z5V5laXsBcQ9doGs6enh4ywuF0FK8KJ45jux6yM4tyqAs5B7WmGNvSzYHTiux52qhiJlgC1D7i9bVUW3XQjdzunXM/5j2RUnClA7PL1SZEs/+ww==" />
 
         <!-- 填写您从Mob开发者后台中得到的Appkey和AppSecret -->
         <meta-data

@@ -15,7 +15,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.common.BaseActivity;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.common.RWebActivity;
 import com.rayhahah.easysports.databinding.ActivitySingleListBinding;
 import com.rayhahah.easysports.module.mine.bean.PlayerListBean;
@@ -75,12 +75,12 @@ public class SingleListActivity extends BaseActivity<SingleListPresenter, Activi
 
     @Override
     public void showViewLoading() {
-        showLoading(mBinding.rvSingleList, mBinding.pl);
+        mBinding.pl.showLoading(mBinding.rvSingleList);
     }
 
     @Override
     public void showViewError(Throwable t) {
-        showError(mBinding.rvSingleList, mBinding.pl);
+        mBinding.pl.showError(mBinding.rvSingleList);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class SingleListActivity extends BaseActivity<SingleListPresenter, Activi
         teamListAdapter.openLoadAnimation();
         teamListAdapter.setOnItemChildClickListener(this);
         mBinding.rvSingleList.setAdapter(teamListAdapter);
-        showContent(mBinding.rvSingleList, mBinding.pl);
+        mBinding.pl.showContent(mBinding.rvSingleList);
     }
 
     @Override
@@ -170,7 +170,7 @@ public class SingleListActivity extends BaseActivity<SingleListPresenter, Activi
                 smoothScrollToTop(position);
             }
         });
-        showContent(mBinding.rvSingleList, mBinding.pl);
+        mBinding.pl.showContent(mBinding.rvSingleList);
     }
 
     @Override

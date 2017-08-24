@@ -1,24 +1,30 @@
 package com.rayhahah.easysports.module.mine.mvp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.bean.db.LocalUser;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.module.mine.bean.BmobFeedback;
 import com.rayhahah.easysports.module.mine.bean.BmobUsers;
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
 import com.rayhahah.rbase.base.RBasePresenter;
+import com.rayhahah.rbase.utils.base.FileUtils;
+import com.rayhahah.rbase.utils.base.ImageUtils;
 import com.rayhahah.rbase.utils.useful.RxSchedulers;
 import com.rayhahah.rbase.utils.useful.SPManager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -66,6 +72,14 @@ public class MinePresenter extends RBasePresenter<MineContract.IMineView>
         version.setType(MineListBean.TYPE_NULL);
         version.setId(C.MINE.ID_VERSION);
         mData.add(version);
+
+        MineListBean qrcode = new MineListBean();
+        qrcode.setCoverRes(R.drawable.ic_svg_qrcode_pink_24);
+        qrcode.setTitle("扫一扫");
+        qrcode.setSectionData("其他");
+        qrcode.setType(MineListBean.TYPE_NULL);
+        qrcode.setId(C.MINE.ID_QRCODE);
+        mData.add(qrcode);
 
         MineListBean theme = new MineListBean();
         theme.setCoverRes(R.drawable.ic_svg_nighttheme_colorful_24);
@@ -143,5 +157,38 @@ public class MinePresenter extends RBasePresenter<MineContract.IMineView>
             mineListBean.setCoverPath(C.NULL);
         }
         mView.updateCurrentUserSuccess(mineListBean);
+    }
+
+    @Override
+    public void saveBitmap(final Bitmap bitmap) {
+        Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
+                File file = new File(C.DIR.PIC_DIR, System.currentTimeMillis() + ".jpg");
+                boolean createFile = FileUtils.createOrExistsFile(file);
+                if (createFile) {
+                    boolean isSuccess = ImageUtils.save(bitmap, file, Bitmap.CompressFormat.JPEG, true);
+                    e.onNext(isSuccess);
+                }else{
+                    e.onNext(createFile);
+                }
+
+            }
+        }).compose(RxSchedulers.<Boolean>ioMain()).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(@NonNull Boolean result) throws Exception {
+                if (result) {
+                    mView.saveBitmapSuccess();
+                }else{
+                    mView.saveBitmapFailed(null);
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.saveBitmapFailed(throwable);
+
+            }
+        });
     }
 }

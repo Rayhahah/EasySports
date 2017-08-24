@@ -1,6 +1,6 @@
 package com.rayhahah.easysports.module.info.api;
 
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.net.ApiClient;
 import com.rayhahah.rbase.utils.useful.RxSchedulers;
 

@@ -10,14 +10,18 @@ import android.text.format.DateFormat;
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.bean.db.LocalUser;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
+import com.rayhahah.easysports.module.mine.api.MineApiFactory;
 import com.rayhahah.easysports.module.mine.bean.BmobUsers;
+import com.rayhahah.easysports.module.mine.bean.HupuUserData;
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
+import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.rbase.base.RBasePresenter;
-import com.rayhahah.rbase.utils.base.DialogUtil;
 import com.rayhahah.rbase.utils.useful.RLog;
+import com.rayhahah.rbase.utils.useful.SPManager;
 
 import java.io.File;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,6 +31,8 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -94,6 +100,14 @@ public class AccountPresenter extends RBasePresenter<AccountContract.IAccountVie
         tel.setId(C.ACCOUNT.ID_TEL);
         mData.add(tel);
 
+        MineListBean hupuBind = new MineListBean();
+        hupuBind.setCoverRes(R.drawable.ic_svg_bind_hupu_colorful_24);
+        hupuBind.setTitle("绑定JRS");
+        hupuBind.setSectionData(context.getResources().getString(R.string.account_setting));
+        hupuBind.setType(MineListBean.TYPE_NULL);
+        hupuBind.setId(C.ACCOUNT.ID_HUPU_BIND);
+        mData.add(hupuBind);
+
         return mData;
     }
 
@@ -122,6 +136,32 @@ public class AccountPresenter extends RBasePresenter<AccountContract.IAccountVie
         Intent choose_intent = new Intent(Intent.ACTION_GET_CONTENT);
         choose_intent.setType("image/*");
         context.startActivityForResult(choose_intent, C.ACCOUNT.CODE_CHOOSE_PHOTO);
+    }
+
+    @Override
+    public void loginHupu(String hupu_user_name, String hupu_password) {
+        addSubscription(MineApiFactory.loginHupu(hupu_user_name, hupu_password).subscribe(new Consumer<HupuUserData>() {
+            @Override
+            public void accept(@NonNull HupuUserData hupuUserData) throws Exception {
+                if (hupuUserData != null && hupuUserData.is_login == 1) { // 登录成功
+                    HupuUserData.LoginResult data = hupuUserData.result;
+                    String cookie = URLDecoder.decode(C.NULL, "UTF-8");
+                    String uid = cookie.split("\\|")[0];
+//                    user.uid = uid;
+//                    user.cookie = cookie;
+                    SPManager.get().putString(C.SP.TOKEN, data.token);
+                    SPManager.get().putString(C.SP.HUPU_UID, data.uid);
+                    SPManager.get().putString(C.SP.HUPU_NICKNAME, data.nickname);
+
+                    mView.loginHupuSuccess();
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.loginHupuFailed(throwable);
+            }
+        }));
     }
 
     @Override
@@ -171,4 +211,5 @@ public class AccountPresenter extends RBasePresenter<AccountContract.IAccountVie
     public Uri getUri() {
         return mUri;
     }
+
 }

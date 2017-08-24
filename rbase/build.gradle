@@ -9,7 +9,6 @@ android {
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
@@ -48,6 +47,7 @@ dependencies {
     compile dependencies.rxJava2
     compile dependencies.rxAndroid2
 
+    //bmob okio依赖冲突
     compile dependencies.retrofit
     compile dependencies.retrofitGsonConverter
     compile dependencies.retrofitRxjava2Adapter
@@ -59,9 +59,6 @@ dependencies {
     compile dependencies.greenDao
     compile dependencies.greenDaoUpgradeHelper
 
-    //让手机和电脑处于一个局域网下，当项目跑起来的时候，在 logcat 里面会打印出这么一行：
-    //D/DebugDB: Open http://XXX.XXX.X.XXX:8080 in your browser
-    debugCompile dependencies.dbDebugHelper
     compile dependencies.eventbus
 
     debugCompile dependencies.leakCanaryDebug
@@ -71,7 +68,7 @@ dependencies {
     compile dependencies.flexboxLayout
     compile dependencies.photoView
 
-    compile 'com.facebook.stetho:stetho:1.5.0'
-    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    compile dependencies.stetho
+    compile dependencies.stethoOkhttp3
     testCompile 'junit:junit:4.12'
 }

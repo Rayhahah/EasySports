@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+     android:interpolator="@android:interpolator/anticipate_overshoot"
+     android:shareInterpolator="true"
+    >
+
+    <translate
+        android:duration="750"
+        android:fromYDelta="100%p"
+        android:toYDelta="0%p"/>
+
+    <!--<scale-->
+        <!--android:duration="1000"-->
+        <!--android:pivotX="50%"-->
+        <!--android:pivotY="100%"-->
+        <!--android:fromXScale="0.0"-->
+        <!--android:toXScale="1.1"-->
+        <!--android:fromYScale="0.0"-->
+        <!--android:toYScale="1.1"-->
+        <!--/>-->
+
+</set>

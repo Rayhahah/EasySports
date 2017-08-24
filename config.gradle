@@ -68,6 +68,8 @@ ext {
             bravh                   : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.18",
             //升级版LinearLayout
             flexboxLayout           : "com.google.android:flexbox:0.3.0-alpha4",
+            stetho                  : "com.facebook.stetho:stetho:1.5.0",
+            stethoOkhttp3           : "com.facebook.stetho:stetho-okhttp3:1.5.0",
 
             //test
 

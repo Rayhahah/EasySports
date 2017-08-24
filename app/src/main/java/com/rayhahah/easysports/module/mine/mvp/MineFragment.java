@@ -1,5 +1,9 @@
 package com.rayhahah.easysports.module.mine.mvp;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.InputType;
@@ -13,7 +17,8 @@ import com.rayhahah.dialoglib.MDEditDialog;
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.common.BaseFragment;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
+import com.rayhahah.easysports.common.RWebActivity;
 import com.rayhahah.easysports.databinding.FragmentMineBinding;
 import com.rayhahah.easysports.module.home.HomeActivity;
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
@@ -21,12 +26,14 @@ import com.rayhahah.easysports.module.mine.business.account.AccountActivity;
 import com.rayhahah.easysports.module.mine.business.login.LoginActivity;
 import com.rayhahah.easysports.module.mine.business.teamplayer.SingleListActivity;
 import com.rayhahah.easysports.module.mine.domain.MineListAdapter;
+import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.easysports.view.TitleItemDecoration;
+import com.rayhahah.easysports.zxing.app.CaptureActivity;
 import com.rayhahah.rbase.bean.MsgEvent;
 import com.rayhahah.rbase.utils.base.CacheUtils;
-import com.rayhahah.rbase.utils.base.DialogUtil;
 import com.rayhahah.rbase.utils.base.StringUtils;
 import com.rayhahah.rbase.utils.base.ToastUtils;
+import com.rayhahah.rbase.utils.useful.PermissionManager;
 import com.rayhahah.rbase.utils.useful.SPManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,6 +51,8 @@ import cn.bmob.v3.exception.BmobException;
 public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBinding>
         implements MineContract.IMineView, BaseQuickAdapter.OnItemChildClickListener {
 
+    private static final int REQUEST_QRCODE = 100;
+    public static final int CAMERA_PERMISSIONS_REQUEST_CODE = 10;
     private List<MineListBean> mData;
     private MineListAdapter mMineListAdapter;
 
@@ -64,6 +73,7 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        PermissionManager.clearListner(CAMERA_PERMISSIONS_REQUEST_CODE);
     }
 
     private void initRv() {
@@ -148,11 +158,6 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
                     LoginActivity.start(mContext, mContext);
                 }
                 break;
-            //清除缓存
-            case C.MINE.ID_CLEAN:
-                MDAlertDialog dialog = initCleanDialog();
-                dialog.show();
-                break;
             //所有球队
             case C.MINE.ID_TEAM:
                 SingleListActivity.start(getActivity(), getActivity(), SingleListActivity.TYPE_TEAM);
@@ -160,6 +165,27 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
             //所有球员
             case C.MINE.ID_PLAYER:
                 SingleListActivity.start(getActivity(), getActivity(), SingleListActivity.TYPE_PLAYER);
+                break;
+            //版本更新
+            case C.MINE.ID_VERSION:
+
+                break;
+            //扫一扫
+            case C.MINE.ID_QRCODE:
+                PermissionManager.requestPermission(this, "请求照相机权限", CAMERA_PERMISSIONS_REQUEST_CODE, new PermissionManager.PermissionsResultListener() {
+                    @Override
+                    public void onPermissionGranted(int requestCode) {
+                        //启动二维码扫描的页面功能
+                        Intent intent = new Intent(mContext, CaptureActivity.class);
+                        startActivityForResult(intent, REQUEST_QRCODE);
+                    }
+
+                    @Override
+                    public void onPermissionDenied(int requestCode) {
+                        ToastUtils.showShort("授权失败，无法启用扫一扫功能");
+                    }
+                }, Manifest.permission.CAMERA);
+
                 break;
             //反馈信息
             case C.MINE.ID_FEEDBACK:
@@ -170,12 +196,40 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
                     ToastUtils.showShort("请先登录~");
                 }
                 break;
+            //清除缓存
+            case C.MINE.ID_CLEAN:
+                MDAlertDialog dialog = initCleanDialog();
+                dialog.show();
+                break;
             //关于我们
             case C.MINE.ID_ABOUT:
 
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_QRCODE) {
+            switch (resultCode) {
+                case CaptureActivity.RESULT_CODE_DECODE:
+                case Activity.RESULT_OK:
+                    String codeData = data.getStringExtra(CaptureActivity.EXTRA_DATA);
+                    if (codeData.startsWith("http")) {
+                        RWebActivity.start(mContext, mContext, codeData, getString(R.string.detail_content), true, true);
+                    } else {
+                        ToastUtils.showShort(codeData);
+                    }
+                    break;
+                case CaptureActivity.RESULT_CODE_ENCODE:
+                    Bitmap bitmap2 = ((Bitmap) data.getParcelableExtra(CaptureActivity.EXTRA_DATA));
+//                    Bitmap bitmap = ((Bitmap) data.getParcelableExtra("QR_CODE"));
+                    mPresenter.saveBitmap(bitmap2);
+                    break;
+            }
         }
     }
 
@@ -188,7 +242,7 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
 
     @Override
     public void uploadFeedbackDone(BmobException e) {
-        DialogUtil.dismissDialog();
+        DialogUtil.dismissDialog(true);
         if (e == null) {
             ToastUtils.showShort("感谢您的建议！");
         } else {
@@ -200,6 +254,16 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
     public void updateCurrentUserSuccess(MineListBean mineListBean) {
         mData.set(0, mineListBean);
         mMineListAdapter.setNewData(mData);
+    }
+
+    @Override
+    public void saveBitmapSuccess() {
+        ToastUtils.showShort("生成二维码图片成功");
+    }
+
+    @Override
+    public void saveBitmapFailed(Throwable throwable) {
+        ToastUtils.showShort("生成二维码图片失败");
     }
 
     /**
@@ -272,7 +336,7 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
 
                     @Override
                     public void clickRightButton(final MDEditDialog dialog, View view) {
-                        DialogUtil.showLoadingDialog(getActivity(), "提交ing");
+                        DialogUtil.showLoadingDialog(getActivity(), "提交ing", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
                         mPresenter.uploadFeedback(dialog.getEditTextContent());
                         ToastUtils.showShort("请先登录账号");
                         dialog.dismiss();

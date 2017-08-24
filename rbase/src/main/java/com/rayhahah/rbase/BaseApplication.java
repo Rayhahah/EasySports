@@ -20,6 +20,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        onFastInit();
         mAppContext = this;
         SPManager.init(mAppContext);
 
@@ -27,6 +28,10 @@ public class BaseApplication extends Application {
 
         LeakCanary.install(mAppContext);
         Stetho.initializeWithDefaults(mAppContext);
+    }
+
+    protected void onFastInit() {
+
     }
 
     public static Context getAppContext() {

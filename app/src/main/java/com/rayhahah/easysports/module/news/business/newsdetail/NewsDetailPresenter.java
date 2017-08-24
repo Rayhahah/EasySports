@@ -3,7 +3,7 @@ package com.rayhahah.easysports.module.news.business.newsdetail;
 import android.graphics.Bitmap;
 
 import com.rayhahah.easysports.app.MyApp;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.module.news.api.NewsApiFactory;
 import com.rayhahah.easysports.module.news.bean.NewsDetail;
 import com.rayhahah.rbase.base.RBasePresenter;

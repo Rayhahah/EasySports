@@ -3,6 +3,7 @@ package com.rayhahah.easysports.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -108,4 +109,38 @@ public class ProgressLayout extends RelativeLayout {
         errorView.setLayoutParams(layoutParams);
         this.addView(errorView);
     }
+
+    /**
+     * 展示内容
+     *
+     * @param content
+     */
+    public void showContent(View content) {
+        this.setVisibility(View.GONE);
+        content.setVisibility(View.VISIBLE);
+    }
+
+
+    /**
+     * 显示错误引导页
+     *
+     * @param content
+     */
+    public void showError(View content) {
+        this.setVisibility(View.VISIBLE);
+        this.showError();
+        content.setVisibility(View.GONE);
+    }
+
+    /**
+     * 显示加载页面
+     *
+     * @param content
+     */
+    public void showLoading(View content) {
+        this.setVisibility(View.VISIBLE);
+        this.showLoading();
+        content.setVisibility(View.GONE);
+    }
+
 }

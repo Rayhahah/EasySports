@@ -7,15 +7,18 @@ import android.view.View;
 
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.common.BaseActivity;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.databinding.ActivityLoginBinding;
 import com.rayhahah.easysports.module.mine.business.account.AccountActivity;
 import com.rayhahah.easysports.module.mine.business.register.RegisterActivity;
+import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.rbase.bean.MsgEvent;
-import com.rayhahah.rbase.utils.base.DialogUtil;
 import com.rayhahah.rbase.utils.base.ToastUtils;
+import com.rayhahah.rbase.utils.useful.SPManager;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBinding>
         implements LoginContract.ILoginView, View.OnClickListener {
@@ -37,6 +40,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBin
     @Override
     protected void initEventAndData(Bundle savedInstanceState) {
         initToolBar();
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -44,6 +48,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBin
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
 
@@ -69,7 +74,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBin
                 finish();
                 break;
             case R.id.btn_mine_login:
-                DialogUtil.showLoadingDialog(mContext, "正在登陆");
+                DialogUtil.showLoadingDialog(mContext, "正在登陆",mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
                 mPresenter.login(mBinding.etMineLoginUsername.getText().toString()
                         , mBinding.etMineLoginPassword.getText().toString());
                 break;
@@ -78,7 +83,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBin
                 break;
             // TODO: 2017/7/24 第三方登陆以及短信推送登陆功能
             case R.id.iv_mine_login_wechat:
-
                 break;
             case R.id.iv_mine_login_qq:
 
@@ -94,7 +98,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBin
     @Override
     public void loginSuccess() {
         ToastUtils.showShort("登陆成功！");
-        DialogUtil.dismissDialog();
+        DialogUtil.dismissDialog(true);
         EventBus.getDefault().post(new MsgEvent(C.EventAction.UPDATE_CURRENT_USER, null));
         AccountActivity.start(mContext, mContext);
         finish();
@@ -103,7 +107,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBin
     @Override
     public void loginFailed() {
         ToastUtils.showShort("账号或密码不匹配");
-        DialogUtil.dismissDialog();
+        DialogUtil.dismissDialog(false);
     }
 
     private void initToolBar() {
@@ -118,6 +122,15 @@ public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBin
         mBinding.ivMineLoginWechat.setOnClickListener(this);
         mBinding.ivMineLoginQq.setOnClickListener(this);
         mBinding.ivMineLoginTel.setOnClickListener(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void isLogin(MsgEvent event) {
+        if (C.EventAction.UPDATE_CURRENT_USER.equals(event.getAction())) {
+            if (C.TRUE.equals(SPManager.get().getStringValue(C.SP.IS_LOGIN))) {
+                finish();
+            }
+        }
     }
 
 }

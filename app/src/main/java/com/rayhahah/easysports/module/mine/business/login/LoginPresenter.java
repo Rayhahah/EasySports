@@ -2,7 +2,7 @@ package com.rayhahah.easysports.module.mine.business.login;
 
 import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.bean.db.LocalUser;
-import com.rayhahah.easysports.common.C;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.module.mine.bean.BmobUsers;
 import com.rayhahah.greendao.gen.LocalUserDao;
 import com.rayhahah.rbase.base.RBasePresenter;
