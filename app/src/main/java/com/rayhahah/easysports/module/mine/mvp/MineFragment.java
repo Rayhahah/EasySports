@@ -15,9 +15,9 @@ import com.rayhahah.dialoglib.DialogInterface;
 import com.rayhahah.dialoglib.MDAlertDialog;
 import com.rayhahah.dialoglib.MDEditDialog;
 import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.common.BaseFragment;
-import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.common.RWebActivity;
 import com.rayhahah.easysports.databinding.FragmentMineBinding;
 import com.rayhahah.easysports.module.home.HomeActivity;
@@ -41,8 +41,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
-
-import cn.bmob.v3.exception.BmobException;
 
 /**
  * Created by a on 2017/5/17.
@@ -225,6 +223,7 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
                     }
                     break;
                 case CaptureActivity.RESULT_CODE_ENCODE:
+                    // TODO: 2017/9/13 不可用
                     Bitmap bitmap2 = ((Bitmap) data.getParcelableExtra(CaptureActivity.EXTRA_DATA));
 //                    Bitmap bitmap = ((Bitmap) data.getParcelableExtra("QR_CODE"));
                     mPresenter.saveBitmap(bitmap2);
@@ -241,13 +240,15 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
     }
 
     @Override
-    public void uploadFeedbackDone(BmobException e) {
+    public void commitFeedbackSuccess() {
         DialogUtil.dismissDialog(true);
-        if (e == null) {
-            ToastUtils.showShort("感谢您的建议！");
-        } else {
-            ToastUtils.showShort("提交失败~");
-        }
+        ToastUtils.showShort("感谢您的建议！");
+    }
+
+    @Override
+    public void commitFeedbackFailed() {
+        DialogUtil.dismissDialog(false);
+        ToastUtils.showShort("提交失败~");
     }
 
     @Override
@@ -265,6 +266,7 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
     public void saveBitmapFailed(Throwable throwable) {
         ToastUtils.showShort("生成二维码图片失败");
     }
+
 
     /**
      * 切换皮肤刷新UI
@@ -337,8 +339,7 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
                     @Override
                     public void clickRightButton(final MDEditDialog dialog, View view) {
                         DialogUtil.showLoadingDialog(getActivity(), "提交ing", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
-                        mPresenter.uploadFeedback(dialog.getEditTextContent());
-                        ToastUtils.showShort("请先登录账号");
+                        mPresenter.uploadFeedback(mContext, dialog.getEditTextContent());
                         dialog.dismiss();
                     }
                 })

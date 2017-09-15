@@ -6,10 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.rayhahah.easysports.R;
-import com.rayhahah.easysports.common.BaseActivity;
 import com.rayhahah.easysports.app.C;
+import com.rayhahah.easysports.common.BaseActivity;
 import com.rayhahah.easysports.databinding.ActivityLoginBinding;
 import com.rayhahah.easysports.module.mine.business.account.AccountActivity;
+import com.rayhahah.easysports.module.mine.business.forget.ForgetActivity;
 import com.rayhahah.easysports.module.mine.business.register.RegisterActivity;
 import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.rbase.bean.MsgEvent;
@@ -70,14 +71,17 @@ public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBin
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            //返回上级
             case R.id.iv_toolbar_back:
                 finish();
                 break;
+            //登陆
             case R.id.btn_mine_login:
-                DialogUtil.showLoadingDialog(mContext, "正在登陆",mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
+                DialogUtil.showLoadingDialog(mContext, "正在登陆", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
                 mPresenter.login(mBinding.etMineLoginUsername.getText().toString()
                         , mBinding.etMineLoginPassword.getText().toString());
                 break;
+            //注册
             case R.id.tv_mine_register_now:
                 RegisterActivity.start(mContext, mContext);
                 break;
@@ -89,6 +93,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBin
                 break;
             case R.id.iv_mine_login_tel:
 
+                break;
+            //忘记密码
+            case R.id.tv_mine_register_forget:
+                ForgetActivity.start(mContext,mContext);
                 break;
             default:
                 break;
@@ -122,6 +130,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter, ActivityLoginBin
         mBinding.ivMineLoginWechat.setOnClickListener(this);
         mBinding.ivMineLoginQq.setOnClickListener(this);
         mBinding.ivMineLoginTel.setOnClickListener(this);
+        mBinding.tvMineRegisterForget.setOnClickListener(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

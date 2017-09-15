@@ -1,19 +1,18 @@
 package com.rayhahah.easysports.module.mine.business.register;
 
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.bean.db.LocalUser;
-import com.rayhahah.easysports.app.C;
-import com.rayhahah.easysports.module.mine.bean.BmobUsers;
+import com.rayhahah.easysports.module.mine.api.MineApiFactory;
+import com.rayhahah.easysports.module.mine.bean.ESUser;
 import com.rayhahah.greendao.gen.LocalUserDao;
 import com.rayhahah.rbase.base.RBasePresenter;
 import com.rayhahah.rbase.utils.useful.SPManager;
 
-import java.util.List;
+import java.util.HashMap;
 
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.SaveListener;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -43,41 +42,46 @@ public class RegisterPresenter extends RBasePresenter<RegisterContract.IRegister
     }
 
     @Override
-    public void registerNewUser(final String userName, final String password, final String screenName, final String tel, final String hupuUsername, final String hupuPassword) {
-        BmobQuery<BmobUsers> usersBmobQuery = new BmobQuery<>();
-        usersBmobQuery.addWhereEqualTo("userName", userName).findObjects(new FindListener<BmobUsers>() {
+    public void registerNewUser(String userName, String password, String screenName, String question, String answer, String tel, String email, String hupuUsername, String hupuPassword) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(C.MINE.USERNAME, userName);
+        params.put(C.MINE.PASSWORD, password);
+        params.put(C.MINE.SCREENNAME, screenName);
+        params.put(C.MINE.QUESTION, question);
+        params.put(C.MINE.ANSWER, answer);
+        params.put(C.MINE.PHONE, tel);
+        params.put(C.MINE.EMAIL, email);
+        params.put(C.MINE.HUPU_USERNAME, hupuUsername);
+        params.put(C.MINE.HUPU_PASSWORD, hupuPassword);
+        addSubscription(MineApiFactory.register(params).subscribe(new Consumer<ESUser>() {
             @Override
-            public void done(List<BmobUsers> list, BmobException e) {
-                if (list == null || list.size() != 0) {
-                    mView.registerFailed(e);
+            public void accept(@NonNull ESUser esUser) throws Exception {
+                if (esUser.getStatus() != C.RESPONSE_SUCCESS) {
+                    mView.registerFailed(null);
                     return;
                 }
+                LocalUserDao localUserDao = MyApp.getDaoSession().getLocalUserDao();
+                String isNight = SPManager.get().getStringValue(C.SP.THEME, C.FALSE);
+                ESUser.DataBean user = esUser.getData();
+                LocalUser localUser = new LocalUser(user.getId() + "", user.getUsername(), user.getPassword(), user.getScreenname()
+                        , user.getPhone(), user.getEmail(), user.getQuestion(), user.getAnswer()
+                        , user.getCover(), user.getHupuUsername(), user.getHupuPassword(), isNight);
+                long rowId = localUserDao.insert(localUser);
 
-                BmobUsers bmobUsers = new BmobUsers(userName, password, screenName, tel, C.NULL, hupuUsername, hupuPassword);
-                bmobUsers.save(new SaveListener<String>() {
-                    @Override
-                    public void done(String s, BmobException e) {
-                        if (e == null) {
-                            LocalUserDao localUserDao = MyApp.getDaoSession().getLocalUserDao();
-                            String isNight = SPManager.get().getStringValue(C.SP.THEME, C.FALSE);
-                            LocalUser localUser = new LocalUser(s, userName, password, screenName, tel,
-                                    C.NULL, hupuUsername, hupuPassword, C.NULL, isNight);
-                            long rowId = localUserDao.insert(localUser);
-
-                            if (rowId > 0) {
-                                SPManager.get().putString(C.SP.IS_LOGIN, C.TRUE);
-                                SPManager.get().putString(C.SP.CURRENT_USER, userName);
-                                MyApp.setCurrentUser(localUser);
-                                mView.registerSuccess();
-                            } else {
-                                mView.registerFailed(e);
-                            }
-                        } else {
-                            mView.registerFailed(e);
-                        }
-                    }
-                });
+                if (rowId > 0) {
+                    SPManager.get().putString(C.SP.IS_LOGIN, C.TRUE);
+                    SPManager.get().putString(C.SP.CURRENT_USER, user.getUsername());
+                    MyApp.setCurrentUser(localUser);
+                    mView.registerSuccess();
+                } else {
+                    mView.registerFailed(null);
+                }
             }
-        });
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.registerFailed(throwable);
+            }
+        }));
     }
 }

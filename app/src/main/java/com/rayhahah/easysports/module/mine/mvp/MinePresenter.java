@@ -1,15 +1,18 @@
 package com.rayhahah.easysports.module.mine.mvp;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 
 import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.bean.db.LocalUser;
-import com.rayhahah.easysports.app.C;
-import com.rayhahah.easysports.module.mine.bean.BmobFeedback;
-import com.rayhahah.easysports.module.mine.bean.BmobUsers;
+import com.rayhahah.easysports.module.mine.api.MineApiFactory;
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
+import com.rayhahah.easysports.module.mine.bean.RResponse;
 import com.rayhahah.rbase.base.RBasePresenter;
 import com.rayhahah.rbase.utils.base.FileUtils;
 import com.rayhahah.rbase.utils.base.ImageUtils;
@@ -20,14 +23,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 
 
 public class MinePresenter extends RBasePresenter<MineContract.IMineView>
@@ -117,33 +117,32 @@ public class MinePresenter extends RBasePresenter<MineContract.IMineView>
     }
 
     @Override
-    public void uploadFeedback(final String editTextContent) {
-        Observable.just(C.SP.CURRENT_USER).map(new Function<String, BmobUsers>() {
-            @Override
-            public BmobUsers apply(@NonNull String str) throws Exception {
-                LocalUser localUser = MyApp.getCurrentUser();
-                BmobUsers bmobUsers = new BmobUsers(localUser.getUser_name()
-                        , localUser.getPassword()
-                        , localUser.getScreen_name()
-                        , localUser.getTel()
-                        , localUser.getCover()
-                        , localUser.getHupu_user_name()
-                        , localUser.getHupu_password());
-                return bmobUsers;
-            }
-        }).compose(RxSchedulers.<BmobUsers>ioMain()).subscribe(new Consumer<BmobUsers>() {
-            @Override
-            public void accept(@NonNull BmobUsers bmobUsers) throws Exception {
-                BmobFeedback bmobFeedback = new BmobFeedback(editTextContent, bmobUsers);
-                bmobFeedback.save(new SaveListener<String>() {
-
-                    @Override
-                    public void done(String s, BmobException e) {
-                        mView.uploadFeedbackDone(e);
-                    }
-                });
-            }
-        });
+    public void uploadFeedback(final Activity context, String editTextContent) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            LocalUser localUser = MyApp.getCurrentUser();
+            addSubscription(MineApiFactory.commitFeedback(packageInfo.versionName, packageInfo.versionCode + "",
+                    editTextContent, Integer.parseInt(localUser.getEssysport_id()))
+                    .subscribe(new Consumer<RResponse>() {
+                        @Override
+                        public void accept(@NonNull RResponse rResponse) throws Exception {
+                            if (rResponse.getStatus() == C.RESPONSE_SUCCESS) {
+                                mView.commitFeedbackSuccess();
+                            } else {
+                                mView.commitFeedbackFailed();
+                            }
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(@NonNull Throwable throwable) throws Exception {
+                            mView.commitFeedbackFailed();
+                        }
+                    }));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            mView.commitFeedbackFailed();
+        }
     }
 
     @Override
@@ -169,7 +168,7 @@ public class MinePresenter extends RBasePresenter<MineContract.IMineView>
                 if (createFile) {
                     boolean isSuccess = ImageUtils.save(bitmap, file, Bitmap.CompressFormat.JPEG, true);
                     e.onNext(isSuccess);
-                }else{
+                } else {
                     e.onNext(createFile);
                 }
 
@@ -179,7 +178,7 @@ public class MinePresenter extends RBasePresenter<MineContract.IMineView>
             public void accept(@NonNull Boolean result) throws Exception {
                 if (result) {
                     mView.saveBitmapSuccess();
-                }else{
+                } else {
                     mView.saveBitmapFailed(null);
                 }
             }

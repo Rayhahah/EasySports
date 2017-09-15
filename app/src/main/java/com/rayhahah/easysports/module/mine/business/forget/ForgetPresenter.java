@@ -1,19 +1,12 @@
-package com.rayhahah.easysports.module.mine.business.login;
+package com.rayhahah.easysports.module.mine.business.forget;
 
 import com.rayhahah.easysports.app.C;
-import com.rayhahah.easysports.app.MyApp;
-import com.rayhahah.easysports.bean.db.LocalUser;
 import com.rayhahah.easysports.module.mine.api.MineApiFactory;
-import com.rayhahah.easysports.module.mine.bean.ESUser;
-import com.rayhahah.greendao.gen.LocalUserDao;
+import com.rayhahah.easysports.module.mine.bean.RResponse;
 import com.rayhahah.rbase.base.RBasePresenter;
-import com.rayhahah.rbase.utils.useful.RxSchedulers;
-import com.rayhahah.rbase.utils.useful.SPManager;
 
-import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -32,66 +25,71 @@ import io.reactivex.functions.Function;
  * └────┴────┴────┴───────────────────────┴────┴────┴────┴────┘└───┴───┴───┘└───────┴───┴───┘
  *
  * @author Rayhahah
- * @time 2017/7/21
+ * @blog http://rayhahah.com
+ * @time 2017/9/15
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class LoginPresenter extends RBasePresenter<LoginContract.ILoginView>
-        implements LoginContract.ILoginPresenter {
-    public LoginPresenter(LoginContract.ILoginView view) {
+public class ForgetPresenter extends RBasePresenter<ForgetContract.IForgetView> implements ForgetContract.IForgetPresenter {
+    public ForgetPresenter(ForgetContract.IForgetView view) {
         super(view);
     }
 
     @Override
-    public void login(final String username, String password) {
-        addSubscription(MineApiFactory.getUserInfo(username, password).subscribe(new Consumer<ESUser>() {
+    public void getQuestion(String username) {
+        addSubscription(MineApiFactory.forgetGetQuestion(username).subscribe(new Consumer<RResponse>() {
             @Override
-            public void accept(@NonNull ESUser esUser) throws Exception {
-                if (esUser.getStatus() != C.RESPONSE_SUCCESS) {
-                    mView.loginFailed();
-                    return;
+            public void accept(@NonNull RResponse rResponse) throws Exception {
+                if (rResponse.getStatus() == C.RESPONSE_SUCCESS) {
+                    String question = rResponse.getData();
+                    mView.getQuestionSuccess(question);
+                } else {
+                    mView.requestFailed(rResponse.getMsg());
                 }
-                Observable.just(esUser).map(new Function<ESUser, Long>() {
-                    @Override
-                    public Long apply(@NonNull ESUser user) throws Exception {
-                        LocalUserDao localUserDao = MyApp.getDaoSession().getLocalUserDao();
-                        LocalUser localUser = new LocalUser();
-                        ESUser.DataBean userData = user.getData();
-                        localUser.setEssysport_id(userData.getId() + "");
-                        localUser.setUser_name(userData.getUsername());
-                        localUser.setPassword(userData.getPassword());
-                        localUser.setScreen_name(userData.getScreenname());
-                        localUser.setQuestion(userData.getQuestion());
-                        localUser.setAnswer(userData.getAnswer());
-                        localUser.setTel(userData.getPhone());
-                        localUser.setEmail(userData.getEmail());
-                        localUser.setCover(userData.getCover());
-                        localUser.setIs_day_theme(SPManager.get().getStringValue(C.SP.THEME));
-                        localUser.setHupu_user_name(userData.getHupuUsername());
-                        localUser.setHupu_password(userData.getHupuPassword());
-                        long rowId = localUserDao.insertOrReplace(localUser);
-                        if (rowId > 0) {
-                            SPManager.get().putString(C.SP.CURRENT_USER, userData.getUsername());
-                            SPManager.get().putString(C.SP.IS_LOGIN, C.TRUE);
-                            MyApp.setCurrentUser(localUser);
-                        }
-                        return rowId;
-                    }
-                }).compose(RxSchedulers.<Long>ioMain()).subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(@NonNull Long rowId) throws Exception {
-                        if (rowId != null) {
-                            mView.loginSuccess();
-                        } else {
-                            mView.loginFailed();
-                        }
-                    }
-                });
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(@NonNull Throwable throwable) throws Exception {
-                mView.loginFailed();
+                mView.requestFailed(throwable.getMessage());
+            }
+        }));
+    }
+
+    @Override
+    public void checkAnswer(String username, String question, String answer) {
+        addSubscription(MineApiFactory.forgetCheckAnswer(username, question, answer).subscribe(new Consumer<RResponse>() {
+            @Override
+            public void accept(@NonNull RResponse rResponse) throws Exception {
+                if (rResponse.getStatus() == C.RESPONSE_SUCCESS) {
+                    mView.checkAnswerSuccess(rResponse.getData());
+
+                } else {
+                    mView.requestFailed(rResponse.getMsg());
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.requestFailed(throwable.getMessage());
+            }
+        }));
+    }
+
+    @Override
+    public void resetPassword(String username, String passwordNew, String token) {
+        addSubscription(MineApiFactory.forgetResetPassword(username, passwordNew, token).subscribe(new Consumer<RResponse>() {
+            @Override
+            public void accept(@NonNull RResponse rResponse) throws Exception {
+                if (rResponse.getStatus() == C.RESPONSE_SUCCESS) {
+                    mView.resetPasswordSuccess(rResponse.getMsg());
+                } else {
+                    mView.requestFailed(rResponse.getMsg());
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.requestFailed(throwable.getMessage());
             }
         }));
     }

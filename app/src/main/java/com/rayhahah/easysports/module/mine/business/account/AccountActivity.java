@@ -1,9 +1,11 @@
 package com.rayhahah.easysports.module.mine.business.account;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,22 +17,24 @@ import com.rayhahah.dialoglib.CustomDialog;
 import com.rayhahah.dialoglib.DialogInterface;
 import com.rayhahah.dialoglib.NormalSelectionDialog;
 import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.bean.db.LocalUser;
 import com.rayhahah.easysports.common.BaseActivity;
-import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.databinding.ActivityAccountBinding;
 import com.rayhahah.easysports.databinding.DialogEdittextSettingBinding;
+import com.rayhahah.easysports.databinding.DialogSettingInfoBinding;
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
 import com.rayhahah.easysports.module.mine.domain.AccountListAdapter;
+import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.easysports.utils.glide.GlideCircleTransform;
 import com.rayhahah.easysports.view.TitleItemDecoration;
 import com.rayhahah.rbase.bean.MsgEvent;
-import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.rbase.utils.base.FileUtils;
 import com.rayhahah.rbase.utils.base.StringUtils;
 import com.rayhahah.rbase.utils.base.ToastUtils;
 import com.rayhahah.rbase.utils.useful.GlideUtil;
+import com.rayhahah.rbase.utils.useful.PermissionManager;
 import com.rayhahah.rbase.utils.useful.SPManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,7 +44,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAccountBinding>
-        implements AccountContract.IAccountView, View.OnClickListener, BaseQuickAdapter.OnItemChildClickListener {
+        implements AccountContract.IAccountView, View.OnClickListener,
+        BaseQuickAdapter.OnItemChildClickListener, PermissionManager.PermissionsResultListener {
 
     private AccountListAdapter mAdapter;
     private LocalUser mLocalUser;
@@ -138,6 +143,12 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                 // TODO: 2017/7/25 短信验证
 
                 break;
+            //常规信息设置
+            case C.ACCOUNT.ID_SETTING:
+                dismiss();
+                mCustomDialog = createDialog(createSettingDialog().getRoot());
+                mCustomDialog.show();
+                break;
             //绑定虎扑账号
             case C.ACCOUNT.ID_HUPU_BIND:
                 LocalUser currentUser = MyApp.getCurrentUser();
@@ -148,8 +159,8 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                     ToastUtils.showShort("请先设置虎扑账号信息！");
                     return;
                 }
-                DialogUtil.showLoadingDialog(mContext,"正在绑定",mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
-                mPresenter.loginHupu(hupu_user_name,hupu_password);
+                DialogUtil.showLoadingDialog(mContext, "正在绑定", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
+                mPresenter.loginHupu(hupu_user_name, hupu_password);
                 break;
         }
     }
@@ -168,25 +179,12 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
     }
 
     @Override
-    public void updateUserSuccess() {
-        getCurrentUserSuccess(MyApp.getCurrentUser());
-        DialogUtil.dismissDialog(true);
-        ToastUtils.showShort("设置信息成功");
-    }
-
-    @Override
-    public void updateUserFailed() {
-        DialogUtil.dismissDialog(false);
-        ToastUtils.showShort("设置信息失败");
-    }
-
-    @Override
     public void uploadCoverSuccess(String url) {
         DialogUtil.dismissDialog(true);
-        DialogUtil.showLoadingDialog(mContext, "正在设置信息", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
+        DialogUtil.showLoadingDialog(mContext, "正在上传信息", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
         LocalUser localUser = mLocalUser;
         localUser.setCover(url);
-        mPresenter.updateUser(localUser);
+        mPresenter.updateCover(localUser);
     }
 
     @Override
@@ -195,16 +193,18 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
         ToastUtils.showShort("上传图片失败");
     }
 
+
     @Override
-    public void loginHupuSuccess() {
+    public void updateInfoSuccess(String msg) {
+        getCurrentUserSuccess(MyApp.getCurrentUser());
         DialogUtil.dismissDialog(true);
-        ToastUtils.showShort(R.string.bind_success);
+        ToastUtils.showShort(msg);
     }
 
     @Override
-    public void loginHupuFailed(Throwable throwable) {
+    public void updateInfoFailed(String msg) {
         DialogUtil.dismissDialog(false);
-        ToastUtils.showShort(R.string.bind_failed);
+        ToastUtils.showShort(msg);
     }
 
 
@@ -227,6 +227,32 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                     DialogUtil.showProgressDialog(mContext, "正在上传图片");
                     mPresenter.uploadCover(path);
                 }
+                break;
+        }
+    }
+
+
+    @Override
+    public void onPermissionGranted(int requestCode) {
+        switch (requestCode) {
+            case C.ACCOUNT.PERMISSION_PHOTO:
+                mPresenter.choosePhoto(mContext);
+                break;
+            case C.ACCOUNT.PERMISSION_CAMERA:
+                mPresenter.takePhoto(mContext);
+                break;
+        }
+
+    }
+
+    @Override
+    public void onPermissionDenied(int requestCode) {
+        switch (requestCode) {
+            case C.ACCOUNT.PERMISSION_PHOTO:
+                ToastUtils.showShort("请求权限失败，功能无法开启");
+                break;
+            case C.ACCOUNT.PERMISSION_CAMERA:
+                ToastUtils.showShort("请求权限失败，功能无法开启");
                 break;
         }
     }
@@ -291,7 +317,7 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
      * @param settingBinding
      * @return
      */
-    private boolean checkInputLegal(DialogEdittextSettingBinding settingBinding) {
+    private boolean checkPasswordInputLegal(DialogEdittextSettingBinding settingBinding) {
         if (!StringUtils.isLegalUsername(settingBinding.etEditTwo.getText().toString())) {
             ToastUtils.showShort(getResources().getString(R.string.password) + "必须是字母和数字的结合");
             return false;
@@ -343,13 +369,13 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
         settingBinding.btnEditConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!checkInputLegal(settingBinding)) {
+                if (!checkPasswordInputLegal(settingBinding)) {
                     return;
                 }
                 DialogUtil.showLoadingDialog(mContext, "正在重置密码", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
                 LocalUser localUser = mLocalUser;
                 localUser.setPassword(settingBinding.etEditTwo.getText().toString());
-                mPresenter.updateUser(localUser);
+                mPresenter.resetPassword(localUser, settingBinding.etEditOne.getText().toString());
                 dismiss();
             }
         });
@@ -403,6 +429,60 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
         return settingBinding;
     }
 
+    private DialogSettingInfoBinding createSettingDialog() {
+        final DialogSettingInfoBinding settingBinding = (DialogSettingInfoBinding) DataBindingUtil.inflate(getLayoutInflater()
+                , R.layout.dialog_setting_info, null, false);
+        settingBinding.btnEditCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+        settingBinding.btnEditConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String screenname = settingBinding.etScreenname.getText().toString();
+                String email = settingBinding.etEmail.getText().toString();
+                String phone = settingBinding.etPhone.getText().toString();
+                String question = settingBinding.etQuestion.getText().toString();
+                String answer = settingBinding.etAnswer.getText().toString();
+                if (StringUtils.isNotEmpty(email)
+                        && !StringUtils.isEmail(email)) {
+                    ToastUtils.showShort("输入邮箱不合法");
+                    return;
+                }
+
+                if (StringUtils.isNotEmpty(phone)
+                        && !StringUtils.isLegalTel(phone)) {
+                    ToastUtils.showShort("输入手机号码不合法");
+                    return;
+                }
+                LocalUser localUser = mLocalUser;
+                localUser.setEmail(email);
+                localUser.setTel(phone);
+
+                if (StringUtils.isNotEmpty(screenname)) {
+                    localUser.setScreen_name(screenname);
+                }
+                if (StringUtils.isNotEmpty(question)) {
+                    localUser.setQuestion(question);
+                }
+                if (StringUtils.isNotEmpty(answer)) {
+                    localUser.setAnswer(answer);
+                }
+
+                DialogUtil.showLoadingDialog(mContext, "正在设置用户信息", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
+                mPresenter.updateUser(localUser);
+
+                dismiss();
+            }
+        });
+
+
+        return settingBinding;
+    }
+
+
     private DialogEdittextSettingBinding createHupuDialog() {
         final DialogEdittextSettingBinding settingBinding = (DialogEdittextSettingBinding) DataBindingUtil.inflate(getLayoutInflater()
                 , R.layout.dialog_edittext_setting, null, false);
@@ -422,11 +502,11 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
             public void onClick(View v) {
                 if (StringUtils.isNotEmpty(settingBinding.etEditOne.getText().toString())
                         && StringUtils.isNotEmpty(settingBinding.etEditTwo.getText().toString())) {
-                    DialogUtil.showLoadingDialog(mContext, "正在绑定虎扑", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
+                    DialogUtil.showLoadingDialog(mContext, "正在设置虎扑信息", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
                     LocalUser localUser = mLocalUser;
                     localUser.setHupu_user_name(settingBinding.etEditOne.getText().toString());
                     localUser.setHupu_password(settingBinding.etEditTwo.getText().toString());
-                    mPresenter.updateUser(localUser);
+                    mPresenter.updateHupuInfo(localUser);
                     dismiss();
                 } else {
                     ToastUtils.showShort(getResources().getString(R.string.message) + getResources().getString(R.string.not_null));
@@ -482,10 +562,21 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                     public void onItemClick(NormalSelectionDialog dialog1, View button, int position) {
                         switch (position) {
                             case 0:
-                                mPresenter.takePhoto(mContext);
+
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    PermissionManager.requestPermission(mContext, "请求相关权限", C.ACCOUNT.PERMISSION_CAMERA, AccountActivity.this
+                                            , Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                                } else {
+                                    mPresenter.takePhoto(mContext);
+                                }
                                 break;
                             case 1:
-                                mPresenter.choosePhoto(mContext);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                    PermissionManager.requestPermission(mContext, "请求相册读取权限", C.ACCOUNT.PERMISSION_PHOTO, AccountActivity.this
+                                            , Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                                } else {
+                                    mPresenter.choosePhoto(mContext);
+                                }
                                 break;
                         }
                         dialog1.dismiss();
@@ -494,5 +585,4 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                 .setCanceledOnTouchOutside(true)
                 .build();
     }
-
 }

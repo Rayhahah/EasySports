@@ -150,6 +150,86 @@
                 app:layout_flexGrow="1"/>
 
         </com.google.android.flexbox.FlexboxLayout>
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:paddingTop="@dimen/dp_10"
+            app:flexDirection="row"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dp_5"
+                android:gravity="center"
+                android:text="@string/question"
+                android:textColor="?attr/colorTextDark"
+                android:textSize="@dimen/sp_16"
+                app:layout_flexGrow="2"/>
+
+            <EditText
+                android:id="@+id/et_register_question"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_bg_corner4"
+                android:hint="@string/register_question_hint"
+                android:textColor="?attr/colorTextDark"
+                android:textColorHint="?attr/colorTextLight"
+                app:layout_flexGrow="7"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/must"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="@dimen/sp_16"
+                app:layout_flexGrow="1"/>
+
+        </com.google.android.flexbox.FlexboxLayout>
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:paddingTop="@dimen/dp_10"
+            app:flexDirection="row"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dp_5"
+                android:gravity="center"
+                android:text="@string/answer"
+                android:textColor="?attr/colorTextDark"
+                android:textSize="@dimen/sp_16"
+                app:layout_flexGrow="2"/>
+
+            <EditText
+                android:id="@+id/et_register_answer"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_bg_corner4"
+                android:hint="@string/register_answer_hint"
+                android:textColor="?attr/colorTextDark"
+                android:textColorHint="?attr/colorTextLight"
+                app:layout_flexGrow="7"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/must"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="@dimen/sp_16"
+                app:layout_flexGrow="1"/>
+
+        </com.google.android.flexbox.FlexboxLayout>
 
         <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
@@ -177,6 +257,48 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/shape_bg_corner4"
                 android:hint="@string/register_tel_hint"
+                android:textColor="?attr/colorTextDark"
+                android:textColorHint="?attr/colorTextLight"
+                app:layout_flexGrow="7"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/must"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="@dimen/sp_16"
+                android:visibility="invisible"
+                app:layout_flexGrow="1"/>
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:paddingTop="@dimen/dp_10"
+            app:flexDirection="row"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/dp_5"
+                android:gravity="center"
+                android:text="@string/email"
+                android:textColor="?attr/colorTextDark"
+                android:textSize="@dimen/sp_16"
+                app:layout_flexGrow="2"/>
+
+            <EditText
+                android:id="@+id/et_register_email"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_bg_corner4"
+                android:hint="@string/register_email_hint"
                 android:textColor="?attr/colorTextDark"
                 android:textColorHint="?attr/colorTextLight"
                 app:layout_flexGrow="7"/>

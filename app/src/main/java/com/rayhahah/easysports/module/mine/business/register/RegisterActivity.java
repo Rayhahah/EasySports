@@ -17,8 +17,6 @@ import com.rayhahah.rbase.utils.base.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
-import cn.bmob.v3.exception.BmobException;
-
 public class RegisterActivity extends BaseActivity<RegisterPresenter, ActivityRegisterBinding> implements RegisterContract.IRegisterView, View.OnClickListener {
 
 
@@ -68,7 +66,7 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, ActivityRe
     }
 
     @Override
-    public void registerFailed(BmobException e) {
+    public void registerFailed(Throwable e) {
         DialogUtil.dismissDialog(false);
         ToastUtils.showShort(getResources().getString(R.string.register_regist_fail));
     }
@@ -87,7 +85,10 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, ActivityRe
                 mPresenter.registerNewUser(mBinding.etRegisterUsername.getText().toString()
                         , mBinding.etRegisterPassword.getText().toString()
                         , mBinding.etRegisterScreenname.getText().toString()
+                        , mBinding.etRegisterQuestion.getText().toString()
+                        , mBinding.etRegisterAnswer.getText().toString()
                         , mBinding.etRegisterTelephone.getText().toString()
+                        , mBinding.etRegisterEmail.getText().toString()
                         , mBinding.etRegisterHupuUsername.getText().toString()
                         , mBinding.etRegisterHupuPassword.getText().toString());
                 break;
@@ -124,6 +125,14 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, ActivityRe
 
         if (!StringUtils.isLegalUsername(mBinding.etRegisterPassword.getText().toString())) {
             ToastUtils.showShort(getResources().getString(R.string.password) + "必须是字母和数字的结合");
+            return false;
+        }
+        if (!StringUtils.isNotEmpty(mBinding.etRegisterQuestion.getText().toString())) {
+            ToastUtils.showShort("问题不能为空");
+            return false;
+        }
+        if (!StringUtils.isNotEmpty(mBinding.etRegisterAnswer.getText().toString())) {
+            ToastUtils.showShort("答案不能为空");
             return false;
         }
 

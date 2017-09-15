@@ -6,16 +6,16 @@ import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDex;
 
-import com.rayhahah.easysports.bean.CrashMessage;
 import com.rayhahah.easysports.bean.db.LocalUser;
+import com.rayhahah.easysports.module.mine.bean.RResponse;
 import com.rayhahah.easysports.net.ApiClient;
+import com.rayhahah.easysports.net.ApiFactory;
 import com.rayhahah.easysports.sonic.SonicRuntimeImpl;
 import com.rayhahah.greendao.gen.DaoMaster;
 import com.rayhahah.greendao.gen.DaoSession;
 import com.rayhahah.rbase.BaseApplication;
 import com.rayhahah.rbase.net.OkHttpManager;
 import com.rayhahah.rbase.utils.RCrashHandler;
-import com.rayhahah.rbase.utils.base.DateTimeUitl;
 import com.rayhahah.rbase.utils.useful.RLog;
 import com.rayhahah.rbase.utils.useful.SPManager;
 import com.taobao.sophix.PatchStatus;
@@ -24,11 +24,12 @@ import com.taobao.sophix.listener.PatchLoadStatusListener;
 import com.tencent.sonic.sdk.SonicConfig;
 import com.tencent.sonic.sdk.SonicEngine;
 
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import okhttp3.OkHttpClient;
 
 public class MyApp extends BaseApplication {
@@ -103,6 +104,7 @@ public class MyApp extends BaseApplication {
         initSonic();
 
         initGreenDao();
+//        initCrashHandler();
     }
 
     /**
@@ -127,38 +129,45 @@ public class MyApp extends BaseApplication {
      * 初始化崩溃处理器
      */
     private void initCrashHandler() {
-
         mCrashUploader = new RCrashHandler.CrashUploader() {
             @Override
             public void uploadCrashMessage(ConcurrentHashMap<String, Object> infos) {
-                CrashMessage cm = new CrashMessage();
                 ConcurrentHashMap<String, String> packageInfos = (ConcurrentHashMap<String, String>) infos.get(RCrashHandler.PACKAGE_INFOS_MAP);
-                cm.setDate(DateTimeUitl.getCurrentWithFormate(DateTimeUitl.sysDateFormate));
-                cm.setVersionName(packageInfos.get(RCrashHandler.VERSION_NAME));
-                cm.setVersionCode(packageInfos.get(RCrashHandler.VERSION_CODE));
-                cm.setExceptionInfos(((String) infos.get(RCrashHandler.EXCEPETION_INFOS_STRING)));
-                cm.setMemoryInfos((String) infos.get(RCrashHandler.MEMORY_INFOS_STRING));
-                cm.setDeviceInfos(RCrashHandler.getInfosStr((ConcurrentHashMap<String, String>) infos
-                        .get(RCrashHandler.BUILD_INFOS_MAP)).toString());
-                cm.setSystemInfoss(RCrashHandler.getInfosStr((ConcurrentHashMap<String, String>) infos
-                        .get(RCrashHandler.SYSTEM_INFOS_MAP)).toString());
-                cm.setSecureInfos(RCrashHandler.getInfosStr((ConcurrentHashMap<String, String>) infos
-                        .get(RCrashHandler.SECURE_INFOS_MAP)).toString());
-                cm.save(new SaveListener<String>() {
-                    @Override
-                    public void done(String s, BmobException e) {
-                        if (e == null) {
-                            RLog.e("上传成功！");
+                LocalUser currentUser = getCurrentUser();
+                int userId = 0;
+                if (currentUser != null) {
+                    userId = Integer.parseInt(currentUser.getEssysport_id());
+                }
 
+                HashMap<String, String> params = new HashMap<>();
+                params.put(C.CRASH.VERSION_NAME, packageInfos.get(RCrashHandler.VERSION_NAME));
+                params.put(C.CRASH.VERSION_CODE, packageInfos.get(RCrashHandler.VERSION_CODE));
+                params.put(C.CRASH.EXCEPTION_INFO, (String) infos.get(RCrashHandler.EXCEPETION_INFOS_STRING));
+                params.put(C.CRASH.MEMORY_INFO, (String) infos.get(RCrashHandler.MEMORY_INFOS_STRING));
+                params.put(C.CRASH.DEVICE_INFO,
+                        RCrashHandler.getInfosStr((ConcurrentHashMap<String, String>) infos.get(RCrashHandler.BUILD_INFOS_MAP)).toString());
+                params.put(C.CRASH.SYSTEM_INFO,
+                        RCrashHandler.getInfosStr((ConcurrentHashMap<String, String>) infos.get(RCrashHandler.SYSTEM_INFOS_MAP)).toString());
+                params.put(C.CRASH.SECURE_INFO,
+                        RCrashHandler.getInfosStr((ConcurrentHashMap<String, String>) infos.get(RCrashHandler.SECURE_INFOS_MAP)).toString());
+                ApiFactory.commitCrashMessage(userId, params).subscribe(new Consumer<RResponse>() {
+                    @Override
+                    public void accept(@NonNull RResponse rResponse) throws Exception {
+                        if (rResponse.getStatus() == C.RESPONSE_SUCCESS) {
+                            RLog.e("上传崩溃信息成功");
                         } else {
-                            RLog.e("上传Bmob失败 错误码：" + e.getErrorCode());
+                            RLog.e("上传崩溃信息失败");
                         }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        RLog.e("上传崩溃信息失败");
                     }
                 });
             }
         };
-        RCrashHandler.getInstance(C.DIR.CRASH)
-                .init(mAppContext, mCrashUploader);
+        RCrashHandler.getInstance(C.DIR.CRASH).init(mAppContext, mCrashUploader);
     }
 
     /**
@@ -173,6 +182,7 @@ public class MyApp extends BaseApplication {
         ApiClient.create(C.BaseURL.HUPU_FORUM_SERVER, okHttpClient);
         ApiClient.create(C.BaseURL.HUPU_GAMES_SERVER, okHttpClient);
         ApiClient.create(C.BaseURL.HUPU_LOGIN_SERVER, okHttpClient);
+        ApiClient.create(C.BaseURL.RAYMALL, okHttpClient);
     }
 
     /**

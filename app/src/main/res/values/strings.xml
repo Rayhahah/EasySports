@@ -28,7 +28,9 @@
     <string name="photo_album">相册</string>
     <string name="flash_light">闪光灯</string>
     <string name="qrcode">二维码</string>
-
+    <string name="email">邮箱</string>
+    <string name="question">问题</string>
+    <string name="answer">答案</string>
 
     <!--homepage-->
     <string name="app_name">EasySports</string>
@@ -66,6 +68,7 @@
     <string name="example_player_rank">NO.1</string>
     <string name="example_player_name">拉塞尔·威斯布鲁克</string>
     <string name="example_rank_type">得分榜</string>
+    <string name="example_input_nothing">不输入则不改变</string>
 
     <!--mine-->
     <string name="mine_all_team">全部球队</string>
@@ -78,6 +81,10 @@
     <string name="mine_login_myaccount">我的账号</string>
     <string name="mine_register_now">立即注册</string>
     <string name="mine_other_register_way">其他注册方式</string>
+    <string name="detail_content">详细内容</string>
+    <string name="decode_qrcode">扫一扫</string>
+    <string name="mine_register_forget">忘记密码</string>
+
 
     <!--register-->
     <string name="register_username">登录账号</string>
@@ -94,6 +101,9 @@
     <string name="registering">正在注册</string>
     <string name="register_regist_fail">注册失败，用户名已存在</string>
     <string name="register_regist_success">注册成功</string>
+    <string name="register_question_hint">请输入重置密码问题</string>
+    <string name="register_answer_hint">请输入重置密码答案</string>
+    <string name="register_email_hint">请输入邮箱</string>
 
     <!--account-->
     <string name="account_manage">账号管理</string>
@@ -144,7 +154,5 @@
     <string name="preferences_supplemental_title">Retrieve more info</string>
     <string name="preferences_vibrate_title">Vibrate</string>
     <string name="preview_msg"> preview pages available,click Download for more.</string>
-    <string name="detail_content">详细内容</string>
-    <string name="decode_qrcode">扫一扫</string>
 
 </resources>

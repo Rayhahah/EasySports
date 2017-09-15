@@ -1,6 +1,6 @@
-package com.rayhahah.easysports.module.mine.bean;
+package com.rayhahah.easysports.module.mine.business.forget;
 
-import cn.bmob.v3.BmobObject;
+import com.rayhahah.rbase.base.IRBaseView;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -19,36 +19,30 @@ import cn.bmob.v3.BmobObject;
  * └────┴────┴────┴───────────────────────┴────┴────┴────┴────┘└───┴───┴───┘└───────┴───┴───┘
  *
  * @author Rayhahah
- * @time 2017/7/20
+ * @blog http://rayhahah.com
+ * @time 2017/9/15
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class BmobFeedback extends BmobObject {
+public class ForgetContract {
+    public interface IForgetView extends IRBaseView{
 
-    private String description;
-    private BmobUsers user;
+        void getQuestionSuccess(String question);
 
-    public BmobFeedback() {
+        void requestFailed(String msg);
+
+        void checkAnswerSuccess(String token);
+
+        void resetPasswordSuccess(String msg);
     }
 
-    public BmobFeedback(String description, BmobUsers user) {
-        this.description = description;
-        this.user = user;
+    public interface IForgetPresenter{
+
+        void getQuestion(String username);
+
+        void checkAnswer(String username, String question, String answer);
+
+        void resetPassword(String username, String passwordNew, String token);
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public BmobUsers getUser() {
-        return user;
-    }
-
-    public void setUser(BmobUsers user) {
-        this.user = user;
-    }
 }

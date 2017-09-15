@@ -2,8 +2,6 @@ package com.rayhahah.easysports.module.mine.business.register;
 
 import com.rayhahah.rbase.base.IRBaseView;
 
-import cn.bmob.v3.exception.BmobException;
-
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
  * │Esc│ │ F1│ F2│ F3│ F4│ │ F5│ F6│ F7│ F8│ │ F9│F10│F11│F12│ │P/S│S L│P/B│ ┌┐    ┌┐    ┌┐
@@ -29,12 +27,12 @@ public class RegisterContract {
     public interface IRegisterView extends IRBaseView {
         void registerSuccess();
 
-        void registerFailed(BmobException e);
+        void registerFailed(Throwable e);
     }
 
     public interface IRegisterPresenter {
 
-        void registerNewUser(String userName, String password, String screenName, String tel, String hupuUsername, String hupuPassword);
+        void registerNewUser(String userName, String password, String screenName, String question, String answer, String tel, String email, String hupuUsername, String hupuPassword);
     }
 
 }

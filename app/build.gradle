@@ -38,7 +38,7 @@ android {
     }
 
     greendao {
-        schemaVersion 4
+        schemaVersion 5
         daoPackage 'com.rayhahah.greendao.gen'
         targetGenDir 'src/main/java'
     }
@@ -81,12 +81,12 @@ dependencies {
     compile files('libs/zxing.jar')
     compile files('libs/alicloud-android-utils-1.0.3.jar')
     compile files('libs/utdid4all-1.1.5.3_proguard.jar')
-    compile 'cn.bmob.android:bmob-sdk:3.5.5'
-    compile 'cn.bmob.android:http-legacy:1.0'
-    compile 'com.tencent.sonic:sdk:1.0.0'
     //    阿里云热修复远程依赖失败
 
     //    compile 'com.aliyun.ams:alicloud-android-hotfix:3.1.0'
+    compile 'cn.bmob.android:bmob-sdk:3.5.5'
+    compile 'cn.bmob.android:http-legacy:1.0'
+    compile 'com.tencent.sonic:sdk:1.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:multidex:1.0.1'
     testCompile 'junit:junit:4.12'

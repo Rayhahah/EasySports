@@ -30,7 +30,7 @@ import org.greenrobot.greendao.annotation.Generated;
 public class LocalUser {
 
     @Unique
-    private String bmobId;
+    private String essysport_id;
     @Unique
     private String user_name;
     @NotNull
@@ -38,33 +38,46 @@ public class LocalUser {
     @NotNull
     private String screen_name;
     private String tel;
+    private String email;
+    private String question;
+    private String answer;
 
     private String cover;
 
     private String hupu_user_name;
     private String hupu_password;
-    private String hupu_screen_name;
 
     private String is_day_theme;
 
-    @Generated(hash = 1619478263)
-    public LocalUser(String bmobId, String user_name, @NotNull String password,
-            @NotNull String screen_name, String tel, String cover, String hupu_user_name,
-            String hupu_password, String hupu_screen_name, String is_day_theme) {
-        this.bmobId = bmobId;
+    @Generated(hash = 1667382652)
+    public LocalUser(String essysport_id, String user_name, @NotNull String password,
+            @NotNull String screen_name, String tel, String email, String question,
+            String answer, String cover, String hupu_user_name, String hupu_password,
+            String is_day_theme) {
+        this.essysport_id = essysport_id;
         this.user_name = user_name;
         this.password = password;
         this.screen_name = screen_name;
         this.tel = tel;
+        this.email = email;
+        this.question = question;
+        this.answer = answer;
         this.cover = cover;
         this.hupu_user_name = hupu_user_name;
         this.hupu_password = hupu_password;
-        this.hupu_screen_name = hupu_screen_name;
         this.is_day_theme = is_day_theme;
     }
 
     @Generated(hash = 173344742)
     public LocalUser() {
+    }
+
+    public String getEssysport_id() {
+        return this.essysport_id;
+    }
+
+    public void setEssysport_id(String essysport_id) {
+        this.essysport_id = essysport_id;
     }
 
     public String getUser_name() {
@@ -99,6 +112,38 @@ public class LocalUser {
         this.tel = tel;
     }
 
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getQuestion() {
+        return this.question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public String getAnswer() {
+        return this.answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+
+    public String getCover() {
+        return this.cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
     public String getHupu_user_name() {
         return this.hupu_user_name;
     }
@@ -115,36 +160,12 @@ public class LocalUser {
         this.hupu_password = hupu_password;
     }
 
-    public String getHupu_screen_name() {
-        return this.hupu_screen_name;
-    }
-
-    public void setHupu_screen_name(String hupu_screen_name) {
-        this.hupu_screen_name = hupu_screen_name;
-    }
-
     public String getIs_day_theme() {
         return this.is_day_theme;
     }
 
     public void setIs_day_theme(String is_day_theme) {
         this.is_day_theme = is_day_theme;
-    }
-
-    public String getCover() {
-        return this.cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
-    }
-
-    public String getBmobId() {
-        return this.bmobId;
-    }
-
-    public void setBmobId(String bmobId) {
-        this.bmobId = bmobId;
     }
 
 }

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.rayhahah.easysports.module.mine.business.forget.ForgetActivity"
+    >
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fbl_forgets"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:flexDirection="row"
+        app:flexWrap="wrap"
+        >
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:onClick="forgetCilckEvent"
+            android:id="@+id/tv_forget_click"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:background="@drawable/selector_color_click"
+            android:gravity="center"
+            android:text="获取问题"
+            android:textColor="?attr/colorBg"
+            android:textSize="@dimen/sp_30"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_forget_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:text="@string/username"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/sp_20"
+            app:layout_constraintBottom_toTopOf="@+id/tv_forget_click"
+            app:layout_constraintHorizontal_bias="0.101"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.100000024"/>
+
+        <EditText
+            android:id="@+id/et_forget_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:ems="10"
+            android:hint="@string/register_username_hint"
+            android:inputType="textPersonName"
+            android:textColor="@color/colorDayTextDark"
+            android:textColorHint="?attr/colorTextLight"
+            android:textSize="@dimen/sp_20"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_forget_username"
+            app:layout_constraintLeft_toRightOf="@+id/tv_forget_username"
+            app:layout_constraintTop_toTopOf="@+id/tv_forget_username"/>
+
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_forget_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:text="问题"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/sp_20"
+            app:layout_constraintBottom_toTopOf="@+id/tv_forget_click"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_forget_username"
+            app:layout_constraintRight_toLeftOf="@+id/et_forget_username"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.2"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/et_forget_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="0dp"
+            android:ems="12"
+            android:hint="@string/register_question_hint"
+            android:inputType="textPersonName"
+            android:textColor="@color/colorDayTextDark"
+            android:textColorHint="?attr/colorTextLight"
+            android:textSize="@dimen/sp_20"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_forget_question"
+            app:layout_constraintLeft_toRightOf="@+id/tv_forget_question"
+            app:layout_constraintTop_toTopOf="@+id/tv_forget_question"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_forget_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:text="@string/answer"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/sp_20"
+            app:layout_constraintBottom_toTopOf="@+id/tv_forget_click"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_forget_username"
+            app:layout_constraintRight_toLeftOf="@+id/et_forget_username"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.3"/>
+
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/et_forget_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:ems="10"
+            android:hint="@string/register_answer_hint"
+            android:inputType="textPersonName"
+            android:textColor="@color/colorDayTextDark"
+            android:textColorHint="?attr/colorTextLight"
+            android:textSize="@dimen/sp_20"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_forget_answer"
+            app:layout_constraintLeft_toRightOf="@+id/tv_forget_answer"
+            app:layout_constraintTop_toTopOf="@+id/tv_forget_answer"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_forget_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/password"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/sp_20"
+            app:layout_constraintBottom_toTopOf="@+id/tv_forget_click"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_forget_username"
+            app:layout_constraintRight_toLeftOf="@+id/et_forget_username"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.39999998"/>
+
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/et_forget_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:ems="10"
+            android:hint="@string/register_password_hint"
+            android:textColor="@color/colorDayTextDark"
+            android:textColorHint="?attr/colorTextLight"
+            android:textSize="@dimen/sp_20"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_forget_password"
+            app:layout_constraintLeft_toRightOf="@+id/tv_forget_password"
+            app:layout_constraintTop_toTopOf="@+id/tv_forget_password"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

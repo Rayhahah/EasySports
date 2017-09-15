@@ -68,5 +68,9 @@ public class DialogUtil {
             loadingDialog.dismiss(isOk);
             loadingDialog = null;
         }
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
     }
 }

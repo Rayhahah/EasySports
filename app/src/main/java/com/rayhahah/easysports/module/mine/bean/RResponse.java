@@ -1,13 +1,4 @@
-package com.rayhahah.easysports.module.mine.business.account;
-
-import android.app.Activity;
-import android.content.Context;
-
-import com.rayhahah.easysports.bean.db.LocalUser;
-import com.rayhahah.easysports.module.mine.bean.MineListBean;
-import com.rayhahah.rbase.base.IRBaseView;
-
-import java.util.List;
+package com.rayhahah.easysports.module.mine.bean;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -26,43 +17,44 @@ import java.util.List;
  * └────┴────┴────┴───────────────────────┴────┴────┴────┴────┘└───┴───┴───┘└───────┴───┴───┘
  *
  * @author Rayhahah
- * @time 2017/7/21
+ * @blog http://rayhahah.com
+ * @time 2017/9/12
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class AccountContract {
-    public interface IAccountView extends IRBaseView {
+public class RResponse {
 
-        void getCurrentUserSuccess(LocalUser localUser);
+    /**
+     * status : 0
+     * data : 问题1
+     * msg : 用户不存在的
+     */
 
-        void uploadCoverSuccess(String url);
+    private int status;
+    private String data;
+    private String msg;
 
-        void uploadCoverFailed(int code, String msg);
-
-        void updateInfoSuccess(String msg);
-
-        void updateInfoFailed(String msg);
+    public int getStatus() {
+        return status;
     }
 
-    public interface IAccountPresenter {
-
-        List<MineListBean> getListData(Context context);
-
-        void updateUser(LocalUser localUser);
-
-        void takePhoto(Activity context);
-
-        void uploadCover(String path);
-
-        void choosePhoto(Activity context);
-
-        void loginHupu(String hupu_user_name, String hupu_password);
-
-        void resetPassword(LocalUser localUser, String passwordOld);
-
-        void updateHupuInfo(LocalUser localUser);
-
-        void updateCover(LocalUser localUser);
+    public void setStatus(int status) {
+        this.status = status;
     }
 
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 }

@@ -11,6 +11,9 @@ import java.lang.annotation.RetentionPolicy;
 public class C {
 
 
+    public static final int RESPONSE_SUCCESS = 0;
+    public static final int RESPONSE_FAILED = 1;
+
     public interface DIR {
         String PIC_DIR = FileUtils.getRootFilePath() + "EasySport/images";
         String CRASH = FileUtils.getRootFilePath() + "EasySport/crashLog";
@@ -48,6 +51,7 @@ public class C {
         String TECENT_VIDEO_SERVER_H5 = "http://h5vv.video.qq.com";
         String TECENT_SERVER = "http://sportsnba.qq.com";
         String TMIAAO_SERVER = "http://nba.tmiaoo.com";
+        String RAYMALL = "http://rayhahah.s1.natapp.cc/raymall/";
     }
 
     /**
@@ -151,6 +155,16 @@ public class C {
         int ID_FEEDBACK = 7;
         int ID_ABOUT = 8;
         int ID_QRCODE = 9;
+
+        String USERNAME = "username";
+        String PASSWORD = "password";
+        String SCREENNAME = "screenname";
+        String QUESTION = "question";
+        String ANSWER = "answer";
+        String PHONE = "phone";
+        String EMAIL = "email";
+        String HUPU_USERNAME = "hupuUsername";
+        String HUPU_PASSWORD = "hupuPassword";
     }
 
 
@@ -161,8 +175,29 @@ public class C {
         int ID_TEL = 3;
         int ID_SCREENNAME = 4;
         int ID_HUPU_BIND = 5;
+        int ID_SETTING = 6;
         int CODE_TAKE_PHOTO = 101;
         int CODE_CHOOSE_PHOTO = 102;
+        int PERMISSION_PHOTO = 1001;
+        int PERMISSION_CAMERA = 1002;
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface FORGET {
+        int TAG_GET_QUESTION = 0;
+        int TAG_ANSWER = 1;
+        int TAG_RESET_PASSWORD = 2;
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface CRASH {
+        String VERSION_NAME = "versionName";
+        String VERSION_CODE = "";
+        String EXCEPTION_INFO = "";
+        String DEVICE_INFO = "";
+        String SYSTEM_INFO = "";
+        String SECURE_INFO = "";
+        String MEMORY_INFO = "";
     }
 
     public static final String TRUE = "true";

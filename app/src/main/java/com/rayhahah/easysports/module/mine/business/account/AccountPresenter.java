@@ -8,13 +8,13 @@ import android.provider.MediaStore;
 import android.text.format.DateFormat;
 
 import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.bean.db.LocalUser;
-import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.module.mine.api.MineApiFactory;
-import com.rayhahah.easysports.module.mine.bean.BmobUsers;
 import com.rayhahah.easysports.module.mine.bean.HupuUserData;
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
+import com.rayhahah.easysports.module.mine.bean.RResponse;
 import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.rbase.base.RBasePresenter;
 import com.rayhahah.rbase.utils.useful.RLog;
@@ -24,12 +24,12 @@ import java.io.File;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -68,13 +68,13 @@ public class AccountPresenter extends RBasePresenter<AccountContract.IAccountVie
     public List<MineListBean> getListData(Context context) {
         List<MineListBean> mData = new ArrayList<>();
 
-        MineListBean scrreenName = new MineListBean();
-        scrreenName.setCoverRes(R.drawable.ic_svg_screenname_colorful_24);
-        scrreenName.setTitle("设置昵称");
-        scrreenName.setSectionData(context.getResources().getString(R.string.account_setting));
-        scrreenName.setType(MineListBean.TYPE_NULL);
-        scrreenName.setId(C.ACCOUNT.ID_SCREENNAME);
-        mData.add(scrreenName);
+//        MineListBean scrreenName = new MineListBean();
+//        scrreenName.setCoverRes(R.drawable.ic_svg_screenname_colorful_24);
+//        scrreenName.setTitle("设置昵称");
+//        scrreenName.setSectionData(context.getResources().getString(R.string.account_setting));
+//        scrreenName.setType(MineListBean.TYPE_NULL);
+//        scrreenName.setId(C.ACCOUNT.ID_SCREENNAME);
+//        mData.add(scrreenName);
 
         MineListBean reset = new MineListBean();
         reset.setCoverRes(R.drawable.ic_svg_reset_blue_24);
@@ -92,13 +92,21 @@ public class AccountPresenter extends RBasePresenter<AccountContract.IAccountVie
         hupu.setId(C.ACCOUNT.ID_HUPU);
         mData.add(hupu);
 
-        MineListBean tel = new MineListBean();
-        tel.setCoverRes(R.drawable.ic_svg_telephone_orange_24);
-        tel.setTitle("电话号码设置");
-        tel.setSectionData(context.getResources().getString(R.string.account_setting));
-        tel.setType(MineListBean.TYPE_NULL);
-        tel.setId(C.ACCOUNT.ID_TEL);
-        mData.add(tel);
+        MineListBean set = new MineListBean();
+        set.setCoverRes(R.drawable.ic_svg_setting_orange_24);
+        set.setTitle("常规设置");
+        set.setSectionData(context.getResources().getString(R.string.account_setting));
+        set.setType(MineListBean.TYPE_NULL);
+        set.setId(C.ACCOUNT.ID_SETTING);
+        mData.add(set);
+
+//        MineListBean tel = new MineListBean();
+//        tel.setCoverRes(R.drawable.ic_svg_telephone_orange_24);
+//        tel.setTitle("电话设置");
+//        tel.setSectionData(context.getResources().getString(R.string.account_setting));
+//        tel.setType(MineListBean.TYPE_NULL);
+//        tel.setId(C.ACCOUNT.ID_TEL);
+//        mData.add(tel);
 
         MineListBean hupuBind = new MineListBean();
         hupuBind.setCoverRes(R.drawable.ic_svg_bind_hupu_colorful_24);
@@ -113,22 +121,30 @@ public class AccountPresenter extends RBasePresenter<AccountContract.IAccountVie
 
     @Override
     public void updateUser(final LocalUser localUser) {
-        BmobUsers bmobUsers = new BmobUsers(localUser.getUser_name()
-                , localUser.getPassword(), localUser.getScreen_name()
-                , localUser.getTel(), localUser.getCover()
-                , localUser.getHupu_user_name(), localUser.getPassword());
-        bmobUsers.update(localUser.getBmobId(), new UpdateListener() {
+        HashMap<String, String> params = new HashMap<>();
+        params.put(C.MINE.USERNAME, localUser.getUser_name());
+        params.put(C.MINE.PASSWORD, localUser.getPassword());
+        params.put(C.MINE.SCREENNAME, localUser.getScreen_name());
+        params.put(C.MINE.EMAIL, localUser.getEmail());
+        params.put(C.MINE.PHONE, localUser.getTel());
+        params.put(C.MINE.QUESTION, localUser.getQuestion());
+        params.put(C.MINE.ANSWER, localUser.getAnswer());
+        addSubscription(MineApiFactory.updateNormalInfo(params).subscribe(new Consumer<RResponse>() {
             @Override
-            public void done(BmobException e) {
-                if (e == null) {
-                    MyApp.getDaoSession().getLocalUserDao().insertOrReplace(localUser);
-                    MyApp.setCurrentUser(localUser);
-                    mView.updateUserSuccess();
+            public void accept(@NonNull RResponse rResponse) throws Exception {
+                if (rResponse.getStatus() == C.RESPONSE_SUCCESS) {
+                    updateUserSuccess(rResponse, localUser);
                 } else {
-                    mView.updateUserFailed();
+                    mView.updateInfoFailed(rResponse.getMsg());
                 }
+
             }
-        });
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.updateInfoFailed(throwable.getMessage());
+            }
+        }));
     }
 
     @Override
@@ -153,15 +169,81 @@ public class AccountPresenter extends RBasePresenter<AccountContract.IAccountVie
                     SPManager.get().putString(C.SP.HUPU_UID, data.uid);
                     SPManager.get().putString(C.SP.HUPU_NICKNAME, data.nickname);
 
-                    mView.loginHupuSuccess();
+                    mView.updateInfoSuccess("绑定成功");
                 }
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(@NonNull Throwable throwable) throws Exception {
-                mView.loginHupuFailed(throwable);
+                mView.updateInfoFailed("绑定失败");
             }
         }));
+    }
+
+    @Override
+    public void resetPassword(final LocalUser localUser, String passwordOld) {
+        addSubscription(MineApiFactory.resetPassword(localUser.getUser_name(), passwordOld, localUser.getPassword()).subscribe(new Consumer<RResponse>() {
+            @Override
+            public void accept(@NonNull RResponse rResponse) throws Exception {
+                if (rResponse.getStatus() == C.RESPONSE_SUCCESS) {
+                    updateUserSuccess(rResponse, localUser);
+                } else {
+                    mView.updateInfoFailed(rResponse.getMsg());
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.updateInfoFailed(throwable.getMessage());
+            }
+        }));
+    }
+
+    @Override
+    public void updateHupuInfo(final LocalUser localUser) {
+        addSubscription(MineApiFactory.updateHupuInfo(localUser.getUser_name(), localUser.getPassword(),
+                localUser.getHupu_user_name(), localUser.getPassword()).subscribe(new Consumer<RResponse>() {
+            @Override
+            public void accept(@NonNull RResponse rResponse) throws Exception {
+                if (rResponse.getStatus() == C.RESPONSE_SUCCESS) {
+                    updateUserSuccess(rResponse, localUser);
+                } else {
+                    mView.updateInfoFailed(rResponse.getMsg());
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.updateInfoFailed(throwable.getMessage());
+            }
+        }));
+
+
+    }
+
+    @Override
+    public void updateCover(final LocalUser localUser) {
+        addSubscription(MineApiFactory.updateCover(localUser.getUser_name(), localUser.getPassword(), localUser.getCover()).subscribe(new Consumer<RResponse>() {
+            @Override
+            public void accept(@NonNull RResponse rResponse) throws Exception {
+                if (rResponse.getStatus() == C.RESPONSE_SUCCESS) {
+                    updateUserSuccess(rResponse, localUser);
+                } else {
+                    mView.updateInfoFailed(rResponse.getMsg());
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.updateInfoFailed(throwable.getMessage());
+            }
+        }));
+    }
+
+    private void updateUserSuccess(@NonNull RResponse rResponse, LocalUser localUser) {
+        MyApp.getDaoSession().getLocalUserDao().insertOrReplace(localUser);
+        MyApp.setCurrentUser(localUser);
+        mView.updateInfoSuccess(rResponse.getData());
     }
 
     @Override
@@ -183,6 +265,7 @@ public class AccountPresenter extends RBasePresenter<AccountContract.IAccountVie
         context.startActivityForResult(intent, C.ACCOUNT.CODE_TAKE_PHOTO);
     }
 
+    // TODO: 2017/9/15 阿里云OSS的接入还没做
     @Override
     public void uploadCover(String path) {
         final BmobFile bmobFile = new BmobFile(new File(path));
