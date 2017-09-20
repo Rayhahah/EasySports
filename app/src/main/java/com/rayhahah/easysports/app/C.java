@@ -155,6 +155,7 @@ public class C {
         int ID_FEEDBACK = 7;
         int ID_ABOUT = 8;
         int ID_QRCODE = 9;
+        int ID_LIVE = 10;
 
         String USERNAME = "username";
         String PASSWORD = "password";
@@ -165,6 +166,9 @@ public class C {
         String EMAIL = "email";
         String HUPU_USERNAME = "hupuUsername";
         String HUPU_PASSWORD = "hupuPassword";
+        String INTENT_URL = "URL";
+        String INTENT_TITLE = "TITLE";
+        int CODE_REQUEST_AUDIO = 2001;
     }
 
 

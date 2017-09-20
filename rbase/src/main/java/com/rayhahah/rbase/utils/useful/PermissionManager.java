@@ -49,8 +49,6 @@ public class PermissionManager {
                 mListenerMap.get(requestCode).onPermissionGranted(requestCode);
             }
         }
-
-
     }
 
     /**

@@ -1249,4 +1249,21 @@ public class DateTimeUitl {
 //		System.out.println(toSystemTimeLongMi(time2));
 //		System.out.println(toSystemTimeLongMi(stime) - toSystemTimeLongMi(time2));
     }
+
+    public static String secondToMinuteOrHour(long seconds) {
+        //60S之内
+        if (seconds < 60) {
+            return String.format("00:%s", seconds < 10 ? "0" + seconds : seconds);
+        } else {
+            //60分钟以内
+            if (seconds / 60 < 60) {
+                return String.format("%s:%s", (seconds / 60) < 10 ? "0" + seconds / 60 : seconds / 60, seconds % 60 < 10 ? "0" + seconds % 60 : seconds % 60);
+            } else {
+                //60分钟之后
+                return String.format("%s:%s:%s", seconds / 360,
+                        (seconds - (seconds / 360) * 360) / 60 < 10 ? "0" + (seconds - (seconds / 360) * 360) / 60 : (seconds - (seconds / 360) * 360) / 60,
+                        seconds % 60 < 10 ? "0" + seconds % 60 : seconds % 60);
+            }
+        }
+    }
 }

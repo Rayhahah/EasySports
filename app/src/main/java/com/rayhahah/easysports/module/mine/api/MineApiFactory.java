@@ -3,7 +3,9 @@ package com.rayhahah.easysports.module.mine.api;
 import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.module.mine.bean.ESUser;
 import com.rayhahah.easysports.module.mine.bean.HupuUserData;
+import com.rayhahah.easysports.module.mine.bean.LiveBean;
 import com.rayhahah.easysports.module.mine.bean.PlayerListBean;
+import com.rayhahah.easysports.module.mine.bean.PushBean;
 import com.rayhahah.easysports.module.mine.bean.RResponse;
 import com.rayhahah.easysports.module.mine.bean.TeamListBean;
 import com.rayhahah.easysports.net.ApiClient;
@@ -91,10 +93,10 @@ public class MineApiFactory {
                 .compose(RxSchedulers.<RResponse>ioMain());
     }
 
-    public static Observable<RResponse> commitFeedback(String versionName,String versionCode,String comment,int easysportId){
+    public static Observable<RResponse> commitFeedback(String versionName, String versionCode, String comment, int easysportId) {
         return ApiClient.get(C.BaseURL.RAYMALL)
                 .create(MineService.class)
-                .commitFeedback(versionName,versionCode,comment,easysportId)
+                .commitFeedback(versionName, versionCode, comment, easysportId)
                 .compose(RxSchedulers.<RResponse>ioMain());
     }
 
@@ -113,16 +115,31 @@ public class MineApiFactory {
                 .compose(RxSchedulers.<TeamListBean>ioMain());
     }
 
+    public static Observable<PushBean> getPushUrl(String username) {
+        return ApiClient.get(C.BaseURL.RAYMALL)
+                .create(MineService.class)
+                .getPushUrl(username)
+                .compose(RxSchedulers.<PushBean>ioMain());
+    }
+
+    public static Observable<LiveBean> getCurrentLive() {
+        return ApiClient.get(C.BaseURL.RAYMALL)
+                .create(MineService.class)
+                .getCurrentLive()
+                .compose(RxSchedulers.<LiveBean>ioMain());
+    }
+
     public static Observable<HupuUserData> loginHupu(String userName, String password) {
         HashMap<String, String> params = new HashMap<>();
         params.put("client", C.DeviceId);
         params.put("username", userName);
         params.put("password", MD5.getMD5(password));
         String sign = getRequestSign(params);
+        params.put("sign", sign);
 
         return ApiClient.get(C.BaseURL.HUPU_GAMES_SERVER)
                 .create(MineService.class)
-                .login(userName, MD5.getMD5(password), sign, C.DeviceId)
+                .login(params, C.DeviceId)
                 .compose(RxSchedulers.<HupuUserData>ioMain());
     }
 

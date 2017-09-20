@@ -7,14 +7,19 @@ import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.common.BaseFragment;
 import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.databinding.FragmentForumBinding;
+import com.rayhahah.easysports.module.forum.bean.ForumsData;
 import com.rayhahah.easysports.module.mine.business.account.AccountActivity;
 import com.rayhahah.easysports.module.mine.business.login.LoginActivity;
+import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.rbase.bean.MsgEvent;
+import com.rayhahah.rbase.utils.base.ToastUtils;
 import com.rayhahah.rbase.utils.useful.SPManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 /**
  * Created by a on 2017/5/17.
@@ -41,7 +46,6 @@ public class ForumFragment extends BaseFragment<ForumPresenter, FragmentForumBin
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-
     }
 
     private void initBtn() {
@@ -57,6 +61,8 @@ public class ForumFragment extends BaseFragment<ForumPresenter, FragmentForumBin
         } else {
             mBinding.rvForumList.setVisibility(View.VISIBLE);
             mBinding.btnForumBindHupu.setVisibility(View.GONE);
+            DialogUtil.showLoadingDialog(mContext, "正在获取板块数据", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
+            mPresenter.getAllForums();
         }
     }
 
@@ -95,4 +101,16 @@ public class ForumFragment extends BaseFragment<ForumPresenter, FragmentForumBin
         }
     }
 
+    @Override
+    public void getAllForumsFailed() {
+        DialogUtil.dismissDialog(false);
+        ToastUtils.showShort("获取板块数据失败");
+    }
+
+    @Override
+    public void getAllForumsSuccess(List<ForumsData.Forum> data) {
+        DialogUtil.dismissDialog(true);
+
+
+    }
 }

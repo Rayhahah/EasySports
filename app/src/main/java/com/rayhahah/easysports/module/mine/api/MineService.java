@@ -2,11 +2,14 @@ package com.rayhahah.easysports.module.mine.api;
 
 import com.rayhahah.easysports.module.mine.bean.ESUser;
 import com.rayhahah.easysports.module.mine.bean.HupuUserData;
+import com.rayhahah.easysports.module.mine.bean.LiveBean;
 import com.rayhahah.easysports.module.mine.bean.PlayerListBean;
+import com.rayhahah.easysports.module.mine.bean.PushBean;
 import com.rayhahah.easysports.module.mine.bean.RResponse;
 import com.rayhahah.easysports.module.mine.bean.TeamListBean;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
@@ -127,6 +130,18 @@ public interface MineService {
                                          @Field("comment") String comment,
                                          @Field("userId") int easysportId);
 
+    /**
+     * 提交反馈信息
+     */
+    @FormUrlEncoded
+    @POST("easysport/tecentcloud/get_push_url.do")
+    Observable<PushBean> getPushUrl(@Field("username") String username);
+
+    /**
+     * 提交反馈信息
+     */
+    @POST("easysport/tecentcloud/get_current_live.do")
+    Observable<LiveBean> getCurrentLive();
 
     /**
      * 获取全部球员列表
@@ -142,9 +157,7 @@ public interface MineService {
 
     @FormUrlEncoded
     @POST("user/loginUsernameEmail")
-    Observable<HupuUserData> login(@Field("username") String username,
-                                   @Field("password") String password,
-                                   @Field("sign") String sign,
+    Observable<HupuUserData> login(@FieldMap Map<String, String> params,
                                    @Field("client") String client);
 
 

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.rayhahah.easysports.module.mine.business.record.RecordActivity"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00000000">
+
+        <com.tencent.rtmp.ui.TXCloudVideoView
+            android:id="@+id/video_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_record"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00000000"
+            >
+
+            <ImageView
+                android:id="@+id/iv_record_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="0dp"
+                android:onClick="back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.050000012"
+                app:srcCompat="@drawable/ic_svg_arrow_left_color_primary_24"/>
+
+            <TextView
+                android:id="@+id/tv_record_project_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="0dp"
+                android:text="@string/example_projectid"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_record_back"
+                app:layout_constraintLeft_toRightOf="@+id/iv_record_back"
+                app:layout_constraintTop_toTopOf="@+id/iv_record_back"/>
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_record_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="0dp"
+                android:text="@string/example_time"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_record_project_id"
+                app:layout_constraintLeft_toRightOf="@+id/tv_record_project_id"
+                app:layout_constraintTop_toTopOf="@+id/tv_record_project_id"
+                app:layout_constraintVertical_bias="0.0"/>
+
+            <TextView
+                android:id="@+id/tv_record_rec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="0dp"
+                android:drawableLeft="@drawable/ic_svg_record_color_primary_24"
+                android:gravity="center"
+                android:text="REC"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_record_time"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_record_time"
+                app:layout_constraintVertical_bias="1.0"/>
+
+            <ImageView
+                android:id="@+id/iv_record_switch"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="0dp"
+                android:onClick="startRecord"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.95"
+                app:srcCompat="@drawable/live_video_switch_off"/>
+
+            <ImageView
+                android:id="@+id/iv_record_flashlight"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="0dp"
+                android:onClick="flashlight"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_record_switch"
+                app:layout_constraintLeft_toRightOf="@+id/iv_record_switch"
+                app:layout_constraintTop_toTopOf="@+id/iv_record_switch"
+                app:srcCompat="@drawable/live_video_flashlight_off"/>
+
+            <ImageView
+                android:id="@+id/iv_record_camera"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="0dp"
+                android:onClick="switchCamera"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_record_flashlight"
+                app:layout_constraintLeft_toRightOf="@+id/iv_record_flashlight"
+                app:layout_constraintTop_toTopOf="@+id/iv_record_flashlight"
+                app:srcCompat="@drawable/live_video_camera"/>
+
+            <ImageView
+                android:id="@+id/iv_record_screen_switch"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="0dp"
+                android:onClick="switchScreen"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_record_camera"
+                app:layout_constraintLeft_toRightOf="@+id/iv_record_camera"
+                app:layout_constraintTop_toTopOf="@+id/iv_record_camera"
+                app:srcCompat="@drawable/live_video_screen_switch"/>
+
+            <ImageView
+                android:id="@+id/iv_record_voise"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="0dp"
+                android:onClick="switchVoise"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_record_screen_switch"
+                app:layout_constraintLeft_toRightOf="@+id/iv_record_screen_switch"
+                app:layout_constraintTop_toTopOf="@+id/iv_record_screen_switch"
+                app:srcCompat="@drawable/live_record_voise_open"/>
+        </android.support.constraint.ConstraintLayout>
+    </FrameLayout>
+
+
+</layout>

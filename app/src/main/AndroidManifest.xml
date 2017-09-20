@@ -32,6 +32,8 @@
     <!-- 调用硬件相机权限 -->
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:name=".app.MyApp"
@@ -121,6 +123,19 @@
         <activity android:name=".module.mine.business.register.RegisterActivity">
         </activity>
         <activity android:name=".module.mine.business.forget.ForgetActivity">
+        </activity>
+        <activity
+            android:name=".module.mine.business.record.RecordActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/NoTitleFullscreen">
+        </activity>
+        <activity android:name=".module.mine.business.livelist.LiveListActivity">
+        </activity>
+        <activity
+            android:name=".module.mine.business.livelist.LivePlayActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/NoTitleFullscreen"
+            >
         </activity>
     </application>
 

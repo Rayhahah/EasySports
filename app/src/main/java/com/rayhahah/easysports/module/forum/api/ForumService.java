@@ -1,9 +1,10 @@
 package com.rayhahah.easysports.module.forum.api;
 
-import java.util.HashMap;
+import com.rayhahah.easysports.module.forum.bean.ForumsData;
+
+import java.util.Map;
 
 import io.reactivex.Observable;
-import okhttp3.ResponseBody;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -21,7 +22,7 @@ public interface ForumService {
      * @param params
      * @return
      */
-    @GET()
-    Observable<ResponseBody> getAllForums(@Query("sign") String sign,
-                                          @QueryMap HashMap<String, String> params);
+    @GET("forums/getForums")
+    Observable<ForumsData> getAllForums(@Query("sign") String sign,
+                                        @QueryMap Map<String, String> params);
 }

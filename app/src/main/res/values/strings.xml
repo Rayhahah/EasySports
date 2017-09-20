@@ -32,6 +32,13 @@
     <string name="question">问题</string>
     <string name="answer">答案</string>
 
+    <string name="GETTING_PUSHING_URL">正在获取推流地址</string>
+    <string name="STOP_PUSH">已断开直播</string>
+    <string name="GET_PUSHING">正在获取推流地址</string>
+    <string name="GET_LIVING">正在连接直播间</string>
+    <string name="PERMISSION_GRANTED">授权成功</string>
+    <string name="PERMISSION_DENIED">授权失败</string>
+
     <!--homepage-->
     <string name="app_name">EasySports</string>
     <string name="match">比赛</string>
@@ -69,6 +76,10 @@
     <string name="example_player_name">拉塞尔·威斯布鲁克</string>
     <string name="example_rank_type">得分榜</string>
     <string name="example_input_nothing">不输入则不改变</string>
+
+    <string name="example_projectid">A123124124</string>
+    <string name="example_time">00:00:00</string>
+
 
     <!--mine-->
     <string name="mine_all_team">全部球队</string>
@@ -154,5 +165,6 @@
     <string name="preferences_supplemental_title">Retrieve more info</string>
     <string name="preferences_vibrate_title">Vibrate</string>
     <string name="preview_msg"> preview pages available,click Download for more.</string>
+    <string name="REQUEST_PERMISSION">请求应用权限</string>
 
 </resources>

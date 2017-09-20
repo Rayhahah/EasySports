@@ -65,6 +65,14 @@ public class MinePresenter extends RBasePresenter<MineContract.IMineView>
         player.setId(C.MINE.ID_PLAYER);
         mData.add(player);
 
+        MineListBean live = new MineListBean();
+        live.setCoverRes(R.drawable.ic_svg_live_record_blue_24);
+        live.setTitle("直播间");
+        live.setSectionData("其他");
+        live.setType(MineListBean.TYPE_NULL);
+        live.setId(C.MINE.ID_LIVE);
+        mData.add(live);
+
         MineListBean version = new MineListBean();
         version.setCoverRes(R.drawable.ic_svg_version_colorful_24);
         version.setTitle("版本更新");

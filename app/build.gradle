@@ -16,6 +16,11 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
+
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a"
+        }
+
     }
     buildTypes {
         release {
@@ -60,6 +65,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile(name: 'hotfix_core-release-3.1.0', ext: 'aar')
+    compile(name: 'LiteAVSDK_Smart_3.3.1655', ext: 'aar')
 
     compile(project(path: ':rbase')) {
         exclude group: 'com.squareup.okhttp3'

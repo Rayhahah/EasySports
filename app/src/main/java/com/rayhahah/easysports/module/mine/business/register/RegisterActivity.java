@@ -38,7 +38,6 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, ActivityRe
     protected void initEventAndData(Bundle savedInstanceState) {
         initToolBar();
         initView();
-
     }
 
     @Override

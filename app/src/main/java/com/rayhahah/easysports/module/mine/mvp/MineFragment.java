@@ -23,6 +23,7 @@ import com.rayhahah.easysports.databinding.FragmentMineBinding;
 import com.rayhahah.easysports.module.home.HomeActivity;
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
 import com.rayhahah.easysports.module.mine.business.account.AccountActivity;
+import com.rayhahah.easysports.module.mine.business.livelist.LiveListActivity;
 import com.rayhahah.easysports.module.mine.business.login.LoginActivity;
 import com.rayhahah.easysports.module.mine.business.teamplayer.SingleListActivity;
 import com.rayhahah.easysports.module.mine.domain.MineListAdapter;
@@ -163,6 +164,10 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
             //所有球员
             case C.MINE.ID_PLAYER:
                 SingleListActivity.start(getActivity(), getActivity(), SingleListActivity.TYPE_PLAYER);
+                break;
+            //直播间
+            case C.MINE.ID_LIVE:
+                LiveListActivity.start(getActivity(),getActivity());
                 break;
             //版本更新
             case C.MINE.ID_VERSION:
