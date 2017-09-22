@@ -35,9 +35,7 @@ public class AccountContract {
 
         void getCurrentUserSuccess(LocalUser localUser);
 
-        void uploadCoverSuccess(String url);
-
-        void uploadCoverFailed(int code, String msg);
+        void uploadCoverFailed(String msg);
 
         void updateInfoSuccess(String msg);
 

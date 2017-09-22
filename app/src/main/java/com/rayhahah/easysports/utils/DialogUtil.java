@@ -1,10 +1,17 @@
 package com.rayhahah.easysports.utils;
 
-import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 
 import com.rayhahah.dialoglib.RLoadingDialog;
+import com.rayhahah.dialoglib.RProgressDialog;
 import com.rayhahah.easysports.R;
+
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * 用于处理加载dialog,图片选择dialog,检查更新dialog
@@ -13,40 +20,67 @@ import com.rayhahah.easysports.R;
 public class DialogUtil {
 
     /* 加载框 */
-    private static ProgressDialog progressDialog;
-
     private static RLoadingDialog loadingDialog;
     private static int mLoadingDuration = 1250;
     private static int mLoadingWidth = 10;
     private static int mLoadingRadius = 100;
+    private static RProgressDialog progressDialog;
+    private static int mLastProgress = 0;
+    private static int mTargetProgress;
 
     /**
      * 显示加载dialog
      *
      * @param context
-     * @param msg
      */
-    public static ProgressDialog showProgressDialog(Context context, String msg) {
-        progressDialog = new ProgressDialog(context);
-        progressDialog.setMessage(msg);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setCancelable(false);
-        progressDialog.setMax(100);
+    public static void showProgressDialog(Context context, int waveColor) {
+        progressDialog = new RProgressDialog.Builder(context)
+                .setBgResource(R.drawable.shape_alpha_corner4)
+                .setCircleColor(Color.parseColor("#00000000"))
+                .setWaveColor(waveColor)
+                .setSuccessColor(waveColor)
+                .setPauseColor(waveColor)
+                .setBeginColor(waveColor)
+                .setTouchOutside(false)
+                .setTextSize(50)
+                .setTextColor(Color.parseColor("#ffffff"))
+                .setSpeed(1000).build();
         progressDialog.show();
-        return progressDialog;
     }
 
     /**
      * 设置进度
+     * <p>
+     * 1-100
      *
      * @param progress 进度
      */
-    public static void setProgress(int progress) {
+    public static void setProgress(final int progress) {
+        mTargetProgress = progress;
         if (progressDialog != null) {
-            progressDialog.setProgress(progress);
+            int p = progress * 10;
+            if (mLastProgress == 1000) {
+                dismissDialog(true);
+            }
+            if (p > mLastProgress) {
+                mLastProgress++;
+            } else if (p < mLastProgress) {
+                mLastProgress--;
+            } else if (p == mLastProgress) {
+                return;
+            }
+            Observable.just(mLastProgress).delay(50, TimeUnit.MILLISECONDS).subscribe(new Consumer<Integer>() {
+                @Override
+                public void accept(@NonNull Integer integer) throws Exception {
+                    if (progressDialog == null) {
+                        return;
+                    }
+                    progressDialog.setProgress(mLastProgress * 1f / 1000);
+                    setProgress(mTargetProgress);
+                }
+            });
         }
     }
-
 
     public static void showLoadingDialog(Context context, String tips, int colorPrimary) {
         loadingDialog = new RLoadingDialog.Builder(context)

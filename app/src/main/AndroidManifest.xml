@@ -32,6 +32,7 @@
     <!-- 调用硬件相机权限 -->
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
+
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.CAMERA"/>
 
@@ -137,6 +138,8 @@
             android:theme="@style/NoTitleFullscreen"
             >
         </activity>
+
+        <service android:name=".net.version.UpdateAppService"/>
     </application>
 
 </manifest>

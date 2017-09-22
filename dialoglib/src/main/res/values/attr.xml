@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProgressWaveView">
+        <attr name="circleColor" format="color"></attr>
+        <attr name="waveColor" format="color"></attr>
+        <attr name="progressTextSize" format="dimension"></attr>
+        <attr name="pauseColor" format="color"></attr>
+        <attr name="successColor"  format="color"></attr>
+    </declare-styleable>
+
+</resources>

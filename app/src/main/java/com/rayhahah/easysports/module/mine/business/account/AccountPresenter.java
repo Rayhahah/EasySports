@@ -15,9 +15,11 @@ import com.rayhahah.easysports.module.mine.api.MineApiFactory;
 import com.rayhahah.easysports.module.mine.bean.HupuUserData;
 import com.rayhahah.easysports.module.mine.bean.MineListBean;
 import com.rayhahah.easysports.module.mine.bean.RResponse;
+import com.rayhahah.easysports.net.ApiFactory;
 import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.rbase.base.RBasePresenter;
-import com.rayhahah.rbase.utils.useful.RLog;
+import com.rayhahah.rbase.net.download.ProgressListener;
+import com.rayhahah.rbase.utils.base.FileUtils;
 import com.rayhahah.rbase.utils.useful.SPManager;
 
 import java.io.File;
@@ -28,9 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.UploadFileListener;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
@@ -240,7 +239,7 @@ public class AccountPresenter extends RBasePresenter<AccountContract.IAccountVie
         }));
     }
 
-    private void updateUserSuccess(@NonNull RResponse rResponse, LocalUser localUser) {
+    public void updateUserSuccess(@NonNull RResponse rResponse, LocalUser localUser) {
         MyApp.getDaoSession().getLocalUserDao().insertOrReplace(localUser);
         MyApp.setCurrentUser(localUser);
         mView.updateInfoSuccess(rResponse.getData());
@@ -265,30 +264,31 @@ public class AccountPresenter extends RBasePresenter<AccountContract.IAccountVie
         context.startActivityForResult(intent, C.ACCOUNT.CODE_TAKE_PHOTO);
     }
 
-    // TODO: 2017/9/15 阿里云OSS的接入还没做
     @Override
     public void uploadCover(String path) {
-        final BmobFile bmobFile = new BmobFile(new File(path));
-        bmobFile.uploadblock(new UploadFileListener() {
+        final LocalUser currentUser = MyApp.getCurrentUser();
+        File file = FileUtils.getFileByPath(path);
+        addSubscription(ApiFactory.uploadCover(currentUser.getUser_name(), currentUser.getPassword(), file, file.getName(), new ProgressListener() {
             @Override
-            public void done(BmobException e) {
-                String url = bmobFile.getUrl();
-                RLog.e("coverUrl=" + url);
-                mView.uploadCoverSuccess(url);
+            public void onProgressChange(long progress, long total, boolean done) {
+                DialogUtil.setProgress((int) (progress * 100 / total));
             }
-
+        }).subscribe(new Consumer<RResponse>() {
             @Override
-            public void onProgress(Integer value) {
-                super.onProgress(value);
-                DialogUtil.setProgress(value);
+            public void accept(@NonNull RResponse rResponse) throws Exception {
+                if (rResponse.getStatus() == C.RESPONSE_SUCCESS) {
+                    currentUser.setCover(rResponse.getData());
+                    updateUserSuccess(rResponse, currentUser);
+                } else {
+                    mView.uploadCoverFailed(rResponse.getMsg());
+                }
             }
-
+        }, new Consumer<Throwable>() {
             @Override
-            public void doneError(int code, String msg) {
-                super.doneError(code, msg);
-                mView.uploadCoverFailed(code, msg);
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.uploadCoverFailed(throwable.getMessage());
             }
-        });
+        }));
     }
 
     public Uri getUri() {

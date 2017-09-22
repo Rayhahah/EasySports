@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/fbl_setting_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_bg_corner4"
+        android:padding="@dimen/dp_10"
+        app:flexDirection="row"
+        app:flexWrap="wrap"
+        app:justifyContent="center"
+        >
+
+        <TextView
+            android:id="@+id/tv_item_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:background="@drawable/selector_color_click_corner"
+            android:gravity="center"
+            android:text="新版本！"
+            android:textColor="?attr/colorBg"
+            android:textSize="@dimen/sp_20"
+            />
+
+        <TextView
+            android:id="@+id/tv_title_version_name"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/dp_20"
+            android:gravity="center"
+            android:text="@string/version_name"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/sp_16"
+            app:layout_flexGrow="2"/>
+
+        <TextView
+            android:id="@+id/tv_version_name"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/dp_45"
+            android:gravity="center"
+            android:text="@string/example_version_name"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_20"
+            app:layout_flexGrow="5"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorBg"/>
+
+        <TextView
+            android:id="@+id/tv_title_version_code"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/dp_20"
+            android:gravity="center"
+            android:text="@string/version_code"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/sp_16"
+            app:layout_flexGrow="2"/>
+
+        <TextView
+            android:id="@+id/tv_version_code"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/dp_45"
+            android:gravity="center"
+            android:text="@string/example_version_code"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_20"
+            app:layout_flexGrow="5"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorBg"/>
+
+        <TextView
+            android:id="@+id/tv_title_desc"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/dp_20"
+            android:gravity="center"
+            android:text="@string/version_desc"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/sp_16"
+            app:layout_flexGrow="2"/>
+
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/example_version_desc"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_20"
+            app:layout_flexGrow="5"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorBg"/>
+
+        <TextView
+            android:id="@+id/tv_title_time"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/dp_20"
+            android:gravity="center"
+            android:text="@string/time"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/sp_16"
+            app:layout_flexGrow="2"/>
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/example_version_time"
+            android:textColor="?attr/colorTextDark"
+            android:textSize="@dimen/sp_20"
+            app:layout_flexGrow="5"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorBg"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorBg"/>
+
+        <Button
+            android:id="@+id/btn_edit_cancel"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/selector_color_click_corner"
+            android:text="@string/cancel"
+            android:textColor="?attr/colorBg"
+            android:textSize="@dimen/sp_20"
+            app:layout_flexGrow="1"/>
+
+        <Button
+            android:id="@+id/btn_edit_confirm"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/selector_color_click_corner"
+            android:text="@string/confirm"
+            android:textColor="?attr/colorBg"
+            android:textSize="@dimen/sp_20"
+            app:layout_flexGrow="1"/>
+    </com.google.android.flexbox.FlexboxLayout>
+
+
+</layout>

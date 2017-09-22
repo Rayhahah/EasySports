@@ -177,18 +177,8 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                     , new GlideCircleTransform(mContext));
         }
     }
-
     @Override
-    public void uploadCoverSuccess(String url) {
-        DialogUtil.dismissDialog(true);
-        DialogUtil.showLoadingDialog(mContext, "正在上传信息", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
-        LocalUser localUser = mLocalUser;
-        localUser.setCover(url);
-        mPresenter.updateCover(localUser);
-    }
-
-    @Override
-    public void uploadCoverFailed(int code, String msg) {
+    public void uploadCoverFailed(String msg) {
         DialogUtil.dismissDialog(false);
         ToastUtils.showShort("上传图片失败");
     }
@@ -197,8 +187,8 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
     @Override
     public void updateInfoSuccess(String msg) {
         getCurrentUserSuccess(MyApp.getCurrentUser());
-        DialogUtil.dismissDialog(true);
         ToastUtils.showShort(msg);
+        DialogUtil.dismissDialog(true);
     }
 
     @Override
@@ -217,14 +207,14 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                 path = FileUtils.getPathFromUri(mContext, mPresenter.getUri());
                 File file = new File(path);
                 if (file.length() > 0) {
-                    DialogUtil.showProgressDialog(mContext, "正在上传图片");
+                    DialogUtil.showProgressDialog(mContext, mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
                     mPresenter.uploadCover(path);
                 }
                 break;
             case C.ACCOUNT.CODE_CHOOSE_PHOTO:
                 if (data != null) {
                     path = FileUtils.getPathFromUri(mContext, data.getData());
-                    DialogUtil.showProgressDialog(mContext, "正在上传图片");
+                    DialogUtil.showProgressDialog(mContext, mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
                     mPresenter.uploadCover(path);
                 }
                 break;

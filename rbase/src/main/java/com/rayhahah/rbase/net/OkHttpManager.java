@@ -40,8 +40,8 @@ public class OkHttpManager {
         File cacheFile = new File(BaseApplication.getAppContext().getCacheDir(), "cache");
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); //100Mb
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(10, TimeUnit.SECONDS)
-                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(30, TimeUnit.SECONDS)
                 .addNetworkInterceptor(interceptor)
                 .addNetworkInterceptor(new StethoInterceptor())
                 .cache(cache)

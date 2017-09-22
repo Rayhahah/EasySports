@@ -27,7 +27,6 @@ import com.tencent.sonic.sdk.SonicEngine;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-import cn.bmob.v3.Bmob;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import okhttp3.OkHttpClient;
@@ -96,7 +95,7 @@ public class MyApp extends BaseApplication {
         super.onCreate();
 
 
-        Bmob.initialize(mAppContext, C.AppKey.BMOB_APPID);
+//        Bmob.initialize(mAppContext, C.AppKey.BMOB_APPID);
 
 //        initCrashHandler();
         initRetrofit();

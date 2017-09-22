@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.InputType;
@@ -27,6 +28,8 @@ import com.rayhahah.easysports.module.mine.business.livelist.LiveListActivity;
 import com.rayhahah.easysports.module.mine.business.login.LoginActivity;
 import com.rayhahah.easysports.module.mine.business.teamplayer.SingleListActivity;
 import com.rayhahah.easysports.module.mine.domain.MineListAdapter;
+import com.rayhahah.easysports.net.version.VersionListner;
+import com.rayhahah.easysports.net.version.VersionUpdateUtil;
 import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.easysports.view.TitleItemDecoration;
 import com.rayhahah.easysports.zxing.app.CaptureActivity;
@@ -41,7 +44,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.util.List;
+
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by a on 2017/5/17.
@@ -54,6 +60,7 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
     public static final int CAMERA_PERMISSIONS_REQUEST_CODE = 10;
     private List<MineListBean> mData;
     private MineListAdapter mMineListAdapter;
+    private Disposable mDisposable;
 
     @Override
     protected int setFragmentLayoutRes() {
@@ -144,7 +151,7 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
     }
 
     @Override
-    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+    public void onItemChildClick(final BaseQuickAdapter adapter, View view, int position) {
         List<MineListBean> data = adapter.getData();
         MineListBean bean = data.get(position);
         String isLogin = SPManager.get().getStringValue(C.SP.IS_LOGIN, C.FALSE);
@@ -167,11 +174,65 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
                 break;
             //直播间
             case C.MINE.ID_LIVE:
-                LiveListActivity.start(getActivity(),getActivity());
+                LiveListActivity.start(getActivity(), getActivity());
                 break;
             //版本更新
             case C.MINE.ID_VERSION:
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PermissionManager.requestPermission(mContext, "请求写入本地数据", 1, new PermissionManager.PermissionsResultListener() {
+                        @Override
+                        public void onPermissionGranted(int requestCode) {
+                            VersionUpdateUtil.updateApp(mContext, new VersionListner() {
+                                @Override
+                                public void isLatest() {
 
+                                }
+
+                                @Override
+                                public void updateSuccess(File file) {
+
+                                }
+
+                                @Override
+                                public void updateFailed(Throwable throwable) {
+                                    ToastUtils.showShort("更新失败");
+                                }
+
+                                @Override
+                                public void onProgress(int progress, long total) {
+
+                                }
+                            });
+                        }
+                        @Override
+                        public void onPermissionDenied(int requestCode) {
+                            ToastUtils.showShort("请授权，否则无法开启该功能");
+
+                        }
+                    }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                } else {
+                    VersionUpdateUtil.updateApp(mContext, new VersionListner() {
+                        @Override
+                        public void isLatest() {
+
+                        }
+
+                        @Override
+                        public void updateSuccess(File file) {
+
+                        }
+
+                        @Override
+                        public void updateFailed(Throwable throwable) {
+                            ToastUtils.showShort("更新失败");
+                        }
+
+                        @Override
+                        public void onProgress(int progress, long total) {
+
+                        }
+                    });
+                }
                 break;
             //扫一扫
             case C.MINE.ID_QRCODE:

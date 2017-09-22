@@ -166,5 +166,13 @@
     <string name="preferences_vibrate_title">Vibrate</string>
     <string name="preview_msg"> preview pages available,click Download for more.</string>
     <string name="REQUEST_PERMISSION">请求应用权限</string>
+    <string name="version_name">版本号</string>
+    <string name="version_code">版本码</string>
+    <string name="example_version_name">1.0.0</string>
+    <string name="example_version_code">1</string>
+    <string name="version_desc">内容</string>
+    <string name="example_version_desc">1、功能全面优化\n 2、UI全面优化\n 3、适配多种机型</string>
+    <string name="example_version_time">2017年9月10日</string>
+    <string name="time">时间</string>
 
 </resources>

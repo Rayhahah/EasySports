@@ -13,11 +13,13 @@ public class C {
 
     public static final int RESPONSE_SUCCESS = 0;
     public static final int RESPONSE_FAILED = 1;
+    public static final String APP_NAME = "EasySport";
 
     public interface DIR {
         String PIC_DIR = FileUtils.getRootFilePath() + "EasySport/images";
         String CRASH = FileUtils.getRootFilePath() + "EasySport/crashLog";
         String SONIC = FileUtils.getRootFilePath() + "EasySport/sonic";
+        String FILE = FileUtils.getRootFilePath() + "EasySport/file";
     }
 
     //数据库名字
@@ -51,7 +53,9 @@ public class C {
         String TECENT_VIDEO_SERVER_H5 = "http://h5vv.video.qq.com";
         String TECENT_SERVER = "http://sportsnba.qq.com";
         String TMIAAO_SERVER = "http://nba.tmiaoo.com";
+//        String RAYMALL = "http://rayhahah.com:8080/raymall/";
         String RAYMALL = "http://rayhahah.s1.natapp.cc/raymall/";
+        String RAY_FTP="ftp://88.128.18.163:21/raymall/";
     }
 
     /**
