@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:background="?attr/colorBgDark"
+        android:padding="@dimen/dp_5"
+        android:paddingLeft="@dimen/dp_5"
+        app:flexDirection="row"
+        >
+
+        <TextView
+            android:id="@+id/tv_item_forum_list_title"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
+            android:text="@string/example_rank_type"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_flexGrow="6"/>
+
+    </com.google.android.flexbox.FlexboxLayout>
+</layout>

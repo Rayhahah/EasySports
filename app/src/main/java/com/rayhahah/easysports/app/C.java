@@ -15,6 +15,13 @@ public class C {
     public static final int RESPONSE_FAILED = 1;
     public static final String APP_NAME = "EasySport";
 
+    public static final int TYPE_COMMENT = 1001;
+    public static final int TYPE_FEEDBACK = 1002;
+    public static final int TYPE_AT = 1003;
+    public static final int TYPE_POST = 1004;
+    public static final int TYPE_REPLY = 1005;
+    public static final int TYPE_QUOTE = 1006;
+
     public interface DIR {
         String PIC_DIR = FileUtils.getRootFilePath() + "EasySport/images";
         String CRASH = FileUtils.getRootFilePath() + "EasySport/crashLog";
@@ -53,9 +60,9 @@ public class C {
         String TECENT_VIDEO_SERVER_H5 = "http://h5vv.video.qq.com";
         String TECENT_SERVER = "http://sportsnba.qq.com";
         String TMIAAO_SERVER = "http://nba.tmiaoo.com";
-//        String RAYMALL = "http://rayhahah.com:8080/raymall/";
+        //        String RAYMALL = "http://rayhahah.com:8080/raymall/";
         String RAYMALL = "http://rayhahah.s1.natapp.cc/raymall/";
-        String RAY_FTP="ftp://88.128.18.163:21/raymall/";
+        String RAY_FTP = "ftp://88.128.18.163:21/raymall/";
     }
 
     /**
@@ -120,6 +127,18 @@ public class C {
 
         int ITEM_TYPE_ARTICLE = 0;
         int ITEM_TYPE_VIDEOS = 2;
+    }
+
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface FORUM {
+
+        int ITEM_TYPE_CONTENT = 0;
+
+        int ITEM_TYPE_TITLE = 1;
+        String LAST_TAMP = "";
+        int LIMIT = 20;
+        String TYPE_FORUM_HOT = "2";//热帖
+        String TYPE_FORUM_NEW = "1";//新帖
     }
 
     @Retention(RetentionPolicy.SOURCE)

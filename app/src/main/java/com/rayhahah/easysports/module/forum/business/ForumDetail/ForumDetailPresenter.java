@@ -1,10 +1,11 @@
-package com.rayhahah.easysports.module.forum.bean;
+package com.rayhahah.easysports.module.forum.business.ForumDetail;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.rayhahah.easysports.app.C;
+import com.rayhahah.easysports.module.forum.api.ForumApiFactory;
+import com.rayhahah.easysports.module.forum.bean.ForumDetailInfoData;
+import com.rayhahah.rbase.base.RBasePresenter;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -24,43 +25,31 @@ import java.util.ArrayList;
  *
  * @author Rayhahah
  * @blog http://rayhahah.com
- * @time 2017/9/15
+ * @time 2017/9/25
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class ForumsData implements Serializable {
-    public ArrayList<ForumsResult> data;
-
-    public static class ForumsResult implements Serializable {
-        public String fid;
-        public String name;
-        public ArrayList<Forums> sub;
+public class ForumDetailPresenter extends RBasePresenter<ForumDetailContract.IForumDetailView> implements ForumDetailContract.IForumDetailPresenter {
+    public ForumDetailPresenter(ForumDetailContract.IForumDetailView view) {
+        super(view);
     }
 
-    public static class Forums implements Serializable {
-        public ArrayList<Forum> data;
-        public int weight;
-        public String name;
-    }
-
-    public static class Forum implements MultiItemEntity, Serializable {
-        public Long id;
-        public String fid;
-        public String name;
-        public String logo;
-        public String description;
-        public String backImg;
-        public String forumId;
-        public String categoryName;
-        public Integer weight;
-
-        @Override
-        public int getItemType() {
-            if (!fid.equals("0")) {
-                return C.FORUM.ITEM_TYPE_CONTENT;
-            } else {
-                return C.FORUM.ITEM_TYPE_TITLE;
+    @Override
+    public void getForumDetail(String tid, String fid, int page, String pid) {
+        addSubscription(ForumApiFactory.getThreadInfo(tid, fid, page, pid).subscribe(new Consumer<ForumDetailInfoData>() {
+            @Override
+            public void accept(@NonNull ForumDetailInfoData forumDetailInfoData) throws Exception {
+                if (forumDetailInfoData != null) {
+                    mView.getForumDetailSuccess(forumDetailInfoData);
+                } else {
+                    mView.getForumDetailFailed("加载数据失败");
+                }
             }
-        }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.getForumDetailFailed(throwable.getMessage());
+            }
+        }));
     }
 }

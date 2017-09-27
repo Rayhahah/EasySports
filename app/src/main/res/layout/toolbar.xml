@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/rl_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
+        android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:orientation="horizontal">
 

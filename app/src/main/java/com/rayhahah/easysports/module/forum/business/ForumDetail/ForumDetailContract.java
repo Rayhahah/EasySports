@@ -1,10 +1,7 @@
-package com.rayhahah.easysports.module.forum.bean;
+package com.rayhahah.easysports.module.forum.business.ForumDetail;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.rayhahah.easysports.app.C;
-
-import java.io.Serializable;
-import java.util.ArrayList;
+import com.rayhahah.easysports.module.forum.bean.ForumDetailInfoData;
+import com.rayhahah.rbase.base.IRBaseView;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -24,43 +21,20 @@ import java.util.ArrayList;
  *
  * @author Rayhahah
  * @blog http://rayhahah.com
- * @time 2017/9/15
+ * @time 2017/9/25
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class ForumsData implements Serializable {
-    public ArrayList<ForumsResult> data;
+public class ForumDetailContract {
+    public interface IForumDetailView extends IRBaseView {
 
-    public static class ForumsResult implements Serializable {
-        public String fid;
-        public String name;
-        public ArrayList<Forums> sub;
+        void getForumDetailFailed(String msg);
+
+        void getForumDetailSuccess(ForumDetailInfoData forumDetailInfoData);
     }
 
-    public static class Forums implements Serializable {
-        public ArrayList<Forum> data;
-        public int weight;
-        public String name;
-    }
+    public interface IForumDetailPresenter {
 
-    public static class Forum implements MultiItemEntity, Serializable {
-        public Long id;
-        public String fid;
-        public String name;
-        public String logo;
-        public String description;
-        public String backImg;
-        public String forumId;
-        public String categoryName;
-        public Integer weight;
-
-        @Override
-        public int getItemType() {
-            if (!fid.equals("0")) {
-                return C.FORUM.ITEM_TYPE_CONTENT;
-            } else {
-                return C.FORUM.ITEM_TYPE_TITLE;
-            }
-        }
+        void getForumDetail(String tid, String fid, int page, String pid);
     }
 }

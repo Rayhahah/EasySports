@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.rayhahah.easysports.module.forum.business.ForumDetail.ForumDetailActivity"
+    >
+
+    <LinearLayout
+        android:id="@+id/ll_forum_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+
+        <FrameLayout
+            android:background="?attr/colorBgDark"
+            android:id="@+id/fl_forrum_detail"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"
+            android:background="?attr/colorTextLight"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:background="?attr/colorBg"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_forum_detail_before"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center_vertical|right"
+                android:text="上一页"
+                android:onClick="previousPage"
+                android:textColor="?attr/colorTextDark"
+                android:textSize="@dimen/sp_16"/>
+
+            <TextView
+                android:id="@+id/tv_forum_detail_page"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="0/0"
+                android:textColor="?attr/colorTextDark"
+                android:textSize="@dimen/sp_16"/>
+
+            <TextView
+                android:onClick="nextPage"
+                android:id="@+id/tv_forum_detail_next"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:gravity="center_vertical|left"
+                android:text="下一页"
+                android:textColor="?attr/colorTextDark"
+                android:textSize="@dimen/sp_16"/>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

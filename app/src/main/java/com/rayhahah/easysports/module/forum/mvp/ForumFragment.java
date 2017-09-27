@@ -1,16 +1,21 @@
 package com.rayhahah.easysports.module.forum.mvp;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.rayhahah.easysports.R;
-import com.rayhahah.easysports.common.BaseFragment;
 import com.rayhahah.easysports.app.C;
+import com.rayhahah.easysports.common.BaseFragment;
 import com.rayhahah.easysports.databinding.FragmentForumBinding;
 import com.rayhahah.easysports.module.forum.bean.ForumsData;
+import com.rayhahah.easysports.module.forum.business.ForumDetailList.ForumDetailListActivity;
+import com.rayhahah.easysports.module.forum.domain.ForumListAdapter;
 import com.rayhahah.easysports.module.mine.business.account.AccountActivity;
 import com.rayhahah.easysports.module.mine.business.login.LoginActivity;
 import com.rayhahah.easysports.utils.DialogUtil;
+import com.rayhahah.easysports.view.DividerItemDecoration;
 import com.rayhahah.rbase.bean.MsgEvent;
 import com.rayhahah.rbase.utils.base.ToastUtils;
 import com.rayhahah.rbase.utils.useful.SPManager;
@@ -26,7 +31,9 @@ import java.util.List;
  */
 
 public class ForumFragment extends BaseFragment<ForumPresenter, FragmentForumBinding>
-        implements ForumContract.IForumView, View.OnClickListener {
+        implements ForumContract.IForumView, View.OnClickListener, BaseQuickAdapter.OnItemChildClickListener {
+
+    private ForumListAdapter mAdapter;
 
     @Override
     protected int setFragmentLayoutRes() {
@@ -37,9 +44,30 @@ public class ForumFragment extends BaseFragment<ForumPresenter, FragmentForumBin
     public void initView(Bundle savedInstanceState) {
         EventBus.getDefault().register(this);
         mBinding.toolbar.tvToolbarTitle.setText(getResources().getString(R.string.forum));
+        initPL();
         initBtn();
-        // TODO: 2017/8/15 完善虎扑登陆接口
-        // TODO: 2017/8/15 获取Token以后才能获取社区列表
+        initRv();
+    }
+
+    private void initPL() {
+        mBinding.pl.setRefreshClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getAllForumsData();
+            }
+        });
+        mBinding.pl.setColor(mThemeColorMap.get(C.ATTRS.COLOR_TEXT_LIGHT)
+                , mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
+    }
+
+    private void initRv() {
+        mAdapter = new ForumListAdapter();
+        mAdapter.openLoadAnimation();
+        mAdapter.setOnItemChildClickListener(this);
+        mBinding.rvForumList.addItemDecoration(new DividerItemDecoration(mContext,
+                DividerItemDecoration.BOTH_SET,3,mThemeColorMap.get(C.ATTRS.COLOR_BG_DARK)));
+        mBinding.rvForumList.setAdapter(mAdapter);
+        mBinding.rvForumList.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
     }
 
     @Override
@@ -52,6 +80,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter, FragmentForumBin
         mBinding.btnForumBindHupu.setOnClickListener(this);
         if (C.NULL.equals(SPManager.get().getStringValue(C.SP.TOKEN))) {
             mBinding.rvForumList.setVisibility(View.GONE);
+            mBinding.pl.setVisibility(View.GONE);
             mBinding.btnForumBindHupu.setVisibility(View.VISIBLE);
             if (C.FALSE.equals(SPManager.get().getStringValue(C.SP.IS_LOGIN))) {
                 mBinding.btnForumBindHupu.setText(R.string.login_first);
@@ -60,10 +89,16 @@ public class ForumFragment extends BaseFragment<ForumPresenter, FragmentForumBin
             }
         } else {
             mBinding.rvForumList.setVisibility(View.VISIBLE);
+            mBinding.pl.setVisibility(View.VISIBLE);
             mBinding.btnForumBindHupu.setVisibility(View.GONE);
-            DialogUtil.showLoadingDialog(mContext, "正在获取板块数据", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
-            mPresenter.getAllForums();
+            getAllForumsData();
         }
+    }
+
+    private void getAllForumsData() {
+        mBinding.pl.showLoading(mBinding.rvForumList);
+//        DialogUtil.showLoadingDialog(mContext, "正在获取板块数据", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
+        mPresenter.getAllForums();
     }
 
     @Override
@@ -105,12 +140,24 @@ public class ForumFragment extends BaseFragment<ForumPresenter, FragmentForumBin
     public void getAllForumsFailed() {
         DialogUtil.dismissDialog(false);
         ToastUtils.showShort("获取板块数据失败");
+        mBinding.pl.showError(mBinding.rvForumList);
     }
 
     @Override
     public void getAllForumsSuccess(List<ForumsData.Forum> data) {
-        DialogUtil.dismissDialog(true);
+//        DialogUtil.dismissDialog(true);
+        ToastUtils.showShort("获取板块数据成功");
+        mBinding.pl.showContent(mBinding.rvForumList);
+        mAdapter.setNewData(data);
+    }
 
-
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        List<ForumsData.Forum> data = adapter.getData();
+        switch (view.getId()) {
+            case R.id.ll_item_forum_title:
+                ForumDetailListActivity.start(mContext, data.get(position));
+                break;
+        }
     }
 }

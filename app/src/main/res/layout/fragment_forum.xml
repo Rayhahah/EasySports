@@ -17,20 +17,29 @@
 
         <Button
             android:id="@+id/btn_forum_bind_hupu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@drawable/selector_color_click_corner"
             android:text="@string/login_first"
             android:textColor="?attr/colorTextLight"
-            android:layout_margin="@dimen/dp_10"
-            android:textSize="@dimen/sp_20"
-            android:background="@drawable/selector_color_click_corner"
+            android:textSize="@dimen/sp_20"/>
+
+
+        <com.rayhahah.easysports.view.ProgressLayout
+            android:id="@+id/pl"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_flexGrow="1"
+            />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_forum_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_flexGrow="1"
             android:visibility="gone"
+            app:layout_flexGrow="1"
             />
 
     </com.google.android.flexbox.FlexboxLayout>

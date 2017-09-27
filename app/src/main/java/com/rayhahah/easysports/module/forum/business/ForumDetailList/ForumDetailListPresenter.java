@@ -1,10 +1,11 @@
-package com.rayhahah.easysports.module.forum.bean;
+package com.rayhahah.easysports.module.forum.business.ForumDetailList;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.rayhahah.easysports.app.C;
+import com.rayhahah.easysports.module.forum.api.ForumApiFactory;
+import com.rayhahah.easysports.module.forum.bean.DetailListData;
+import com.rayhahah.rbase.base.RBasePresenter;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -24,43 +25,32 @@ import java.util.ArrayList;
  *
  * @author Rayhahah
  * @blog http://rayhahah.com
- * @time 2017/9/15
+ * @time 2017/9/25
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class ForumsData implements Serializable {
-    public ArrayList<ForumsResult> data;
+public class ForumDetailListPresenter extends RBasePresenter<ForumDetailListContract.IForumDetailListView> implements ForumDetailListContract.IForumDetailListPresenter {
 
-    public static class ForumsResult implements Serializable {
-        public String fid;
-        public String name;
-        public ArrayList<Forums> sub;
+    public ForumDetailListPresenter(ForumDetailListContract.IForumDetailListView view) {
+        super(view);
     }
 
-    public static class Forums implements Serializable {
-        public ArrayList<Forum> data;
-        public int weight;
-        public String name;
-    }
-
-    public static class Forum implements MultiItemEntity, Serializable {
-        public Long id;
-        public String fid;
-        public String name;
-        public String logo;
-        public String description;
-        public String backImg;
-        public String forumId;
-        public String categoryName;
-        public Integer weight;
-
-        @Override
-        public int getItemType() {
-            if (!fid.equals("0")) {
-                return C.FORUM.ITEM_TYPE_CONTENT;
-            } else {
-                return C.FORUM.ITEM_TYPE_TITLE;
+    @Override
+    public void getForumPost(String fid, String lastTid, String type, final boolean isRefresh) {
+        addSubscription(ForumApiFactory.getForumInfoList(fid, lastTid, type).subscribe(new Consumer<DetailListData>() {
+            @Override
+            public void accept(@NonNull DetailListData detailListData) throws Exception {
+                if (detailListData != null && detailListData.result != null && detailListData.result.data != null) {
+                    mView.getForumPostSuccess(detailListData.result.data, isRefresh);
+                } else {
+                    mView.NoMoreForumPost();
+                }
             }
-        }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.getForumPostFailed(throwable.getMessage());
+            }
+        }));
     }
 }

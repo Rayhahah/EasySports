@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_item_forum_title"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_40"
+    android:background="?attr/colorBg"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/iv_item_forum_cover"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="@dimen/dp_5"
+        android:src="@mipmap/ic_logo"/>
+
+    <TextView
+        android:id="@+id/tv_item_forum_title"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:gravity="center_vertical|left"
+        android:text="@string/example_team_name"
+        android:textColor="?attr/colorTextDark"
+        android:textSize="@dimen/sp_16"/>
+
+</LinearLayout>

@@ -240,8 +240,10 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
         if (pos + 1 < itemCount) {
             String nextGroupId = mCallback.getGroupId(pos + 1);
             //组内最后一个view进入header
-            if (!nextGroupId.equals(groupId) && bottom < textY) {
-                textY = bottom;
+            if (nextGroupId != null) {
+                if (!nextGroupId.equals(groupId) && bottom < textY) {
+                    textY = bottom;
+                }
             }
         }
         //textY - topGap决定了悬浮栏绘制的高度和位置

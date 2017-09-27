@@ -1,10 +1,11 @@
-package com.rayhahah.easysports.module.forum.bean;
+package com.rayhahah.easysports.module.forum.domain;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.rayhahah.easysports.app.C;
+import android.text.Html;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.rayhahah.easysports.R;
+import com.rayhahah.easysports.module.forum.bean.DetailListData;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -24,43 +25,28 @@ import java.util.ArrayList;
  *
  * @author Rayhahah
  * @blog http://rayhahah.com
- * @time 2017/9/15
+ * @time 2017/9/25
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class ForumsData implements Serializable {
-    public ArrayList<ForumsResult> data;
-
-    public static class ForumsResult implements Serializable {
-        public String fid;
-        public String name;
-        public ArrayList<Forums> sub;
+public class ForumDetailListAdapter extends BaseQuickAdapter<DetailListData.ThreadInfo, BaseViewHolder> {
+    public ForumDetailListAdapter() {
+        super(R.layout.item_forum_detail_list);
     }
 
-    public static class Forums implements Serializable {
-        public ArrayList<Forum> data;
-        public int weight;
-        public String name;
-    }
-
-    public static class Forum implements MultiItemEntity, Serializable {
-        public Long id;
-        public String fid;
-        public String name;
-        public String logo;
-        public String description;
-        public String backImg;
-        public String forumId;
-        public String categoryName;
-        public Integer weight;
-
-        @Override
-        public int getItemType() {
-            if (!fid.equals("0")) {
-                return C.FORUM.ITEM_TYPE_CONTENT;
-            } else {
-                return C.FORUM.ITEM_TYPE_TITLE;
-            }
+    @Override
+    protected void convert(BaseViewHolder helper, DetailListData.ThreadInfo item) {
+        helper.setText(R.id.tv_item_title, Html.fromHtml(item.title))
+                .setText(R.id.tv_item_reply, item.replies)
+                .setText(R.id.tv_item_single_time, item.forum == null ? item.time : item.forum.name)
+                .setVisible(R.id.tv_item_single_time, true)
+                .setVisible(R.id.tv_item_summary, false);
+        if (item.lightReply > 0) {
+            helper.setVisible(R.id.tv_item_light, true)
+                    .setText(R.id.tv_item_light, item.lightReply + "");
+        } else {
+            helper.setVisible(R.id.tv_item_light, false);
         }
+        helper.addOnClickListener(R.id.cv_item_detail_list);
     }
 }

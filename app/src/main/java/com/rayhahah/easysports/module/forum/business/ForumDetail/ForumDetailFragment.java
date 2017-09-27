@@ -1,10 +1,13 @@
-package com.rayhahah.easysports.module.forum.bean;
+package com.rayhahah.easysports.module.forum.business.ForumDetail;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
+import android.os.Bundle;
+import android.view.View;
+
+import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.app.C;
-
-import java.io.Serializable;
-import java.util.ArrayList;
+import com.rayhahah.easysports.common.BaseFragment;
+import com.rayhahah.easysports.databinding.FragmentForumDetailBinding;
+import com.rayhahah.easysports.view.HuPuWebView;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -24,43 +27,80 @@ import java.util.ArrayList;
  *
  * @author Rayhahah
  * @blog http://rayhahah.com
- * @time 2017/9/15
+ * @time 2017/9/26
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class ForumsData implements Serializable {
-    public ArrayList<ForumsResult> data;
+public class ForumDetailFragment extends BaseFragment<ForumDetailPresenter, FragmentForumDetailBinding> implements HuPuWebView.HuPuWebViewCallBack, HuPuWebView.OnScrollChangedCallback {
 
-    public static class ForumsResult implements Serializable {
-        public String fid;
-        public String name;
-        public ArrayList<Forums> sub;
+
+    public static final String URL = "url";
+    private String url;
+
+    public static ForumDetailFragment newInstance(String url) {
+        ForumDetailFragment mFragment = new ForumDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(URL, url);
+        mFragment.setArguments(bundle);
+        return mFragment;
     }
 
-    public static class Forums implements Serializable {
-        public ArrayList<Forum> data;
-        public int weight;
-        public String name;
+    @Override
+    protected int setFragmentLayoutRes() {
+        return R.layout.fragment_forum_detail;
     }
 
-    public static class Forum implements MultiItemEntity, Serializable {
-        public Long id;
-        public String fid;
-        public String name;
-        public String logo;
-        public String description;
-        public String backImg;
-        public String forumId;
-        public String categoryName;
-        public Integer weight;
+    @Override
+    public void initView(Bundle savedInstanceState) {
+        url = getValueFromPrePage("url");
+        iniPL();
+        mBinding.pl.showLoading(mBinding.wvHupu);
+        mBinding.wvHupu.loadUrl(url);
+        mBinding.wvHupu.setCallBack(this);
+        mBinding.wvHupu.setOnScrollChangedCallback(this);
+    }
 
-        @Override
-        public int getItemType() {
-            if (!fid.equals("0")) {
-                return C.FORUM.ITEM_TYPE_CONTENT;
-            } else {
-                return C.FORUM.ITEM_TYPE_TITLE;
+    private void iniPL() {
+        mBinding.pl.setColor(mThemeColorMap.get(C.ATTRS.COLOR_TEXT_LIGHT)
+                , mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
+        mBinding.pl.setRefreshClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBinding.pl.showLoading(mBinding.wvHupu);
+                mBinding.wvHupu.reload();
             }
+        });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mBinding.wvHupu != null) {
+            mBinding.wvHupu.removeAllViews();
+            mBinding.wvHupu.destroy();
         }
+    }
+
+    @Override
+    protected ForumDetailPresenter getPresenter() {
+        return new ForumDetailPresenter(null);
+    }
+
+    @Override
+    public void onFinish() {
+        mBinding.pl.showContent(mBinding.wvHupu);
+    }
+
+    @Override
+    public void onUpdatePager(int page, int total) {
+    }
+
+    @Override
+    public void onError() {
+        mBinding.pl.showError(mBinding.wvHupu);
+    }
+
+    @Override
+    public void onScroll(int dx, int dy, int y, int oldy) {
     }
 }

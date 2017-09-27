@@ -1,8 +1,5 @@
 package com.rayhahah.easysports.module.forum.bean;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.rayhahah.easysports.app.C;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -24,43 +21,31 @@ import java.util.ArrayList;
  *
  * @author Rayhahah
  * @blog http://rayhahah.com
- * @time 2017/9/15
+ * @time 2017/9/25
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class ForumsData implements Serializable {
-    public ArrayList<ForumsResult> data;
+public class DetailListData {
+    public ThreadListResult result;
 
-    public static class ForumsResult implements Serializable {
+    public static class ThreadListResult implements Serializable {
+        public String stamp;
+        public ArrayList<ThreadInfo> data;
+        public boolean nextPage;
+        public int nextDataExists;
+    }
+
+    public static class ThreadInfo implements Serializable {
+        public String tid;
+        public String title;
+        public String puid;
         public String fid;
-        public String name;
-        public ArrayList<Forums> sub;
+        public String replies;
+        public String userName;
+        public String time;
+        //public String imgs;
+        public int lightReply;
+        public ForumsData.Forum forum;
     }
 
-    public static class Forums implements Serializable {
-        public ArrayList<Forum> data;
-        public int weight;
-        public String name;
-    }
-
-    public static class Forum implements MultiItemEntity, Serializable {
-        public Long id;
-        public String fid;
-        public String name;
-        public String logo;
-        public String description;
-        public String backImg;
-        public String forumId;
-        public String categoryName;
-        public Integer weight;
-
-        @Override
-        public int getItemType() {
-            if (!fid.equals("0")) {
-                return C.FORUM.ITEM_TYPE_CONTENT;
-            } else {
-                return C.FORUM.ITEM_TYPE_TITLE;
-            }
-        }
-    }
 }

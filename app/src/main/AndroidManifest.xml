@@ -135,11 +135,17 @@
         <activity
             android:name=".module.mine.business.livelist.LivePlayActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/NoTitleFullscreen"
-            >
+            android:theme="@style/NoTitleFullscreen">
         </activity>
 
         <service android:name=".net.version.UpdateAppService"/>
+
+        <activity
+            android:name=".module.forum.business.ForumDetailList.ForumDetailListActivity"
+            android:theme="@style/NoTitleFullscreen">
+        </activity>
+        <activity android:name=".module.forum.business.ForumDetail.ForumDetailActivity">
+        </activity>
     </application>
 
 </manifest>

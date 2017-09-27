@@ -7,14 +7,14 @@ import android.support.v7.app.AppCompatDelegate;
 
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.app.C;
-import com.rayhahah.rbase.base.IRBasePresenter;
 import com.rayhahah.rbase.base.RBaseFragment;
+import com.rayhahah.rbase.base.RBasePresenter;
 
 /**
  * Created by a on 2017/5/27.
  */
 
-public abstract class BaseFragment<T extends IRBasePresenter, V extends ViewDataBinding>
+public abstract class BaseFragment<T extends RBasePresenter, V extends ViewDataBinding>
         extends RBaseFragment<T, V> {
     static {
         //设置VectorDrawable兼容支持，否则会闪退

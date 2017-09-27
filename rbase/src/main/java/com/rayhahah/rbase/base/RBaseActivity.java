@@ -22,6 +22,7 @@ import android.transition.Transition;
 import com.rayhahah.rbase.R;
 import com.rayhahah.rbase.utils.useful.PermissionManager;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,7 +41,7 @@ public abstract class RBaseActivity<T extends RBasePresenter, V extends ViewData
     protected CompositeDisposable compositeDisposable; //管理事件订阅
     protected ArrayMap<String, Disposable> disposableMap;
     protected static ConcurrentHashMap<String, String> paramMap = new ConcurrentHashMap<String, String>();
-    protected ConcurrentHashMap<String, String> valueMap = new ConcurrentHashMap<String, String>();
+    protected HashMap<String, String> valueMap = new HashMap<String, String>();
 
     protected V mBinding;
 
@@ -216,21 +217,21 @@ public abstract class RBaseActivity<T extends RBasePresenter, V extends ViewData
         /**
          * 参数传递
          */
-        Bundle bundle = new Bundle();
-        Iterator it = paramMap.keySet().iterator();
-        while (it.hasNext()) {
-            Object obj = it.next();
-            if (obj != null) {
-                String key = String.valueOf(obj);
-                String value = paramMap.get(key);
-                bundle.putString(key, value);
-            }
-        }
+//        Bundle bundle = new Bundle();
+//        Iterator it = paramMap.keySet().iterator();
+//        while (it.hasNext()) {
+//            Object obj = it.next();
+//            if (obj != null) {
+//                String key = String.valueOf(obj);
+//                String value = paramMap.get(key);
+//                bundle.putString(key, value);
+//            }
+//        }
 
         FragmentTransaction transaction = fm.beginTransaction();
         //Fragment添加
         if (!fragment.isAdded()) {
-            fragment.setArguments(bundle);
+//            fragment.setArguments(bundle);
             transaction.add(setFragmentContainerResId(), fragment, position + "");
         }
         if (currentFragment == null) {

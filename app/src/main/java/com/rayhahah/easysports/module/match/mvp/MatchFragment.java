@@ -48,7 +48,6 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         initRv();
 
         mCurrentDate = DateTimeUitl.getCurrentWithFormate("yyyy-MM-dd");
-        mCurrentDate = "2016-12-26";
         initFutureBeforeDate(mCurrentDate);
         initProgressLayout();
 
@@ -76,22 +75,28 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
 //                diffResult.dispatchUpdatesTo(mMatchListAdapter);
                 mMatchListAdapter.setNewData(data);
                 if (data.size() == 0) {
+                    mBinding.pl.showLoading(mBinding.srlMatchList);
                     getFutureMatchListData();
+                } else {
+                    mBinding.pl.showContent(mBinding.srlMatchList);
                 }
                 break;
             case C.STATUS.REFRESH:
-                mMatchListAdapter.addData(0, data);
-                mBinding.srlMatchList.setRefreshing(false);
-                mBinding.rvMatchList.smoothScrollToPosition(0);
                 if (data.size() == 0) {
                     getBeforeMatchListData();
+                } else {
+                    mMatchListAdapter.addData(0, data);
+                    mBinding.srlMatchList.setRefreshing(false);
+                    mBinding.rvMatchList.smoothScrollToPosition(0);
                 }
                 break;
             case C.STATUS.LOAD_MORE:
                 mMatchListAdapter.addData(data);
-                mMatchListAdapter.loadMoreComplete();
                 if (data.size() == 0) {
                     getFutureMatchListData();
+                } else {
+                    mMatchListAdapter.loadMoreComplete();
+                    mBinding.pl.showContent(mBinding.srlMatchList);
                 }
                 break;
         }
@@ -99,7 +104,8 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
 //        mItemDecor.setNewData(totalData);
 
 //        mMatchListAdapter.notifyDataSetChanged();
-        mBinding.pl.showContent(mBinding.srlMatchList);
+//        mBinding.pl.showContent(mBinding.srlMatchList);
+
     }
 
 
@@ -165,6 +171,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
      */
     private void getBeforeMatchListData() {
         mBeforeDate = DateTimeUitl.getBeforeFromTarget(mBeforeDate);
+        mBinding.srlMatchList.setRefreshing(true);
         mPresenter.addMatchListData(mBeforeDate, C.STATUS.REFRESH);
     }
 

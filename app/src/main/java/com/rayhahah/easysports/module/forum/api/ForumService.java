@@ -1,5 +1,7 @@
 package com.rayhahah.easysports.module.forum.api;
 
+import com.rayhahah.easysports.module.forum.bean.DetailListData;
+import com.rayhahah.easysports.module.forum.bean.ForumDetailInfoData;
 import com.rayhahah.easysports.module.forum.bean.ForumsData;
 
 import java.util.Map;
@@ -25,4 +27,12 @@ public interface ForumService {
     @GET("forums/getForums")
     Observable<ForumsData> getAllForums(@Query("sign") String sign,
                                         @QueryMap Map<String, String> params);
+
+    @GET("forums/getForumsInfoList")
+    Observable<DetailListData> getForumInfosList(@Query("sign") String sign, @QueryMap Map<String, String> params);
+
+    @GET("threads/getThreadsSchemaInfo")
+    Observable<ForumDetailInfoData> getThreadInfo(@Query("sign") String sign, @QueryMap Map<String, String> params);
+
+
 }

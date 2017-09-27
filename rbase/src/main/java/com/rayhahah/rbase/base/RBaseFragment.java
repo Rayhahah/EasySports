@@ -24,7 +24,7 @@ import io.reactivex.disposables.Disposable;
  * Created by a on 2017/5/14.
  */
 
-public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDataBinding>
+public abstract class RBaseFragment<T extends RBasePresenter, V extends ViewDataBinding>
         extends Fragment {
 
 
@@ -46,7 +46,7 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
         super.onAttach(context);
         try {
             mContext = (RBaseActivity) context;
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new IllegalArgumentException("这个fragment的父activity必须继承BaseActivity");
         }
     }
@@ -54,6 +54,7 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        this.savedInstanceState = savedInstanceState;
         if (mBinding == null) {
             mView = inflater.inflate(setFragmentLayoutRes(), null, false);
             mBinding = DataBindingUtil.inflate(inflater, setFragmentLayoutRes(), container, false);
@@ -63,7 +64,6 @@ public abstract class RBaseFragment<T extends IRBasePresenter, V extends ViewDat
             isFirstInit = true;
             onVisible();
         }
-        this.savedInstanceState = savedInstanceState;
         return mBinding.getRoot();
     }
 
