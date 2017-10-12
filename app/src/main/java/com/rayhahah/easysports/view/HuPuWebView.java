@@ -2,7 +2,6 @@ package com.rayhahah.easysports.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
@@ -20,7 +19,6 @@ import android.webkit.WebViewClient;
 import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.common.RWebActivity;
 import com.rayhahah.easysports.module.forum.business.ForumDetail.ForumDetailActivity;
-import com.rayhahah.easysports.module.mine.business.login.LoginActivity;
 import com.rayhahah.easysports.utils.HuPuHelper;
 import com.rayhahah.easysports.utils.SettingPrefUtils;
 import com.rayhahah.rbase.utils.base.StringUtils;
@@ -275,8 +273,10 @@ public class HuPuWebView extends WebView {
 //                ReportActivity.start(getContext(), String.valueOf(reportPid), reportTid);
                 break;
             case "hupu.user.login":
-                getContext().startActivity(new Intent(getContext(), LoginActivity.class));
-                ToastUtils.showShort("请先登录哦~");
+
+                // TODO: 2017/10/11 虎扑账号登陆功能
+//                getContext().startActivity(new Intent(getContext(), LoginActivity.class));
+                ToastUtils.showShort("登陆功能还没做");
                 break;
             case "hupu.ui.pageclose":
                 mPreActivity.finish();

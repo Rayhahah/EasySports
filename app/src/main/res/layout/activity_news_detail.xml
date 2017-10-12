@@ -74,6 +74,24 @@
                     android:visibility="gone"
                     />
 
+
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_share_news"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:layout_marginBottom="@dimen/dp_20"
+                    android:onClick="share"
+                    android:visibility="visible"
+                    app:backgroundTint="?attr/colorBgDark"
+                    app:borderWidth="@dimen/dp_1"
+                    app:elevation="@dimen/dp_10"
+                    app:rippleColor="?attr/colorPrimary"
+                    app:srcCompat="@drawable/ic_svg_share_colorful_24"/>
+
             </RelativeLayout>
         </LinearLayout>
 

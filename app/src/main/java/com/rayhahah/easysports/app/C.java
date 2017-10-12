@@ -60,8 +60,8 @@ public class C {
         String TECENT_VIDEO_SERVER_H5 = "http://h5vv.video.qq.com";
         String TECENT_SERVER = "http://sportsnba.qq.com";
         String TMIAAO_SERVER = "http://nba.tmiaoo.com";
-        //        String RAYMALL = "http://rayhahah.com:8080/raymall/";
-        String RAYMALL = "http://rayhahah.s1.natapp.cc/raymall/";
+        String RAYMALL = "http://rayhahah.com:8080/raymall/";
+        //        String RAYMALL = "http://rayhahah.s1.natapp.cc/raymall/";
         String RAY_FTP = "ftp://88.128.18.163:21/raymall/";
     }
 
@@ -71,6 +71,7 @@ public class C {
     public interface EventAction {
 
         String UPDATE_CURRENT_USER = "UPDATE_CURRENT_USER";
+        String REFRESH_MATCH_DATA = "REFRESH_MATCH_DATA";
     }
 
 
@@ -85,7 +86,9 @@ public class C {
         String TOKEN = "TOKEN";
         String HUPU_UID = "uid";
         String HUPU_NICKNAME = "HUPU_NICKNAME";
+
     }
+
 
     /**
      * 主题属性常量保存类
@@ -139,6 +142,8 @@ public class C {
         int LIMIT = 20;
         String TYPE_FORUM_HOT = "2";//热帖
         String TYPE_FORUM_NEW = "1";//新帖
+        String SHARE_TITLE = "SHARE_TITLE";
+        String SHARE_URL = "SHARE_URL";
     }
 
     @Retention(RetentionPolicy.SOURCE)
@@ -167,6 +172,33 @@ public class C {
         String TAG_TYPE_NORMAL = "2";
     }
 
+
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface MATCH {
+        String INTENT_MID = "MID";
+
+        String MATCH_DATA = "比赛数据";
+        String MATCH_PLAYER = "技术统计";
+        String MATCH_LIVE = "图文直播";
+        String MATCH_VIDEO = "视频集锦";
+        String MATCH_FORWARD = "比赛前瞻";
+        String BUNDLE_MID = "MID";
+        String BUNDLE_INFO = "INFO";
+        int ITEM_TYPE_FORWARD_MAX = 101;
+        int ITEM_TYPE_FORWARD_STATUS = 102;
+        int ITEM_TYPE_FORWARD_HISTORY = 103;
+        int ITEM_TYPE_MATCH_DATA_POINT = 12;
+        int ITEM_TYPE_MATCH_DATA_TEAM_COUNT = 14;
+        int ITEM_TYPE_MATCH_DATA_TEAM_BEST = 13;
+
+        //比赛数据
+        String TAB_TPYE_MATCHDATA = "1";
+        //技术统计
+        String TAB_TPYE_STROKE = "2";
+        //比赛前瞻
+        String TAB_TPYE_FORWARD = "3";
+    }
+
     @Retention(RetentionPolicy.SOURCE)
     public @interface MINE {
         int ID_LOGIN = 1;
@@ -192,6 +224,7 @@ public class C {
         String INTENT_URL = "URL";
         String INTENT_TITLE = "TITLE";
         int CODE_REQUEST_AUDIO = 2001;
+
     }
 
 

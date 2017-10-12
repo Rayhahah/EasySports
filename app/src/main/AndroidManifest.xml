@@ -146,6 +146,8 @@
         </activity>
         <activity android:name=".module.forum.business.ForumDetail.ForumDetailActivity">
         </activity>
+        <activity android:name=".module.match.busniess.matchdetail.MatchDetailActivity">
+        </activity>
     </application>
 
 </manifest>

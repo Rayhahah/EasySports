@@ -28,7 +28,9 @@ import java.util.List;
  */
 
 public class NewsListFragment extends BaseFragment<NewsListPresenter, FragmentNewslistBinding>
-        implements NewsListContract.INewsListView, BaseQuickAdapter.RequestLoadMoreListener, SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
+        implements NewsListContract.INewsListView, BaseQuickAdapter.RequestLoadMoreListener
+        , SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemClickListener
+        , BaseQuickAdapter.OnItemChildClickListener {
 
     //Fragment在Tab中位置
     private String mTabIndex;

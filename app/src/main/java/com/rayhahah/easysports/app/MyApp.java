@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.multidex.MultiDex;
 
+import com.mob.MobSDK;
 import com.rayhahah.easysports.bean.db.LocalUser;
 import com.rayhahah.easysports.module.mine.bean.RResponse;
 import com.rayhahah.easysports.net.ApiClient;
@@ -99,6 +100,7 @@ public class MyApp extends BaseApplication {
 
 //        initCrashHandler();
         initRetrofit();
+        MobSDK.init(mAppContext,"1f9794709477b","9bfa1e4458daf2c82e4bd67e0dd0869a");
 
         initSonic();
 

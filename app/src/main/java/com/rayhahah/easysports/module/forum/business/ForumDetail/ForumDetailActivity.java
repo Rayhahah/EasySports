@@ -2,20 +2,30 @@ package com.rayhahah.easysports.module.forum.business.ForumDetail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.View;
 
+import com.rayhahah.dialoglib.CustomDialog;
 import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.common.BaseActivity;
 import com.rayhahah.easysports.common.BaseFragment;
 import com.rayhahah.easysports.databinding.ActivityForumDetailBinding;
+import com.rayhahah.easysports.databinding.DialogShareBinding;
 import com.rayhahah.easysports.module.forum.bean.ForumDetailInfoData;
 import com.rayhahah.rbase.utils.base.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 
 public class ForumDetailActivity extends BaseActivity<ForumDetailPresenter, ActivityForumDetailBinding> implements ForumDetailContract.IForumDetailView, ViewPager.OnPageChangeListener {
 
@@ -30,6 +40,7 @@ public class ForumDetailActivity extends BaseActivity<ForumDetailPresenter, Acti
     private int totalPage;
     private int currentPage = 1;
     private ArrayList<BaseFragment> mFragmentsList = new ArrayList<>();
+    private HashMap<String, String> mShareMap;
     ;
 
     public static void start(Context context, String pid, String tid, int page, String fid) {
@@ -40,6 +51,8 @@ public class ForumDetailActivity extends BaseActivity<ForumDetailPresenter, Acti
         intent.putExtra(ForumDetailActivity.INTENT_FID, fid);
         context.startActivity(intent);
     }
+
+
 
     @Override
     protected ForumDetailPresenter getPresenter() {
@@ -157,6 +170,9 @@ public class ForumDetailActivity extends BaseActivity<ForumDetailPresenter, Acti
     public void getForumDetailSuccess(ForumDetailInfoData data) {
         List<String> urls = createPageList(data.url, data.page, data.pageSize);
         totalPage = data.pageSize;
+        mShareMap = new HashMap<>();
+        mShareMap.put(C.FORUM.SHARE_TITLE, data.share.wechat);
+        mShareMap.put(C.FORUM.SHARE_URL, data.share.url);
         for (String url : urls) {
 
             ForumDetailFragment forumDetailFragment = new ForumDetailFragment();
@@ -178,4 +194,37 @@ public class ForumDetailActivity extends BaseActivity<ForumDetailPresenter, Acti
         return urls;
     }
 
+    public void share(View view) {
+        DialogShareBinding shareBinding = (DialogShareBinding) DataBindingUtil.inflate(getLayoutInflater()
+                , R.layout.dialog_share, null, false);
+        shareBinding.ivShareWechat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Platform platform = ShareSDK.getPlatform(Wechat.NAME);
+                Platform.ShareParams params = new Platform.ShareParams();
+                params.setShareType(Platform.SHARE_WEBPAGE);
+                params.setTitle(mShareMap.get(C.FORUM.SHARE_TITLE));
+                params.setUrl(mShareMap.get(C.FORUM.SHARE_URL));
+                platform.share(params);
+
+            }
+        });
+        shareBinding.ivShareMoment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Platform platform = ShareSDK.getPlatform(WechatMoments.NAME);
+                Platform.ShareParams params = new Platform.ShareParams();
+                params.setShareType(Platform.SHARE_WEBPAGE);
+                params.setTitle(mShareMap.get(C.FORUM.SHARE_TITLE));
+                params.setUrl(mShareMap.get(C.FORUM.SHARE_URL));
+                platform.share(params);
+            }
+        });
+        CustomDialog customDialog = new CustomDialog.Builder(mContext)
+                .setView(shareBinding.getRoot())
+                .setTouchOutside(true)
+                .setDialogGravity(Gravity.BOTTOM)
+                .build();
+        customDialog.show();
+    }
 }

@@ -56,9 +56,11 @@ public class MatchLiveListAdapter extends BaseQuickAdapter<MatchListBean.DataBea
 
         GlideUtil.load(mContext, item.getLeftBadge(), (ImageView) helper.getView(R.id.iv_left_team));
         GlideUtil.load(mContext, item.getRightBadge(), (ImageView) helper.getView(R.id.iv_right_team));
+
+        helper.addOnClickListener(R.id.ll_match_list);
     }
 
-   public static class DiffCallBack extends CommonAdapterDCB<MatchListBean.DataBean.MatchesBean.MatchInfoBean> {
+    public static class DiffCallBack extends CommonAdapterDCB<MatchListBean.DataBean.MatchesBean.MatchInfoBean> {
 
         public DiffCallBack(List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> oldData, List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> newData) {
             super(oldData, newData);

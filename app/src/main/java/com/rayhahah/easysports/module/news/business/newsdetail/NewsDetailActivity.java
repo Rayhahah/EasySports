@@ -4,18 +4,22 @@ import android.Manifest;
 import android.animation.Animator;
 import android.app.Activity;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.rayhahah.dialoglib.CustomDialog;
 import com.rayhahah.dialoglib.DialogInterface;
 import com.rayhahah.dialoglib.NormalSelectionDialog;
 import com.rayhahah.easysports.R;
-import com.rayhahah.easysports.common.BaseActivity;
 import com.rayhahah.easysports.app.C;
+import com.rayhahah.easysports.common.BaseActivity;
 import com.rayhahah.easysports.databinding.ActivityNewsDetailBinding;
+import com.rayhahah.easysports.databinding.DialogShareBinding;
 import com.rayhahah.easysports.module.news.bean.NewsDetail;
 import com.rayhahah.easysports.utils.AnimatorUtil;
 import com.rayhahah.rbase.utils.base.ToastUtils;
@@ -24,6 +28,11 @@ import com.rayhahah.rbase.utils.useful.PermissionManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 
 public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, ActivityNewsDetailBinding>
         implements NewsDetailContract.INewsDetailView
@@ -35,6 +44,10 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
     private String mColumn;
     private String mArticleId;
     private LayoutInflater mInflater;
+    private String mUrl;
+    private String mTitle;
+    private String mPub_time;
+    private String mImgurl;
 
     public static void start(Context context, Activity preActivity
             , String colunm, String articleId) {
@@ -121,9 +134,13 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
     @Override
     public void getNewsDetail(NewsDetail newsDetail) {
         NewsDetail.DataBean data = newsDetail.getData();
-        mBinding.tvNewsDetailTitle.setText(data.getTitle());
-        mBinding.tvNewsDetailDate.setText(data.getPub_time());
-        GlideUtil.load(this, data.getImgurl(), mBinding.ivNewsDetailCover);
+        mTitle = data.getTitle();
+        mBinding.tvNewsDetailTitle.setText(mTitle);
+        mPub_time = data.getPub_time();
+        mBinding.tvNewsDetailDate.setText(mPub_time);
+        mUrl = data.getUrl();
+        mImgurl = data.getImgurl();
+        GlideUtil.load(this, mImgurl, mBinding.ivNewsDetailCover);
         List<NewsDetail.DataBean.ContentBean> content = data.getContent();
         for (NewsDetail.DataBean.ContentBean bean : content) {
             if (bean.getType().equals("text")) {
@@ -251,5 +268,42 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
                 })
                 .setCanceledOnTouchOutside(true)
                 .build();
+    }
+
+    public void share(View view) {
+        DialogShareBinding shareBinding = (DialogShareBinding) DataBindingUtil.inflate(getLayoutInflater()
+                , R.layout.dialog_share, null, false);
+        shareBinding.ivShareWechat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Platform platform = ShareSDK.getPlatform(Wechat.NAME);
+                Platform.ShareParams params = new Platform.ShareParams();
+                params.setShareType(Platform.SHARE_WEBPAGE);
+                params.setTitle(mTitle);
+                params.setText(mPub_time);
+                params.setImageUrl(mImgurl);
+                params.setUrl(mUrl);
+                platform.share(params);
+
+            }
+        });
+        shareBinding.ivShareMoment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Platform platform = ShareSDK.getPlatform(WechatMoments.NAME);
+                Platform.ShareParams params = new Platform.ShareParams();
+                params.setShareType(Platform.SHARE_WEBPAGE);
+                params.setTitle(mTitle);
+                params.setImageUrl(mImgurl);
+                params.setUrl(mUrl);
+                platform.share(params);
+            }
+        });
+        CustomDialog customDialog = new CustomDialog.Builder(mContext)
+                .setView(shareBinding.getRoot())
+                .setTouchOutside(true)
+                .setDialogGravity(Gravity.BOTTOM)
+                .build();
+        customDialog.show();
     }
 }

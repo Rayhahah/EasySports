@@ -47,6 +47,5 @@ public class InfoTeamListAdapter extends BaseQuickAdapter<TeamRank.TeamBean,Base
                 .setText(R.id.tv_teamrank_rate,item.rate);
         GlideUtil.loadWithTransform(mContext,item.badge
                 , (ImageView) helper.getView(R.id.iv_teamrank_cover),new GlideCircleTransform(mContext));
-        // TODO: 2017/8/13 点击事件
     }
 }

@@ -12,6 +12,7 @@ import com.rayhahah.easysports.common.BaseFragment;
 import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.databinding.FragmentMatchBinding;
 import com.rayhahah.easysports.module.match.bean.MatchListBean;
+import com.rayhahah.easysports.module.match.busniess.matchdetail.MatchDetailActivity;
 import com.rayhahah.easysports.module.match.domain.MatchLiveListAdapter;
 import com.rayhahah.easysports.view.TitleItemDecoration;
 import com.rayhahah.rbase.utils.base.DateTimeUitl;
@@ -27,7 +28,7 @@ import java.util.List;
 public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBinding>
         implements MatchContract.IMatchView
         , BaseQuickAdapter.RequestLoadMoreListener,
-        SwipeRefreshLayout.OnRefreshListener {
+        SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemChildClickListener {
 
     private BaseQuickAdapter<MatchListBean.DataBean.MatchesBean.MatchInfoBean, BaseViewHolder> mMatchListAdapter;
     private String mFutureDate;
@@ -190,6 +191,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         mBinding.rvMatchList.setLayoutManager(
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mMatchListAdapter = new MatchLiveListAdapter();
+        mMatchListAdapter.setOnItemChildClickListener(this);
         mItemDecor = new TitleItemDecoration(getActivity()
                 , mThemeColorMap.get(C.ATTRS.COLOR_TEXT_DARK)
                 , mThemeColorMap.get(C.ATTRS.COLOR_BG_DARK)
@@ -254,5 +256,16 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         int day = DateTimeUitl.intGetDay(currentDate);
         mFutureDate = DateTimeUitl.formatDateFromInt(year, month, day);
         mBeforeDate = DateTimeUitl.formatDateFromInt(year, month, day);
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> data = adapter.getData();
+        switch (view.getId()) {
+            case R.id.ll_match_list:
+                String mid = data.get(position).getMid();
+                MatchDetailActivity.start(mContext,mContext,mid);
+                break;
+        }
     }
 }

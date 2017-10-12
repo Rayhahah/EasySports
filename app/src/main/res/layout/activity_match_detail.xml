@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.rayhahah.easysports.module.match.busniess.matchdetail.MatchDetailActivity"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/match_detail_bg"
+        android:orientation="vertical"
+        >
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120">
+
+            <TextView
+                android:id="@+id/tv_match_detail_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="0dp"
+                android:text="已结束"
+                android:textColor="?attr/colorTextDark"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.100000024"/>
+
+            <TextView
+                android:id="@+id/tv_left_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="0dp"
+                android:text="51胜31负"
+                android:textColor="?attr/colorTextDark"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_match_detail_status"
+                app:layout_constraintRight_toLeftOf="@+id/tv_match_detail_status"
+                app:layout_constraintTop_toTopOf="@+id/tv_match_detail_status"/>
+
+            <TextView
+                android:id="@+id/tv_right_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="0dp"
+                android:text="37胜45负"
+                android:textColor="?attr/colorTextDark"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_match_detail_status"
+                app:layout_constraintLeft_toRightOf="@+id/tv_match_detail_status"
+                app:layout_constraintTop_toTopOf="@+id/tv_match_detail_status"/>
+
+            <TextView
+                android:id="@+id/tv_match_detail_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="16dp"
+                android:text="常规赛"
+                android:textColor="?attr/colorBg"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_match_detail_status"
+                app:layout_constraintRight_toRightOf="@+id/tv_match_detail_status"
+                app:layout_constraintTop_toBottomOf="@+id/tv_match_detail_status"/>
+
+            <TextView
+                android:id="@+id/tv_left_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginRight="@dimen/dp_40"
+                android:layout_marginTop="0dp"
+                android:text="105"
+                android:textColor="?attr/colorBg"
+                android:textSize="@dimen/sp_25"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_match_detail_type"
+                app:layout_constraintRight_toLeftOf="@+id/tv_match_detail_type"
+                app:layout_constraintTop_toTopOf="@+id/tv_match_detail_type"/>
+
+            <TextView
+                android:id="@+id/tv_right_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginTop="0dp"
+                android:text="102"
+                android:textColor="?attr/colorBg"
+                android:textSize="@dimen/sp_25"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_match_detail_type"
+                app:layout_constraintLeft_toRightOf="@+id/tv_match_detail_type"
+                app:layout_constraintTop_toTopOf="@+id/tv_match_detail_type"/>
+
+            <TextView
+                android:id="@+id/tv_match_detail_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="04月06日 07：30 奥本山宫殿球场"
+                android:textColor="?attr/colorTextDark"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_match_detail_type"
+                app:layout_constraintRight_toRightOf="@+id/tv_match_detail_type"
+                app:layout_constraintTop_toBottomOf="@+id/tv_match_detail_type"/>
+
+            <ImageView
+                android:id="@+id/iv_left_cover"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_left_point"
+                app:layout_constraintHorizontal_bias="0.05"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_left_point"
+                app:srcCompat="@mipmap/ic_logo"/>
+
+            <ImageView
+                android:id="@+id/iv_right_cover"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_left_point"
+                app:layout_constraintHorizontal_bias="0.95"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_left_point"
+                app:srcCompat="@mipmap/ic_logo"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tl_match_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabBackground="?attr/colorBg"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="?attr/colorPrimary"
+            app:tabIndicatorHeight="@dimen/dp_3"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="?attr/colorPrimary"
+            app:tabTextColor="?attr/colorTextDark"
+            >
+        </android.support.design.widget.TabLayout>
+
+        <com.rayhahah.easysports.view.NoScrollViewPager
+            android:id="@+id/vp_match_detail"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="?attr/colorBg"
+            />
+    </LinearLayout>
+</layout>

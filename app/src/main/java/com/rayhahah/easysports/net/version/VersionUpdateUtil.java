@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 
 import com.rayhahah.dialoglib.CustomDialog;
@@ -160,6 +161,7 @@ public class VersionUpdateUtil {
         CustomDialog customDialog = new CustomDialog.Builder(context)
                 .setView(versionBinding.getRoot())
                 .setTouchOutside(true)
+                .setDialogGravity(Gravity.CENTER)
                 .build();
         return customDialog;
     }

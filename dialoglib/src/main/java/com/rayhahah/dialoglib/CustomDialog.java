@@ -49,7 +49,7 @@ public class CustomDialog {
         lp.width = (int) (ScreenSizeUtils.getInstance(mBuilder.getContext()).getScreenWidth() *
                 builder.getItemWidth());
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.gravity = Gravity.CENTER;
+        lp.gravity = builder.getDialogGravity();
         dialogWindow.setAttributes(lp);
         mDialog.setCanceledOnTouchOutside(mBuilder.isTouchOutside());
     }
@@ -77,12 +77,14 @@ public class CustomDialog {
         private float itemWidth;
         private Context mContext;
         private boolean isTouchOutside;
+        private int dialogGravity;
 
         public Builder(Context context) {
             mContext = context;
             itemHeight = 0.28f;
             itemWidth = 0.8f;
             isTouchOutside = true;
+            dialogGravity = Gravity.CENTER;
         }
 
         public boolean isTouchOutside() {
@@ -127,6 +129,15 @@ public class CustomDialog {
 
         public Builder setContext(Context context) {
             mContext = context;
+            return this;
+        }
+
+        public int getDialogGravity() {
+            return dialogGravity;
+        }
+
+        public Builder setDialogGravity(int gravity) {
+            dialogGravity = gravity;
             return this;
         }
 

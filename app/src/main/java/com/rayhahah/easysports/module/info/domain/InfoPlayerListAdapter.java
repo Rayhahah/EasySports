@@ -46,7 +46,6 @@ public class InfoPlayerListAdapter extends BaseQuickAdapter<StatusRank.PlayerBea
                 .setText(R.id.tv_playerrank_value, item.getValue());
         GlideUtil.loadWithTransform(mContext, item.getPlayerIcon(), (ImageView) helper.getView(R.id.iv_playerrank_cover)
                 , new GlideCircleTransform(mContext));
-        // TODO: 2017/8/13 点击事件
 
     }
 }

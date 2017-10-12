@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.rayhahah.easysports.module.info.bean.StatusRank;
 import com.rayhahah.easysports.module.info.bean.TeamRank;
+import com.rayhahah.easysports.module.match.bean.LiveDetail;
 import com.rayhahah.easysports.module.news.bean.NewsItem;
 import com.rayhahah.easysports.module.news.bean.VideoInfo;
 import com.rayhahah.rbase.utils.base.StringUtils;
@@ -14,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -84,10 +87,11 @@ public class JsonParser {
         StatusRank statusRank = new StatusRank();
         while (keys.hasNext()) {
             String next = keys.next();
-            statusRank.type=next;
+            statusRank.type = next;
             JSONArray itemJO = data.getJSONArray(next);
             List<StatusRank.PlayerBean> playerBeen = (List<StatusRank.PlayerBean>) new Gson()
-                    .fromJson(itemJO.toString(), new TypeToken<List<StatusRank.PlayerBean>>(){}.getType());
+                    .fromJson(itemJO.toString(), new TypeToken<List<StatusRank.PlayerBean>>() {
+                    }.getType());
             statusRank.setRankList(playerBeen);
         }
         return statusRank;
@@ -123,4 +127,48 @@ public class JsonParser {
         }
         return rank;
     }
+
+    public static LiveDetail parseMatchLiveDetail(String jsonStr) throws JSONException {
+        LiveDetail detail = new LiveDetail();
+        detail.data = new LiveDetail.LiveDetailData();
+
+        JSONObject jo = new JSONObject(jsonStr);
+        JSONObject data = jo.getJSONObject("data");
+        List<LiveDetail.LiveContent> list = new ArrayList<>();
+
+        Iterator<String> keys = data.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            if (key.equals("teamInfo")) {
+                String teamInfo = data.getJSONObject(key).toString();
+                detail.data.teamInfo = new Gson().fromJson(teamInfo, LiveDetail.TeamInfo.class);
+            } else if (key.equals("detail")) {
+                JSONObject details = data.getJSONObject(key);
+                if (details != null) {
+                    Iterator<String> detailsKeys = details.keys();
+                    while (detailsKeys.hasNext()) {
+                        String detailsKey = detailsKeys.next();
+                        LiveDetail.LiveContent content;
+                        String contentStr = details.getJSONObject(detailsKey).toString();
+                        Gson gson = new Gson();
+                        content = gson.fromJson(contentStr, LiveDetail.LiveContent.class);
+                        content.id = detailsKey;
+                        list.add(content);
+                    }
+                }
+            }
+        }
+
+        // 由于fastjson获取出来的entrySet是乱序的  所以这边重新排序
+        Collections.sort(list, new Comparator<LiveDetail.LiveContent>() {
+            @Override
+            public int compare(LiveDetail.LiveContent lhs, LiveDetail.LiveContent rhs) {
+                return rhs.id.compareTo(lhs.id);
+            }
+        });
+        detail.data.detail = list;
+        return detail;
+    }
+
+
 }

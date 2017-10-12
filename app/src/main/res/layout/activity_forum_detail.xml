@@ -6,74 +6,94 @@
     tools:context="com.rayhahah.easysports.module.forum.business.ForumDetail.ForumDetailActivity"
     >
 
-    <LinearLayout
-        android:id="@+id/ll_forum_detail"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"/>
-
-        <FrameLayout
-            android:background="?attr/colorBgDark"
-            android:id="@+id/fl_forrum_detail"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginRight="@dimen/dp_10"
-            android:background="?attr/colorTextLight"/>
-
+        android:layout_height="match_parent">
 
 
         <LinearLayout
+            android:id="@+id/ll_forum_detail"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_40"
-            android:background="?attr/colorBg"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
 
-            <TextView
-                android:id="@+id/tv_forum_detail_before"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:gravity="center_vertical|right"
-                android:text="上一页"
-                android:onClick="previousPage"
-                android:textColor="?attr/colorTextDark"
-                android:textSize="@dimen/sp_16"/>
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/toolbar"/>
 
-            <TextView
-                android:id="@+id/tv_forum_detail_page"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="0/0"
-                android:textColor="?attr/colorTextDark"
-                android:textSize="@dimen/sp_16"/>
+            <FrameLayout
+                android:id="@+id/fl_forrum_detail"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="?attr/colorBgDark"/>
 
-            <TextView
-                android:onClick="nextPage"
-                android:id="@+id/tv_forum_detail_next"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:gravity="center_vertical|left"
-                android:text="下一页"
-                android:textColor="?attr/colorTextDark"
-                android:textSize="@dimen/sp_16"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:background="?attr/colorTextLight"/>
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:background="?attr/colorBg"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_forum_detail_before"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="center_vertical|right"
+                    android:onClick="previousPage"
+                    android:text="上一页"
+                    android:textColor="?attr/colorTextDark"
+                    android:textSize="@dimen/sp_16"/>
+
+                <TextView
+                    android:id="@+id/tv_forum_detail_page"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center"
+                    android:text="0/0"
+                    android:textColor="?attr/colorTextDark"
+                    android:textSize="@dimen/sp_16"/>
+
+                <TextView
+                    android:id="@+id/tv_forum_detail_next"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:gravity="center_vertical|left"
+                    android:onClick="nextPage"
+                    android:text="下一页"
+                    android:textColor="?attr/colorTextDark"
+                    android:textSize="@dimen/sp_16"/>
+
+
+            </LinearLayout>
         </LinearLayout>
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_share_forum_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/dp_70"
+            android:layout_marginRight="@dimen/dp_20"
+            android:onClick="share"
+            android:visibility="visible"
+            app:backgroundTint="?attr/colorBgDark"
+            app:borderWidth="@dimen/dp_1"
+            app:elevation="@dimen/dp_10"
+            app:rippleColor="?attr/colorPrimary"
+            app:srcCompat="@drawable/ic_svg_share_colorful_24"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 </layout>

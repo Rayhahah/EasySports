@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:background="@drawable/selector_bg_click_corner"
+        app:flexDirection="row"
+        app:flexWrap="wrap">
+
+        <ImageView
+            android:id="@+id/iv_share_wechat"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:padding="@dimen/dp_20"
+            app:layout_flexGrow="1"
+            app:srcCompat="@drawable/ic_svg_wechat_share_green_24"/>
+
+        <ImageView
+            android:scaleType="centerCrop"
+            android:padding="@dimen/dp_30"
+            android:id="@+id/iv_share_moment"
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="wrap_content"
+            app:layout_flexGrow="1"
+            app:srcCompat="@drawable/ic_svg_moment_colorful_24"/>
+
+        <View
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_1"
+            app:layout_flexGrow="1"/>
+
+        <View
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_1"
+            app:layout_flexGrow="1"/>
+
+
+    </com.google.android.flexbox.FlexboxLayout>
+</layout>

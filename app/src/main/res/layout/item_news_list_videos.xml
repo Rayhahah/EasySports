@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_200"
     android:background="?attr/colorBgDark"
@@ -18,10 +19,23 @@
         android:layout_gravity="center"
         android:gravity="left"
         android:padding="@dimen/dp_5"
-        android:visibility="gone"
         android:text="@string/example_title_video"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_20"/>
+        android:textSize="@dimen/sp_20"
+        android:visibility="gone"/>
+
+
+    <TextView
+        android:id="@+id/tv_video_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/dp_5"
+        android:text="00:01:54"
+        android:visibility="gone"
+        android:textColor="?attr/colorBg"
+        android:textSize="@dimen/sp_14"/>
 
     <ImageView
         android:id="@+id/iv_goto_web"
@@ -30,7 +44,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/dp_5"
-        android:src="@drawable/ic_svg_goto_white_24"/>
+        app:srcCompat="@drawable/ic_svg_goto_white_24"/>
 
     <TextView
         android:id="@+id/tv_video_date"

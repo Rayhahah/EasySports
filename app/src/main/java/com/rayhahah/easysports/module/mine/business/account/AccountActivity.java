@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -177,6 +178,7 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                     , new GlideCircleTransform(mContext));
         }
     }
+
     @Override
     public void uploadCoverFailed(String msg) {
         DialogUtil.dismissDialog(false);
@@ -256,6 +258,10 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
 
 
     private void initView() {
+        if (MyApp.getCurrentUser() == null) {
+            finish();
+            return;
+        }
         getCurrentUserSuccess(MyApp.getCurrentUser());
         mBinding.btnAccountLogout.setOnClickListener(this);
         mBinding.ivAccountCover.setOnClickListener(this);
@@ -525,6 +531,7 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
         CustomDialog customDialog = new CustomDialog.Builder(mContext)
                 .setView(root)
                 .setTouchOutside(true)
+                .setDialogGravity(Gravity.CENTER)
                 .build();
         return customDialog;
     }

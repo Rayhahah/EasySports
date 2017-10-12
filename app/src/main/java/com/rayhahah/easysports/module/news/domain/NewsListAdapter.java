@@ -83,13 +83,13 @@ public class NewsListAdapter extends BaseQuickAdapter<NewsItem.DataBean.ItemInfo
                                     String url = videoInfo.vl.vi.get(0).ul.ui.get(0).url + vid + ".mp4?vkey=" + vkey;
 
                                     item.setVideoUrl(url);
-                                    newsPlayer.setUp(item.getVideoUrl(), JCVideoPlayer.SCREEN_LAYOUT_NORMAL, item.getTitle());
+                                    newsPlayer.setUp(item.getVideoUrl(), JCVideoPlayer.SCREEN_LAYOUT_LIST, item.getTitle());
                                 }
                             }
                         }, new Consumer<Throwable>() {
                             @Override
                             public void accept(@NonNull Throwable throwable) throws Exception {
-                                newsPlayer.setUp(item.getVideoUrl(), JCVideoPlayer.SCREEN_LAYOUT_NORMAL, item.getTitle());
+                                newsPlayer.setUp(item.getVideoUrl(), JCVideoPlayer.SCREEN_LAYOUT_LIST, item.getTitle());
                             }
                         });
 //                }

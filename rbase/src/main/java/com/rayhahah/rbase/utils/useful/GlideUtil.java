@@ -149,14 +149,16 @@ public class GlideUtil {
     ) {
 
         manager.load(res)
+//                .asBitmap()//只允许加载静态图片，不需要Glide去帮我们自动进行图片格式的判断
                 .listener(requestListener)
                 .placeholder(phRes)
                 .error(errorRes)
                 .priority(priority)
-                .animate(animator)
-                .bitmapTransform(transformation)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .animate(animator)//动画
+                .bitmapTransform(transformation)//图形转换
+                .diskCacheStrategy(DiskCacheStrategy.ALL)//全部启用缓存
                 .crossFade(crossDuration)
+//                .override(100,100)//指定成100*100像素的图片
                 .into(target);
     }
 

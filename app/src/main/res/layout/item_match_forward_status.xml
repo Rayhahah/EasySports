@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorBg"
+    android:padding="@dimen/dp_12">
+
+    <TextView
+        android:textColor="?attr/colorTextDark"
+        android:textSize="@dimen/sp_14"
+        android:id="@+id/tv_match_recent_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="雷霆"/>
+
+    <TextView
+        android:textColor="?attr/colorTextDark"
+        android:textSize="@dimen/sp_14"
+        android:id="@+id/tv_match_recent_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="雷霆"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:textSize="@dimen/sp_14"
+                android:textColor="?attr/colorTextDark"
+                android:id="@+id/tv_match_recent_left_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="103"/>
+
+            <TextView
+                android:textSize="@dimen/sp_12"
+                android:textColor="?attr/colorTextLight"
+                android:id="@+id/tv_match_recent_center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_10"
+                android:text="—"/>
+
+            <TextView
+                android:textSize="@dimen/sp_14"
+                android:textColor="?attr/colorTextDark"
+                android:id="@+id/tv_match_recent_right_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="105"/>
+        </LinearLayout>
+
+        <TextView
+            android:textColor="?attr/colorTextLight"
+            android:id="@+id/tv_match_recent_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="2015年11月12日  美航球馆"
+            android:textSize="@dimen/dp_10"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
