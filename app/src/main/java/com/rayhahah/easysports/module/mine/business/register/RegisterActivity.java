@@ -91,6 +91,8 @@ public class RegisterActivity extends BaseActivity<RegisterPresenter, ActivityRe
                         , mBinding.etRegisterHupuUsername.getText().toString()
                         , mBinding.etRegisterHupuPassword.getText().toString());
                 break;
+            default:
+                break;
         }
     }
 

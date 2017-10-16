@@ -182,7 +182,9 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
             }
         } else if (i == R.id.fullscreen) {
             JCUtils.i(TAG, "onClick fullscreen [" + this.hashCode() + "] ");
-            if (currentState == CURRENT_STATE_AUTO_COMPLETE) return;
+            if (currentState == CURRENT_STATE_AUTO_COMPLETE) {
+                return;
+            }
             if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
                 //quit fullscreen
                 backPress();
@@ -273,8 +275,9 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
                     if (mChangePosition) {
                         int totalTimeDuration = getDuration();
                         mSeekTimePosition = (int) (mGestureDownPosition + deltaX * totalTimeDuration / mScreenWidth);
-                        if (mSeekTimePosition > totalTimeDuration)
+                        if (mSeekTimePosition > totalTimeDuration) {
                             mSeekTimePosition = totalTimeDuration;
+                        }
                         String seekTime = JCUtils.stringForTime(mSeekTimePosition);
                         String totalTime = JCUtils.stringForTime(totalTimeDuration);
 
@@ -325,6 +328,8 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
                         onEvent(JCUserAction.ON_TOUCH_SCREEN_SEEK_VOLUME);
                     }
                     startProgressTimer();
+                    break;
+                default:
                     break;
             }
         }
@@ -402,6 +407,8 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
                 progressBar.setProgress(100);
                 currentTimeTextView.setText(totalTimeTextView.getText());
                 break;
+            default:
+                break;
         }
     }
 
@@ -424,7 +431,9 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
     public void onPrepared() {
         JCUtils.i(TAG, "onPrepared " + " [" + this.hashCode() + "] ");
 
-        if (currentState != CURRENT_STATE_PREPARING) return;
+        if (currentState != CURRENT_STATE_PREPARING) {
+            return;
+        }
         if (seekToInAdvance != 0) {
             JCMediaManager.instance().mediaPlayer.seekTo(seekToInAdvance);
             seekToInAdvance = 0;
@@ -563,7 +572,9 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
     public void onInfo(int what, int extra) {
         JCUtils.d(TAG, "onInfo what - " + what + " extra - " + extra);
         if (what == MediaPlayer.MEDIA_INFO_BUFFERING_START) {
-            if (currentState == CURRENT_STATE_PLAYING_BUFFERING_START) return;
+            if (currentState == CURRENT_STATE_PLAYING_BUFFERING_START) {
+                return;
+            }
             BACKUP_PLAYING_BUFFERING_STATE = currentState;
             setUiWitStateAndScreen(CURRENT_STATE_PLAYING_BUFFERING_START);//没这个case
             JCUtils.d(TAG, "MEDIA_INFO_BUFFERING_START");
@@ -609,7 +620,9 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
             vpup = vpup.getParent();
         }
         if (currentState != CURRENT_STATE_PLAYING &&
-                currentState != CURRENT_STATE_PAUSE) return;
+                currentState != CURRENT_STATE_PAUSE) {
+            return;
+        }
         int time = seekBar.getProgress() * getDuration() / 100;
         JCMediaManager.instance().mediaPlayer.seekTo(time);
         JCUtils.i(TAG, "seekTo " + time + " [" + this.hashCode() + "] ");
@@ -617,8 +630,9 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
 
     public static boolean backPress() {
         JCUtils.i(TAG, "backPress");
-        if ((System.currentTimeMillis() - CLICK_QUIT_FULLSCREEN_TIME) < FULL_SCREEN_NORMAL_DELAY)
+        if ((System.currentTimeMillis() - CLICK_QUIT_FULLSCREEN_TIME) < FULL_SCREEN_NORMAL_DELAY) {
             return false;
+        }
         if (JCVideoPlayerManager.getSecondFloor() != null) {
             CLICK_QUIT_FULLSCREEN_TIME = System.currentTimeMillis();
             JCVideoPlayer jcVideoPlayer = JCVideoPlayerManager.getSecondFloor();
@@ -677,7 +691,9 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
     public void startWindowTiny() {
         JCUtils.i(TAG, "startWindowTiny " + " [" + this.hashCode() + "] ");
         onEvent(JCUserAction.ON_ENTER_TINYSCREEN);
-        if (currentState == CURRENT_STATE_NORMAL || currentState == CURRENT_STATE_ERROR) return;
+        if (currentState == CURRENT_STATE_NORMAL || currentState == CURRENT_STATE_ERROR) {
+            return;
+        }
         ViewGroup vp = (ViewGroup) (JCUtils.scanForActivity(getContext()))//.getWindow().getDecorView();
                 .findViewById(Window.ID_ANDROID_CONTENT);
         View old = vp.findViewById(TINY_ID);
@@ -721,8 +737,9 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
 
     public int getCurrentPositionWhenPlaying() {
         int position = 0;
-        if (JCMediaManager.instance().mediaPlayer == null)
+        if (JCMediaManager.instance().mediaPlayer == null) {
             return position;//这行代码不应该在这，如果代码和逻辑万无一失的话，心头之恨呐
+        }
         if (currentState == CURRENT_STATE_PLAYING ||
                 currentState == CURRENT_STATE_PAUSE ||
                 currentState == CURRENT_STATE_PLAYING_BUFFERING_START) {
@@ -738,7 +755,9 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
 
     public int getDuration() {
         int duration = 0;
-        if (JCMediaManager.instance().mediaPlayer == null) return duration;
+        if (JCMediaManager.instance().mediaPlayer == null) {
+            return duration;
+        }
         try {
             duration = JCMediaManager.instance().mediaPlayer.getDuration();
         } catch (IllegalStateException e) {
@@ -753,14 +772,20 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
         int duration = getDuration();
         int progress = position * 100 / (duration == 0 ? 1 : duration);
         if (!mTouchingProgressBar) {
-            if (progress != 0) progressBar.setProgress(progress);
+            if (progress != 0) {
+                progressBar.setProgress(progress);
+            }
         }
-        if (position != 0) currentTimeTextView.setText(JCUtils.stringForTime(position));
+        if (position != 0) {
+            currentTimeTextView.setText(JCUtils.stringForTime(position));
+        }
         totalTimeTextView.setText(JCUtils.stringForTime(duration));
     }
 
     public void setBufferProgress(int bufferProgress) {
-        if (bufferProgress != 0) progressBar.setSecondaryProgress(bufferProgress);
+        if (bufferProgress != 0) {
+            progressBar.setSecondaryProgress(bufferProgress);
+        }
     }
 
     public void resetProgressAndTime() {
@@ -792,6 +817,8 @@ public abstract class JCVideoPlayer extends FrameLayout implements View.OnClickL
                     JCUtils.d(TAG, "AUDIOFOCUS_LOSS_TRANSIENT [" + this.hashCode() + "]");
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                    break;
+                default:
                     break;
             }
         }

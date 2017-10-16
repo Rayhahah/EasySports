@@ -214,6 +214,8 @@ public class PushManager {
                 case SUPER:
                     quality = TXLiveConstants.VIDEO_QUALITY_SUPER_DEFINITION;
                     break;
+                default:
+                    break;
             }
             mLivePusher.setVideoQuality(quality, adjustBitrate, adjustResolution);
             return this;
@@ -240,6 +242,8 @@ public class PushManager {
                 case HOME_TOP:
                     pushRotation = TXLiveConstants.VIDEO_ANGLE_HOME_UP;
                     break;
+                default:
+                    break;
             }
             mLivePusher.setRenderRotation(pushRotation);
             return this;
@@ -262,6 +266,8 @@ public class PushManager {
                     break;
                 case HOME_TOP:
                     rotation = TXLiveConstants.VIDEO_ANGLE_HOME_UP;
+                    break;
+                default:
                     break;
             }
             mLivePushConfig.setHomeOrientation(rotation);
@@ -405,15 +411,23 @@ public class PushManager {
             switch (state) {
                 //电话等待接听
                 case TelephonyManager.CALL_STATE_RINGING:
-                    if (mLivePusher != null) mLivePusher.pausePusher();
+                    if (mLivePusher != null) {
+                        mLivePusher.pausePusher();
+                    }
                     break;
                 //电话接听
                 case TelephonyManager.CALL_STATE_OFFHOOK:
-                    if (mLivePusher != null) mLivePusher.pausePusher();
+                    if (mLivePusher != null) {
+                        mLivePusher.pausePusher();
+                    }
                     break;
                 //电话挂机
                 case TelephonyManager.CALL_STATE_IDLE:
-                    if (mLivePusher != null) mLivePusher.resumePusher();
+                    if (mLivePusher != null) {
+                        mLivePusher.resumePusher();
+                    }
+                    break;
+                default:
                     break;
             }
         }

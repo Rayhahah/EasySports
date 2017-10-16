@@ -128,6 +128,8 @@ public class MatchForwardFragment extends BaseFragment<MatchForwardPresenter, Fr
                     case 13:
 //                        球队数据王
                         return "球队数据王";
+                    default:
+                        break;
                 }
                 return null;
             }

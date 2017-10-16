@@ -102,6 +102,8 @@ public class LiveListActivity extends BaseActivity<LiveListPresenter, ActivityLi
                 Toast.makeText(mContext, R.string.PERMISSION_GRANTED, Toast.LENGTH_SHORT).show();
                 RecordActivity.start(mContext, mContext);
                 break;
+            default:
+                break;
         }
     }
 
@@ -110,6 +112,8 @@ public class LiveListActivity extends BaseActivity<LiveListPresenter, ActivityLi
         switch (requestCode) {
             case C.MINE.CODE_REQUEST_AUDIO:
                 Toast.makeText(mContext, R.string.PERMISSION_DENIED, Toast.LENGTH_SHORT).show();
+                break;
+            default:
                 break;
         }
     }
@@ -121,6 +125,8 @@ public class LiveListActivity extends BaseActivity<LiveListPresenter, ActivityLi
                 List<LiveBean.DataBean> data = adapter.getData();
                 LiveBean.DataBean dataBean = data.get(position);
                 LivePlayActivity.start(mContext, mContext, dataBean.getFlvUrl(), dataBean.getScreenname() + "的直播间");
+                break;
+            default:
                 break;
         }
     }

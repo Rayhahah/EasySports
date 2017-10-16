@@ -146,6 +146,7 @@ public class RCrashHandler implements Thread.UncaughtExceptionHandler {
         }
 
         new Thread() {
+            @Override
             public void run() {
                 Intent intent = new Intent();
                 intent.setClass(mContext, CrashActivity.class);
@@ -223,8 +224,9 @@ public class RCrashHandler implements Thread.UncaughtExceptionHandler {
             try {
                 File mDirectory = new File(mDirPath);
                 Log.v(TAG, mDirectory.toString());
-                if (!mDirectory.exists())
+                if (!mDirectory.exists()) {
                     mDirectory.mkdirs();
+                }
                 FileOutputStream mFileOutputStream = new FileOutputStream(mDirectory + File.separator + mFileName);
                 mFileOutputStream.write(mStringBuffer.toString().getBytes());
                 mFileOutputStream.close();

@@ -10,7 +10,7 @@ import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.common.BaseFragment;
 import com.rayhahah.easysports.databinding.FragmentForumBinding;
 import com.rayhahah.easysports.module.forum.bean.ForumsData;
-import com.rayhahah.easysports.module.forum.business.ForumDetailList.ForumDetailListActivity;
+import com.rayhahah.easysports.module.forum.business.forumdetaillist.ForumDetailListActivity;
 import com.rayhahah.easysports.module.forum.domain.ForumListAdapter;
 import com.rayhahah.easysports.module.mine.business.account.AccountActivity;
 import com.rayhahah.easysports.module.mine.business.login.LoginActivity;
@@ -126,6 +126,8 @@ public class ForumFragment extends BaseFragment<ForumPresenter, FragmentForumBin
                     AccountActivity.start(mContext, mContext);
                 }
                 break;
+            default:
+                break;
         }
     }
 
@@ -157,6 +159,8 @@ public class ForumFragment extends BaseFragment<ForumPresenter, FragmentForumBin
         switch (view.getId()) {
             case R.id.ll_item_forum_title:
                 ForumDetailListActivity.start(mContext, data.get(position));
+                break;
+            default:
                 break;
         }
     }

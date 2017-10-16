@@ -52,6 +52,8 @@ public class JCVideoPlayerSimple extends JCVideoPlayer {
                 break;
             case CURRENT_STATE_ERROR:
                 break;
+            default:
+                break;
         }
         updateStartImage();
     }

@@ -61,7 +61,8 @@ public final class InactivityTimer {
 	}
 
 	private static final class DaemonThreadFactory implements ThreadFactory {
-		public Thread newThread(Runnable runnable) {
+		@Override
+        public Thread newThread(Runnable runnable) {
 			Thread thread = new Thread(runnable);
 			thread.setDaemon(true);
 			return thread;

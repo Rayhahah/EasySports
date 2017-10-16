@@ -27,7 +27,8 @@ public final class ViewfinderResultPointCallback implements ResultPointCallback 
 		this.viewfinderView = viewfinderView;
 	}
 
-	public void foundPossibleResultPoint(ResultPoint point) {
+	@Override
+    public void foundPossibleResultPoint(ResultPoint point) {
 		viewfinderView.addPossibleResultPoint(point);
 	}
 }

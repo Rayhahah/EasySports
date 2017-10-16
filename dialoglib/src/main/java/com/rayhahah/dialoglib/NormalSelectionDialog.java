@@ -105,9 +105,11 @@ public class NormalSelectionDialog {
         if (datas.size() == 1) {
 
             Button button = getButton(datas.get(0), 0);
-            if (mBuilder.getTitleVisible())
+            if (mBuilder.getTitleVisible()) {
                 button.setBackgroundResource(mBuilder.getBottomBgResResources());
-            else button.setBackgroundResource(mBuilder.getSingleBgResResources());
+            } else {
+                button.setBackgroundResource(mBuilder.getSingleBgResResources());
+            }
 
             linearLayout.addView(button);
 
@@ -119,10 +121,11 @@ public class NormalSelectionDialog {
                 if (!mBuilder.getTitleVisible() && i == 0) {
                     button.setBackgroundResource(mBuilder.getTopBgResResources());
                 } else {
-                    if (i != datas.size() - 1)
+                    if (i != datas.size() - 1) {
                         button.setBackgroundResource(mBuilder.getMiddleBgResResources());
-                    else
+                    } else {
                         button.setBackgroundResource(mBuilder.getBottomBgResResources());
+                    }
                 }
                 linearLayout.addView(button);
             }

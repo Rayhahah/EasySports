@@ -75,11 +75,13 @@ public class FriendAdapter extends PullToRequestListAdapter implements PlatformA
 		}
 	}
 
-	public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
+	@Override
+    public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
 		final FollowersResult followersResult = parseFollowers(platform.getName(), res, map);
 		if (followersResult == null) {
 			UIHandler.sendEmptyMessage(0, new Callback() {
-				public boolean handleMessage(Message msg) {
+				@Override
+                public boolean handleMessage(Message msg) {
 					notifyDataSetChanged();
 					return false;
 				}
@@ -94,7 +96,8 @@ public class FriendAdapter extends PullToRequestListAdapter implements PlatformA
 			msg.what = 1;
 			msg.obj = followersResult.list;
 			UIHandler.sendMessage(msg, new Callback() {
-				public boolean handleMessage(Message msg) {
+				@Override
+                public boolean handleMessage(Message msg) {
 					if (curPage <= 0) {
 						follows.clear();
 					}
@@ -204,43 +207,52 @@ public class FriendAdapter extends PullToRequestListAdapter implements PlatformA
 		return ret;
 	}
 
-	public void onError(Platform plat, int action, Throwable t) {
+	@Override
+    public void onError(Platform plat, int action, Throwable t) {
 		t.printStackTrace();
 	}
 
-	public void onCancel(Platform plat, int action) {
+	@Override
+    public void onCancel(Platform plat, int action) {
 		UIHandler.sendEmptyMessage(0, new Callback() {
-			public boolean handleMessage(Message msg) {
+			@Override
+            public boolean handleMessage(Message msg) {
 				activity.finish();
 				return false;
 			}
 		});
 	}
 
-	public Following getItem(int position) {
+	@Override
+    public Following getItem(int position) {
 		return follows.get(position);
 	}
 
-	public long getItemId(int position) {
+	@Override
+    public long getItemId(int position) {
 		return position;
 	}
 
-	public int getCount() {
+	@Override
+    public int getCount() {
 		return follows == null ? 0 : follows.size();
 	}
 
-	public View getHeaderView() {
+	@Override
+    public View getHeaderView() {
 		if (llHeader == null) {
 			llHeader = new PRTHeader(getContext());
 		}
 		return llHeader;
 	}
 
-	public void onPullDown(int percent) {
+	@Override
+    public void onPullDown(int percent) {
 		llHeader.onPullDown(percent);
 	}
 
-	public void onRefresh() {
+	@Override
+    public void onRefresh() {
 		llHeader.onRequest();
 		curPage = -1;
 		hasNext = true;
@@ -248,11 +260,13 @@ public class FriendAdapter extends PullToRequestListAdapter implements PlatformA
 		next();
 	}
 
-	public void onReversed() {
+	@Override
+    public void onReversed() {
 		llHeader.reverse();
 	}
 
-	public View getView(int position, View convertView, ViewGroup parent) {
+	@Override
+    public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
 			FriendListItem llItem = new FriendListItem(parent.getContext(), ratio);
 			convertView = llItem;
@@ -281,7 +295,8 @@ public class FriendAdapter extends PullToRequestListAdapter implements PlatformA
 		public boolean hasNextPage = false;
 	}
 
-	public View getFooterView() {
+	@Override
+    public View getFooterView() {
 		LinearLayout footerView = new LinearLayout(getContext());
 		footerView.setMinimumHeight(10);
 		return footerView;

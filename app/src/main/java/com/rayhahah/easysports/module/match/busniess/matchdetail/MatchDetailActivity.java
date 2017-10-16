@@ -99,6 +99,7 @@ public class MatchDetailActivity extends BaseActivity<MatchDetailPresenter, Acti
         mBinding.toolbar.ivToolbarRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ToastUtils.showShort("正在刷新数据");
                 initData();
             }
         });

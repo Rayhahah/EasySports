@@ -22,7 +22,8 @@ import cn.sharesdk.onekeyshare.themes.classic.port.PlatformPagePort;
 public class ClassicTheme extends OnekeyShareThemeImpl {
 
 	/** 展示平台列表*/
-	protected void showPlatformPage(Context context) {
+	@Override
+    protected void showPlatformPage(Context context) {
 		PlatformPage page;
 		int orientation = context.getResources().getConfiguration().orientation;
 		if (orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -34,7 +35,8 @@ public class ClassicTheme extends OnekeyShareThemeImpl {
 	}
 
 	/** 展示编辑界面*/
-	protected void showEditPage(Context context, Platform platform, ShareParams sp) {
+	@Override
+    protected void showEditPage(Context context, Platform platform, ShareParams sp) {
 		EditPage page;
 		int orientation = context.getResources().getConfiguration().orientation;
 		if (orientation == Configuration.ORIENTATION_PORTRAIT) {

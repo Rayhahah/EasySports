@@ -98,6 +98,8 @@ public class JCMediaManager implements TextureView.SurfaceTextureListener, Media
                 case HANDLER_RELEASE:
                     mediaPlayer.release();
                     break;
+                default:
+                    break;
             }
         }
     }

@@ -113,6 +113,8 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                 datas.add(getResources().getString(R.string.select_photo));
                 dialog.setDatas(datas).show();
                 break;
+            default:
+                break;
         }
     }
 
@@ -153,15 +155,17 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
             //绑定虎扑账号
             case C.ACCOUNT.ID_HUPU_BIND:
                 LocalUser currentUser = MyApp.getCurrentUser();
-                String hupu_user_name = currentUser.getHupu_user_name();
-                String hupu_password = currentUser.getHupu_password();
-                if (StringUtils.isEmpty(hupu_user_name)
-                        || StringUtils.isEmpty(hupu_password)) {
+                String hupuUserName = currentUser.getHupu_user_name();
+                String hupuPassword = currentUser.getHupu_password();
+                if (StringUtils.isEmpty(hupuUserName)
+                        || StringUtils.isEmpty(hupuPassword)) {
                     ToastUtils.showShort("请先设置虎扑账号信息！");
                     return;
                 }
                 DialogUtil.showLoadingDialog(mContext, "正在绑定", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
-                mPresenter.loginHupu(hupu_user_name, hupu_password);
+                mPresenter.loginHupu(hupuUserName, hupuPassword);
+                break;
+            default:
                 break;
         }
     }
@@ -220,6 +224,8 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                     mPresenter.uploadCover(path);
                 }
                 break;
+            default:
+                break;
         }
     }
 
@@ -233,6 +239,8 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
             case C.ACCOUNT.PERMISSION_CAMERA:
                 mPresenter.takePhoto(mContext);
                 break;
+            default:
+                break;
         }
 
     }
@@ -245,6 +253,8 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                 break;
             case C.ACCOUNT.PERMISSION_CAMERA:
                 ToastUtils.showShort("请求权限失败，功能无法开启");
+                break;
+            default:
                 break;
         }
     }
@@ -405,9 +415,9 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
             @Override
             public void onClick(View v) {
                 LocalUser localUser = mLocalUser;
-                String screen_name = settingBinding.etEditOne.getText().toString();
-                if (StringUtils.isNotEmpty(screen_name)) {
-                    localUser.setScreen_name(screen_name);
+                String screenName = settingBinding.etEditOne.getText().toString();
+                if (StringUtils.isNotEmpty(screenName)) {
+                    localUser.setScreen_name(screenName);
                     DialogUtil.showLoadingDialog(mContext, "正在更新", mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
                     mPresenter.updateUser(localUser);
                     dismiss();
@@ -574,6 +584,8 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
                                 } else {
                                     mPresenter.choosePhoto(mContext);
                                 }
+                                break;
+                            default:
                                 break;
                         }
                         dialog1.dismiss();

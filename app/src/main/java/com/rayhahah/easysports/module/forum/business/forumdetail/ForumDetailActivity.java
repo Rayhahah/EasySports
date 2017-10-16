@@ -1,4 +1,4 @@
-package com.rayhahah.easysports.module.forum.business.ForumDetail;
+package com.rayhahah.easysports.module.forum.business.forumdetail;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +27,11 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 
+/**
+ * 论坛帖子详情页面
+ *
+ * @author Rayhahah
+ */
 public class ForumDetailActivity extends BaseActivity<ForumDetailPresenter, ActivityForumDetailBinding> implements ForumDetailContract.IForumDetailView, ViewPager.OnPageChangeListener {
 
     private static final String INTENT_PID = "pid";
@@ -51,7 +56,6 @@ public class ForumDetailActivity extends BaseActivity<ForumDetailPresenter, Acti
         intent.putExtra(ForumDetailActivity.INTENT_FID, fid);
         context.startActivity(intent);
     }
-
 
 
     @Override
@@ -170,7 +174,7 @@ public class ForumDetailActivity extends BaseActivity<ForumDetailPresenter, Acti
     public void getForumDetailSuccess(ForumDetailInfoData data) {
         List<String> urls = createPageList(data.url, data.page, data.pageSize);
         totalPage = data.pageSize;
-        mShareMap = new HashMap<>();
+        mShareMap = new HashMap<String, String>(C.DEFAULT_SIZE);
         mShareMap.put(C.FORUM.SHARE_TITLE, data.share.wechat);
         mShareMap.put(C.FORUM.SHARE_URL, data.share.url);
         for (String url : urls) {

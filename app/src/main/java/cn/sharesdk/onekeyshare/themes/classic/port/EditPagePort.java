@@ -42,7 +42,8 @@ public class EditPagePort extends EditPage  {
 		super(impl);
 	}
 
-	public void onCreate() {
+	@Override
+    public void onCreate() {
 		super.onCreate();
 
 		int screenHeight = ResHelper.getScreenHeight(activity);
@@ -150,7 +151,8 @@ public class EditPagePort extends EditPage  {
 		llContent.addView(rlThumb, lp);
 
 		aivThumb = new AsyncImageView(activity) {
-			public void onImageGot(String url, Bitmap bm) {
+			@Override
+            public void onImageGot(String url, Bitmap bm) {
 				thumb = bm;
 				super.onImageGot(url, bm);
 			}

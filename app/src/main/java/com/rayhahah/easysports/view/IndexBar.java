@@ -74,6 +74,8 @@ public class IndexBar extends View {
                 case R.styleable.IndexBar_activeTextSize:
                     mTextSize = ta.getDimensionPixelSize(attr, mTextSize);
                     break;
+                default:
+                    break;
             }
         }
         ta.recycle();
@@ -136,6 +138,8 @@ public class IndexBar extends View {
                 break;
             case MotionEvent.ACTION_UP:
 
+                break;
+            default:
                 break;
         }
         postInvalidate();

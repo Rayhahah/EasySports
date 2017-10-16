@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import com.rayhahah.easysports.module.info.bean.StatusRank;
 import com.rayhahah.easysports.module.info.bean.TeamRank;
 import com.rayhahah.easysports.module.match.bean.LiveDetail;
+import com.rayhahah.easysports.module.match.bean.MatchStatusBean;
 import com.rayhahah.easysports.module.news.bean.NewsItem;
 import com.rayhahah.easysports.module.news.bean.VideoInfo;
 import com.rayhahah.rbase.utils.base.StringUtils;
@@ -118,7 +119,7 @@ public class JsonParser {
                 bean.lose = teamsInfo.optInt(2);
                 bean.rate = teamsInfo.optString(3);
                 bean.difference = teamsInfo.optString(4);
-                if (title.equals("东部联盟")) {
+                if ("东部联盟".equals(title)) {
                     rank.east.add(bean);
                 } else {
                     rank.west.add(bean);
@@ -139,10 +140,10 @@ public class JsonParser {
         Iterator<String> keys = data.keys();
         while (keys.hasNext()) {
             String key = keys.next();
-            if (key.equals("teamInfo")) {
+            if ("teamInfo".equals(key)) {
                 String teamInfo = data.getJSONObject(key).toString();
                 detail.data.teamInfo = new Gson().fromJson(teamInfo, LiveDetail.TeamInfo.class);
-            } else if (key.equals("detail")) {
+            } else if ("detail".equals(key)) {
                 JSONObject details = data.getJSONObject(key);
                 if (details != null) {
                     Iterator<String> detailsKeys = details.keys();
@@ -171,4 +172,29 @@ public class JsonParser {
     }
 
 
+    public static MatchStatusBean.MatchStatInfo parseMatchDataStatus(String json) throws JSONException {
+        MatchStatusBean.MatchStatInfo result = new MatchStatusBean.MatchStatInfo();
+        result.stats = new ArrayList<>();
+        JSONObject jsonObject = new JSONObject(json);
+        JSONObject data = jsonObject.getJSONObject("data");
+
+        JSONObject teamInfo = data.getJSONObject("teamInfo");
+        result.teamInfo = JsonParser.parseWithGson(MatchStatusBean.MatchTeamInfo.class, teamInfo.toString());
+
+        JSONArray stats = data.getJSONArray("stats");
+        for (int i = 0; i < stats.length(); i++) {
+            JSONObject jo = stats.getJSONObject(i);
+            if (jo.has("goals")) {
+                MatchStatusBean.StatsBean statsBean = JsonParser.parseWithGson(MatchStatusBean.StatsBean.class, jo.toString());
+                result.stats.add(statsBean);
+            } else if (jo.has("playerStats")) {
+
+            } else if (jo.has("teamStats")) {
+                MatchStatusBean.StatsBean statsBean = JsonParser.parseWithGson(MatchStatusBean.StatsBean.class, jo.toString());
+                result.stats.add(statsBean);
+            }
+        }
+
+        return result;
+    }
 }

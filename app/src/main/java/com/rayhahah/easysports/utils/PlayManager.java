@@ -115,6 +115,8 @@ public class PlayManager {
                     mPlayConfig.setAutoAdjustCacheTime(false);
                     mPlayConfig.setCacheTime(5);
                     break;
+                default:
+                    break;
             }
 //            mLivePlayer.setConfig(mPlayConfig);
             return this;
@@ -294,15 +296,21 @@ public class PlayManager {
             switch (state) {
                 //电话等待接听
                 case TelephonyManager.CALL_STATE_RINGING:
-                    if (mLivePlayer != null) mLivePlayer.setMute(true);
+                    if (mLivePlayer != null) {
+                        mLivePlayer.setMute(true);
+                    }
                     break;
                 //电话接听
                 case TelephonyManager.CALL_STATE_OFFHOOK:
-                    if (mLivePlayer != null) mLivePlayer.setMute(true);
+                    if (mLivePlayer != null) {
+                        mLivePlayer.setMute(true);
+                    }
                     break;
                 //电话挂机
                 case TelephonyManager.CALL_STATE_IDLE:
-                    if (mLivePlayer != null) mLivePlayer.setMute(false);
+                    if (mLivePlayer != null) {
+                        mLivePlayer.setMute(false);
+                    }
                     break;
             }
         }

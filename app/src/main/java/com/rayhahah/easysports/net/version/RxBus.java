@@ -16,7 +16,7 @@ import io.reactivex.subjects.Subject;
  */
 public class RxBus {
 
-    private final Subject<Object> _bus = PublishSubject.create().toSerialized();
+    private final Subject<Object> mBus = PublishSubject.create().toSerialized();
     private final Map<String, Object> tags = new HashMap<>();
 
     private static RxBus rxbus;
@@ -39,7 +39,7 @@ public class RxBus {
      * @param object 事件的参数
      */
     public void post(String tag, Object object) {
-        _bus.onNext(object);
+        mBus.onNext(object);
         if (!tags.containsKey(tag)) {
             tags.put(tag, object);
         }
@@ -53,7 +53,7 @@ public class RxBus {
      */
     public void toObserverableOnMainThread(final String tag, final RxBusResult rxBusResult) {
 
-        _bus.observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Object>() {
+        mBus.observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Object>() {
             @Override
             public void accept(Object o) {
                 if (tags.containsKey(tag)) {
@@ -71,7 +71,7 @@ public class RxBus {
      */
     public void toObserverableChildThread(final String tag, final RxBusResult rxBusResult) {
 
-        _bus.observeOn(Schedulers.io()).subscribe(new Consumer<Object>() {
+        mBus.observeOn(Schedulers.io()).subscribe(new Consumer<Object>() {
             @Override
             public void accept(Object o) {
                 if (tags.containsKey(tag)) {

@@ -59,6 +59,8 @@ public class InfoDataListAdapter extends BaseQuickAdapter<InfoData, BaseViewHold
                 InfoPlayerListAdapter playerAdapter = new InfoPlayerListAdapter(item.getPlayerData());
                 view.setAdapter(playerAdapter);
                 break;
+            default:
+                break;
         }
     }
 }

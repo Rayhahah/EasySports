@@ -18,9 +18,9 @@ import java.util.regex.PatternSyntaxException;
  * @author Administrator
  */
 public class DateTimeUitl {
-    public final static String sysDateFormate = "yyyy-MM-dd HH:mm:ss";
+    public final static String SYS_DATE_FORMATE = "yyyy-MM-dd HH:mm:ss";
 
-    public final static String timeWithSecondFormate = "yyyy-MM-dd HH:mm";
+    public final static String TIME_WITH_SECOND_FORMATE = "yyyy-MM-dd HH:mm";
 
     /**
      * 返回当前时间序列
@@ -54,7 +54,7 @@ public class DateTimeUitl {
     public static boolean isSysDateTime(String time) {
         boolean flag = false;
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat(timeWithSecondFormate);
+            SimpleDateFormat formatter = new SimpleDateFormat(TIME_WITH_SECOND_FORMATE);
             formatter.parse(time);
             flag = true;
         } catch (Exception ex) {
@@ -152,6 +152,8 @@ public class DateTimeUitl {
                     }
                 }
                 break;
+            default:
+                break;
         }
         return formatDateFromInt(year, month, day);
     }
@@ -223,6 +225,8 @@ public class DateTimeUitl {
                     }
                 }
                 break;
+            default:
+                break;
         }
         return formatDateFromInt(year, month, day);
     }
@@ -285,7 +289,7 @@ public class DateTimeUitl {
     public static Date getSysDefaultDateTime(String datetime) {
         Date time = null;
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat(sysDateFormate);
+            SimpleDateFormat formatter = new SimpleDateFormat(SYS_DATE_FORMATE);
             time = formatter.parse(datetime);
         } catch (Exception ex) {
 
@@ -301,7 +305,7 @@ public class DateTimeUitl {
      */
     public static String getSysDateTime(Date date) {
         String time = null;
-        SimpleDateFormat formatter = new SimpleDateFormat(sysDateFormate);
+        SimpleDateFormat formatter = new SimpleDateFormat(SYS_DATE_FORMATE);
         time = formatter.format(date);
         return time;
     }
@@ -658,7 +662,7 @@ public class DateTimeUitl {
     public static long toSystemTimeLongMi(String time) {
         long nRet = 0;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(sysDateFormate);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(SYS_DATE_FORMATE);
             Date de = dateFormat.parse(time);
             nRet = de.getTime();
         } catch (Exception e) {/*DISCARD EXCEPTION*/
@@ -675,7 +679,7 @@ public class DateTimeUitl {
     public static long toSystemTimeLong(String time) {
         long nRet = 0;
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(sysDateFormate);
+            SimpleDateFormat dateFormat = new SimpleDateFormat(SYS_DATE_FORMATE);
             Date de = dateFormat.parse(time);
             nRet = de.getTime() / 1000;
         } catch (Exception e) {/*DISCARD EXCEPTION*/
@@ -714,11 +718,13 @@ public class DateTimeUitl {
             calendar.setTimeInMillis(second * 1000);
 
             sbRet.append(calendar.get(Calendar.YEAR));
-            if (calendar.get(Calendar.MONTH) + 1 < 10)
+            if (calendar.get(Calendar.MONTH) + 1 < 10) {
                 sbRet.append("0");
+            }
             sbRet.append(calendar.get(Calendar.MONTH) + 1);
-            if (calendar.get(Calendar.DATE) < 10)
+            if (calendar.get(Calendar.DATE) < 10) {
                 sbRet.append("0");
+            }
             sbRet.append(calendar.get(Calendar.DATE));
         } catch (Exception e) {/* DISCARD EXEPTION */
         }
@@ -737,8 +743,9 @@ public class DateTimeUitl {
         String sTempInput = "" + input_num;
 
         if (sTempInput.length() < output_length) {
-            for (int i = 0; i < output_length - sTempInput.length(); i++)
+            for (int i = 0; i < output_length - sTempInput.length(); i++) {
                 sbPrefix.append('0');
+            }
         }
 
         return sbPrefix.append(sTempInput).toString();
@@ -795,10 +802,10 @@ public class DateTimeUitl {
     public static String getDateTimeWithOutSenondString(String ltime) {
         String result = "";
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat(sysDateFormate);
+            SimpleDateFormat formatter = new SimpleDateFormat(SYS_DATE_FORMATE);
             Date time = formatter.parse(ltime);
 
-            SimpleDateFormat formater2 = new SimpleDateFormat(timeWithSecondFormate);
+            SimpleDateFormat formater2 = new SimpleDateFormat(TIME_WITH_SECOND_FORMATE);
             result = formater2.format(time);
         } catch (Exception ex) {
             return ltime;

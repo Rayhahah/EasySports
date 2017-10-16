@@ -1,4 +1,4 @@
-package com.rayhahah.easysports.module.forum.business.ForumDetail;
+package com.rayhahah.easysports.module.forum.business.forumdetail;
 
 import android.os.Bundle;
 import android.view.View;

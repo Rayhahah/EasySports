@@ -77,7 +77,8 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
 		this.sp = sp;
 	}
 
-	public void setActivity(Activity activity) {
+	@Override
+    public void setActivity(Activity activity) {
 		super.setActivity(activity);
 		if (isDialogMode()) {
 //			activity.setTheme(android.R.style.Theme_Dialog);
@@ -93,7 +94,8 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
 				| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 	}
 
-	public void onCreate() {
+	@Override
+    public void onCreate() {
 		activity.getWindow().setBackgroundDrawable(new ColorDrawable(0xfff3f3f3));
 	}
 
@@ -147,7 +149,8 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
 		page.showForResult(MobSDK.getContext(), null, this);
 	}
 
-	public void onResult(HashMap<String, Object> data) {
+	@Override
+    public void onResult(HashMap<String, Object> data) {
 		String atText = getJoinSelectedUser(data);
 		if(!TextUtils.isEmpty(atText)) {
 			etContent.append(atText);
@@ -178,7 +181,8 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
 				|| "Twitter".equals(platformName);
 	}
 
-	public void onClick(View v) {
+	@Override
+    public void onClick(View v) {
 		if (v.equals(tvCancel)) {
 			cancelAndFinish();
 		} else if (v.equals(tvShare)) {
@@ -197,7 +201,8 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
 		}
 	}
 
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
+	@Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
 		tvTextCouter.setText(String.valueOf(s.length()));
 
 		if (maxBodyHeight == 0) {
@@ -210,7 +215,8 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
 	}
 
 	/** 动态适配编辑界面的高度 */
-	public void run() {
+	@Override
+    public void run() {
 		int height = svContent.getChildAt(0).getHeight();
 		RelativeLayout.LayoutParams lp = ResHelper.forceCast(svContent.getLayoutParams());
 		if (height > maxBodyHeight && lp.height != maxBodyHeight) {
@@ -222,15 +228,18 @@ public class EditPage extends OnekeySharePage implements OnClickListener, TextWa
 		}
 	}
 
-	public void afterTextChanged(Editable s) {
+	@Override
+    public void afterTextChanged(Editable s) {
 
 	}
 
-	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+	@Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
 	}
 
-	public void onPause() {
+	@Override
+    public void onPause() {
 		DeviceHelper.getInstance(activity).hideSoftInput(getContentView());
 		super.onPause();
 	}

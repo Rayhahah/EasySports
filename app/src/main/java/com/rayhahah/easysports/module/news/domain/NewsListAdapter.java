@@ -105,6 +105,9 @@ public class NewsListAdapter extends BaseQuickAdapter<NewsItem.DataBean.ItemInfo
                 GlideUtil.load(mContext, item.getImgurl(), newsPlayer.thumbImageView);
 
                 break;
+
+            default:
+                break;
         }
     }
 }

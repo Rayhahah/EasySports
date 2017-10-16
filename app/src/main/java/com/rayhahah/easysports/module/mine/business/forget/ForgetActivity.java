@@ -95,6 +95,8 @@ public class ForgetActivity extends BaseActivity<ForgetPresenter, ActivityForget
                     ToastUtils.showShort("新密码不能为空");
                 }
                 break;
+            default:
+                break;
         }
     }
 

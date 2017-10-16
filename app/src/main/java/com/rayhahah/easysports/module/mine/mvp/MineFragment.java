@@ -294,6 +294,8 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
 //                    Bitmap bitmap = ((Bitmap) data.getParcelableExtra("QR_CODE"));
                     mPresenter.saveBitmap(bitmap2);
                     break;
+                default:
+                    break;
             }
         }
     }

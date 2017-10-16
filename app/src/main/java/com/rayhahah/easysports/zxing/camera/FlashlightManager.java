@@ -39,11 +39,11 @@ final class FlashlightManager
 	private static final String TAG = FlashlightManager.class.getSimpleName();
 
 	private static final Object iHardwareService;
-	private static final Method setFlashEnabledMethod;
+	private static final Method SET_FLASH_ENABLED_METHOD;
 	static
 	{
 		iHardwareService = getHardwareService();
-		setFlashEnabledMethod = getSetFlashEnabledMethod(iHardwareService);
+		SET_FLASH_ENABLED_METHOD = getSetFlashEnabledMethod(iHardwareService);
 		if (iHardwareService == null)
 		{
 			Log.v(TAG, "This device does supports control of a flashlight");
@@ -176,7 +176,7 @@ final class FlashlightManager
 	{
 		if (iHardwareService != null)
 		{
-			invoke(setFlashEnabledMethod, iHardwareService, active);
+			invoke(SET_FLASH_ENABLED_METHOD, iHardwareService, active);
 		}
 	}
 

@@ -148,6 +148,8 @@ public class ShareUtils {
             case TYPE_NET:
                 shareToQQZone(null, null, text, imageUrlPath, null, null, site, siteUrl, listener);
                 break;
+            default:
+                break;
         }
     }
 

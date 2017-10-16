@@ -21,6 +21,7 @@ public class C {
     public static final int TYPE_POST = 1004;
     public static final int TYPE_REPLY = 1005;
     public static final int TYPE_QUOTE = 1006;
+    public static final int DEFAULT_SIZE = 10;
 
     public interface DIR {
         String PIC_DIR = FileUtils.getRootFilePath() + "EasySport/images";
@@ -35,7 +36,7 @@ public class C {
     //打印Log的标签
     public static final String LOG_TAG = "lzh";
 
-    public static final String DeviceId = "Android";
+    public static final String DEVICE_ID = "Android";
 
     @Retention(RetentionPolicy.SOURCE)
     public @interface AppKey {

@@ -18,8 +18,9 @@ public class CacheUtils {
         fileSize += getDirSize(filesDir);
         fileSize += getDirSize(cacheDir);
         fileSize += getDirSize(ExternalCacheDir);
-        if (fileSize > 0)
-            cacheSize = formatFileSize(fileSize);
+        if (fileSize > 0) {
+                cacheSize = formatFileSize(fileSize);
+        }
         return cacheSize;
     }
 

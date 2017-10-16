@@ -21,12 +21,14 @@ public class PlatformPageLand extends PlatformPage {
 		super(impl);
 	}
 
-	public void onCreate() {
+	@Override
+    public void onCreate() {
 		requestLandscapeOrientation();
 		super.onCreate();
 	}
 
-	protected PlatformPageAdapter newAdapter(ArrayList<Object> cells) {
+	@Override
+    protected PlatformPageAdapter newAdapter(ArrayList<Object> cells) {
 		return new PlatformPageAdapterLand(this, cells);
 	}
 

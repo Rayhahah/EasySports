@@ -1,4 +1,4 @@
-package com.rayhahah.easysports.module.forum.business.ForumDetailList;
+package com.rayhahah.easysports.module.forum.business.forumdetaillist;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import com.rayhahah.easysports.common.BaseActivity;
 import com.rayhahah.easysports.databinding.ActivityForumDetailListBinding;
 import com.rayhahah.easysports.module.forum.bean.DetailListData;
 import com.rayhahah.easysports.module.forum.bean.ForumsData;
-import com.rayhahah.easysports.module.forum.business.ForumDetail.ForumDetailActivity;
+import com.rayhahah.easysports.module.forum.business.forumdetail.ForumDetailActivity;
 import com.rayhahah.easysports.module.forum.domain.ForumDetailListAdapter;
 import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.rbase.utils.base.ToastUtils;
@@ -121,6 +121,8 @@ public class ForumDetailListActivity extends BaseActivity<ForumDetailListPresent
             case R.id.cv_item_detail_list:
                 DetailListData.ThreadInfo threadInfo = data.get(position);
                 ForumDetailActivity.start(mContext, "", threadInfo.tid, 1, threadInfo.fid);
+                break;
+            default:
                 break;
         }
     }

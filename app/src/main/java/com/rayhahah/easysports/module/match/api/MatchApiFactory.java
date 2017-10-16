@@ -4,7 +4,6 @@ import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.module.match.bean.LiveIndex;
 import com.rayhahah.easysports.module.match.bean.MatchDetailBean;
 import com.rayhahah.easysports.module.match.bean.MatchListBean;
-import com.rayhahah.easysports.module.match.bean.MatchStatusBean;
 import com.rayhahah.easysports.module.match.bean.MatchVideo;
 import com.rayhahah.easysports.net.ApiClient;
 import com.rayhahah.rbase.utils.useful.RxSchedulers;
@@ -32,12 +31,11 @@ public class MatchApiFactory {
                 .compose(RxSchedulers.<MatchDetailBean>ioMain());
     }
 
-
-    public static Observable<MatchStatusBean> getMatchStatus(String mid, String tabType) {
+    public static Observable<ResponseBody> getMatchStatus(String mid, String tabType) {
         return ApiClient.get(C.BaseURL.TECENT_SERVER)
                 .create(MatchService.class)
                 .getMatchStat(mid, tabType)
-                .compose(RxSchedulers.<MatchStatusBean>ioMain());
+                .compose(RxSchedulers.<ResponseBody>ioMain());
     }
 
     public static Observable<LiveIndex> getMatchLiveIndex(String mid) {

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.rayhahah.easysports.module.forum.business.ForumDetail.ForumDetailActivity"
+    tools:context="com.rayhahah.easysports.module.forum.business.forumdetail.ForumDetailActivity"
     >
 
     <RelativeLayout

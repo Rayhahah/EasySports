@@ -17,8 +17,9 @@ public class ScreenSizeUtils {
         if (instance == null) {
             synchronized (ScreenSizeUtils.class) {
 
-                if (instance == null)
+                if (instance == null) {
                     instance = new ScreenSizeUtils(mContext);
+                }
 
             }
         }

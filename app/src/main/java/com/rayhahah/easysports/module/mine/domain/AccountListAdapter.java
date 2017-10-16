@@ -50,6 +50,8 @@ public class AccountListAdapter extends BaseQuickAdapter<MineListBean, BaseViewH
                         .setVisible(R.id.tv_mine_list_desc, true)
                         .setVisible(R.id.cb_mine_list_theme, false);
                 break;
+            default:
+                break;
         }
 
         helper.setText(R.id.tv_mine_list_title, item.getTitle())

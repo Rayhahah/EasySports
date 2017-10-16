@@ -70,8 +70,12 @@ public class ToastUtils {
      * @return view 自定义view
      */
     public static View getView() {
-        if (customView != null) return customView;
-        if (sToast != null) return sToast.getView();
+        if (customView != null) {
+            return customView;
+        }
+        if (sToast != null) {
+            return sToast.getView();
+        }
         return null;
     }
 

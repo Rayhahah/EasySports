@@ -11,6 +11,7 @@ import com.rayhahah.easysports.common.BaseFragment;
 import com.rayhahah.easysports.databinding.FragmentMatchLiveBinding;
 import com.rayhahah.easysports.module.match.bean.LiveDetail;
 import com.rayhahah.easysports.module.match.domain.MatchLiveAdapter;
+import com.rayhahah.easysports.view.ProgressLayout;
 import com.rayhahah.rbase.bean.MsgEvent;
 import com.rayhahah.rbase.utils.base.ToastUtils;
 
@@ -62,7 +63,11 @@ public class MatchLiveFragment extends BaseFragment<MatchLivePresenter, Fragment
 
     @Override
     public void showViewError(Throwable t) {
-
+        if (mBinding.pl.getStatus() == ProgressLayout.STATUS_LOADING) {
+            mBinding.tvLiveNull.setVisibility(View.GONE);
+            mBinding.viewLine.setVisibility(View.GONE);
+            mBinding.pl.showError(mBinding.rvMatchLive);
+        }
     }
 
     @Override
@@ -144,12 +149,17 @@ public class MatchLiveFragment extends BaseFragment<MatchLivePresenter, Fragment
 
     @Override
     public void getLiveDataFailed(String message, boolean front) {
-        if (front) {
+        if (mBinding.pl.getStatus() == ProgressLayout.STATUS_LOADING) {
             mBinding.tvLiveNull.setVisibility(View.VISIBLE);
             mBinding.viewLine.setVisibility(View.GONE);
             mBinding.rvMatchLive.setVisibility(View.GONE);
+            mBinding.pl.setVisibility(View.GONE);
+        } else {
+            mBinding.tvLiveNull.setVisibility(View.GONE);
+            mBinding.viewLine.setVisibility(View.VISIBLE);
+            mBinding.rvMatchLive.setVisibility(View.VISIBLE);
+            mBinding.pl.setVisibility(View.GONE);
         }
-        mBinding.tvLiveNull.setVisibility(View.GONE);
         ToastUtils.showShort(message);
         mAdapter.loadMoreComplete();
     }

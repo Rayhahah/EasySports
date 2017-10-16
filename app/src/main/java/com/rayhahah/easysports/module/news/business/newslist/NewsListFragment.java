@@ -98,6 +98,8 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter, FragmentNe
                 mNewsListAdapter.addData(data);
                 mNewsListAdapter.loadMoreComplete();
                 break;
+            default:
+                break;
         }
 
         mBinding.pl.showContent(mBinding.srlNewsList);
@@ -116,6 +118,8 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter, FragmentNe
                 break;
             case C.STATUS.LOAD_MORE:
                 mNewsListAdapter.loadMoreFail();
+                break;
+            default:
                 break;
         }
         mBinding.pl.showError(mBinding.srlNewsList);
@@ -218,8 +222,9 @@ public class NewsListFragment extends BaseFragment<NewsListPresenter, FragmentNe
         for (int i = start, j = 0; i < size && j < pageNum; i++, j++, start++) {
             articleIds += indexs.get(i) + ",";
         }
-        if (!TextUtils.isEmpty(articleIds))
+        if (!TextUtils.isEmpty(articleIds)) {
             articleIds = articleIds.substring(0, articleIds.length() - 1);
+        }
         return articleIds;
     }
 }

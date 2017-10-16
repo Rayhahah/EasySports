@@ -29,6 +29,7 @@ public class SplashActivity extends BaseActivity<RBasePresenter, ActivitySplashB
     protected void setStatusColor() {
     }
 
+    @Override
     protected void initTheme() {
         setTheme(R.style.NoTitleFullscreen);
     }

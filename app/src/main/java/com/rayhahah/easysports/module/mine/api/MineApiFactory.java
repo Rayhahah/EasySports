@@ -125,7 +125,7 @@ public class MineApiFactory {
 
     public static Observable<HupuUserData> loginHupu(String userName, String password) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("client", C.DeviceId);
+        params.put("client", C.DEVICE_ID);
         params.put("username", userName);
         // TODO: 2017/9/25 后台直接返回非MD5密码，这里就可以不用判断了
         params.put("password", MD5.getMD5(password));
@@ -134,7 +134,7 @@ public class MineApiFactory {
 
         return ApiClient.get(C.BaseURL.HUPU_GAMES_SERVER)
                 .create(MineService.class)
-                .login(params, C.DeviceId)
+                .login(params, C.DEVICE_ID)
                 .compose(RxSchedulers.<HupuUserData>ioMain());
     }
 

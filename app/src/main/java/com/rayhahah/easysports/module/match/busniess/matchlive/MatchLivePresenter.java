@@ -66,16 +66,16 @@ public class MatchLivePresenter extends RBasePresenter<MatchLiveContract.IMatchL
                         ids = ids.substring(0, ids.length() - 1);
                         getLiveContent(mid, ids, true);
                     } else {
-                        mView.getLiveDataFailed("当前为最新数据",true);
+                        mView.getLiveDataFailed("当前为最新数据", true);
                     }
                 } else {
-                    mView.getLiveDataFailed("暂无数据",true);
+                    mView.getLiveDataFailed("暂无数据", true);
                 }
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(@NonNull Throwable throwable) throws Exception {
-                mView.getLiveDataFailed(throwable.getMessage(),true);
+                mView.showViewError(throwable);
             }
         }));
     }
@@ -92,7 +92,7 @@ public class MatchLivePresenter extends RBasePresenter<MatchLiveContract.IMatchL
         }, new Consumer<Throwable>() {
             @Override
             public void accept(@NonNull Throwable throwable) throws Exception {
-                mView.getLiveDataFailed(throwable.getMessage(),front);
+                mView.showViewError(throwable);
             }
         }));
     }

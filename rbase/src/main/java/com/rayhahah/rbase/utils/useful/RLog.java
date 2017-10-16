@@ -185,6 +185,8 @@ public class RLog {
             case XML:
                 realLog(E, tag, msg);
                 break;
+            default:
+                break;
         }
     }
 
@@ -293,13 +295,17 @@ public class RLog {
 
                 String time = new SimpleDateFormat("MM-dd HH:mm:ss.SSS ").format(new Date());
                 StringBuilder sb = new StringBuilder();
-                if (mLogBorder) sb.append(TOP_BORDER).append(LINE_SEPARATOR);
+                if (mLogBorder) {
+                    sb.append(TOP_BORDER).append(LINE_SEPARATOR);
+                }
                 sb.append(time)
                         .append(tag)
                         .append(": ")
                         .append(msg)
                         .append(LINE_SEPARATOR);
-                if (mLogBorder) sb.append(BOTTOM_BORDER).append(LINE_SEPARATOR);
+                if (mLogBorder) {
+                    sb.append(BOTTOM_BORDER).append(LINE_SEPARATOR);
+                }
 
                 final String writeMsg = sb.toString();
 
@@ -400,6 +406,8 @@ public class RLog {
             case A:
                 Log.wtf(tag, msg);
                 break;
+            default:
+                break;
         }
     }
 
@@ -430,6 +438,8 @@ public class RLog {
                 break;
             case A:
                 Log.wtf(tag, border);
+                break;
+            default:
                 break;
         }
     }

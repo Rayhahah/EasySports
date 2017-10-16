@@ -123,6 +123,8 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
                 mBinding.rlNewsDetailPic.setVisibility(View.GONE);
 
                 break;
+            default:
+                break;
         }
     }
 
@@ -143,7 +145,7 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
         GlideUtil.load(this, mImgurl, mBinding.ivNewsDetailCover);
         List<NewsDetail.DataBean.ContentBean> content = data.getContent();
         for (NewsDetail.DataBean.ContentBean bean : content) {
-            if (bean.getType().equals("text")) {
+            if ("text".equals(bean.getType())) {
                 TextView tv = (TextView) mInflater.inflate(R.layout.textview_content, null, false);
                 tv.setText("\u3000\u3000" + bean.getInfo());
                 mBinding.llNewsDetailContent.addView(tv);
@@ -182,6 +184,8 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
                 Bitmap bitmap = Bitmap.createBitmap(cache);
                 mPresenter.saveBitmap(bitmap);
                 break;
+            default:
+                break;
         }
 
     }
@@ -196,6 +200,8 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
         switch (requestCode) {
             case PER_CODE_STORAGE:
                 ToastUtils.showShort("保存图片失败,未授予权限");
+                break;
+            default:
                 break;
         }
     }
@@ -260,6 +266,8 @@ public class NewsDetailActivity extends BaseActivity<NewsDetailPresenter, Activi
                                         , "保存图片需要开启文件权限"
                                         , PER_CODE_STORAGE, NewsDetailActivity.this
                                         , Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                                break;
+                            default:
                                 break;
                         }
 

@@ -56,7 +56,7 @@ public class ForumsData implements Serializable {
 
         @Override
         public int getItemType() {
-            if (!fid.equals("0")) {
+            if (!"0".equals(fid)) {
                 return C.FORUM.ITEM_TYPE_CONTENT;
             } else {
                 return C.FORUM.ITEM_TYPE_TITLE;

@@ -36,8 +36,9 @@ public class StringUtils {
      * @return
      */
     public static boolean strIsBetween(String str, int minLength, int maxLength) {
-        if (StringUtils.isEmpty(str) || minLength > maxLength)
+        if (StringUtils.isEmpty(str) || minLength > maxLength) {
             return false;
+        }
         int len = str.length();
         return len >= minLength && len <= maxLength;
     }
@@ -71,12 +72,15 @@ public class StringUtils {
             return false;
         } else {
             int idx = email.indexOf('@');
-            if (idx == -1 || idx == 0 || (idx + 1) == email.length())
+            if (idx == -1 || idx == 0 || (idx + 1) == email.length()) {
                 return false;
-            if (email.indexOf('@', idx + 1) != -1)
+            }
+            if (email.indexOf('@', idx + 1) != -1) {
                 return false;
-            if (email.indexOf('.') == -1)
+            }
+            if (email.indexOf('.') == -1) {
                 return false;
+            }
             return true;
         }
         /*
@@ -170,8 +174,9 @@ public class StringUtils {
             if (!isAscii(ch) && ch != '.' && ch != '_' && ch != '-'
                     && ch != '+' && ch != '(' && ch != ')' && ch != '*'
                     && ch != '^' && ch != '@' && ch != '%' && ch != '$'
-                    && ch != '#' && ch != '~' && ch != '-')
+                    && ch != '#' && ch != '~' && ch != '-') {
                 return false;
+            }
         }
         return true;
     }
@@ -185,8 +190,9 @@ public class StringUtils {
     public static boolean isAsciiOrDigit(String name) {
         for (int i = 0; i < name.length(); i++) {
             char ch = name.charAt(i);
-            if (!isAscii(ch))
+            if (!isAscii(ch)) {
                 return false;
+            }
         }
         return true;
     }
@@ -250,8 +256,9 @@ public class StringUtils {
      */
     public static int strToInt(String sStr) {
         try {
-            if (isEmpty(sStr))
+            if (isEmpty(sStr)) {
                 return 0;
+            }
             return Integer.parseInt(sStr);
         } catch (Exception ex) {
             return 0;
@@ -266,8 +273,9 @@ public class StringUtils {
      */
     public static long strToLong(String sStr) {
         try {
-            if (isEmpty(sStr))
+            if (isEmpty(sStr)) {
                 return 0;
+            }
             return Long.parseLong(sStr);
         } catch (Exception ex) {
             return 0;
@@ -282,8 +290,9 @@ public class StringUtils {
      */
     public static byte strToByte(String sStr) {
         byte b = 0;
-        if (isEmpty(sStr))
+        if (isEmpty(sStr)) {
             return b;
+        }
         try {
             b = Byte.parseByte(sStr);
         } catch (Exception ex) {
@@ -299,8 +308,9 @@ public class StringUtils {
      * @return 返回简单类型类型long的变量
      */
     public static boolean strToBoolean(String sStr) {
-        if (isEmpty(sStr))
+        if (isEmpty(sStr)) {
             return false;
+        }
         try {
             return Boolean.parseBoolean(sStr);
         } catch (Exception ex) {
@@ -336,7 +346,7 @@ public class StringUtils {
      */
 
     public static float strToFloat(String sStr) {
-        if (sStr == null || sStr.equals("")) {
+        if (sStr == null || "".equals(sStr)) {
             return 0.0f;
         }
         try {
@@ -354,7 +364,7 @@ public class StringUtils {
      */
 
     public static double strToDouble(String sStr) {
-        if (sStr == null || sStr.equals("")) {
+        if (sStr == null || "".equals(sStr)) {
             return 0.0;
         }
         try {
@@ -371,7 +381,7 @@ public class StringUtils {
      * @return boolean
      */
     public static boolean isEmpty(String Value) {
-        return (Value == null || Value.trim().equals(""));
+        return (Value == null || "".equals(Value.trim()));
     }
 
     /**
@@ -441,8 +451,9 @@ public class StringUtils {
      * @parm append 附加字符串
      */
     public static String appendExtStr(String str, int count, String append) {
-        if (!"".equals(str) && str != null && str.length() > count)
+        if (!"".equals(str) && str != null && str.length() > count) {
             str = str.substring(0, count).concat(append);
+        }
         return str;
     }
 

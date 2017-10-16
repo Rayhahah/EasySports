@@ -47,7 +47,8 @@ public abstract class PlatformPage extends OnekeySharePage {
 		this.impl = ResHelper.forceCast(impl);
 	}
 
-	public void onCreate() {
+	@Override
+    public void onCreate() {
 		activity.getWindow().setBackgroundDrawable(new ColorDrawable(0x4c000000));
 		initAnims();
 
@@ -60,7 +61,8 @@ public abstract class PlatformPage extends OnekeySharePage {
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		lp.weight = 1;
 		vTop.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
+			@Override
+            public void onClick(View v) {
 				finish();
 			}
 		});
@@ -118,7 +120,8 @@ public abstract class PlatformPage extends OnekeySharePage {
 
 	public final void showEditPage(final Platform platform) {
 		beforeFinish = new Runnable() {
-			public void run() {
+			@Override
+            public void run() {
 				boolean isSilent = isSilent();
 				boolean isCustomPlatform = platform instanceof CustomPlatform;
 				boolean isUseClientToShare = isUseClientToShare(platform);
@@ -142,7 +145,8 @@ public abstract class PlatformPage extends OnekeySharePage {
 
 	public final void performCustomLogoClick(final View v, final CustomerLogo logo) {
 		beforeFinish = new Runnable() {
-			public void run() {
+			@Override
+            public void run() {
 				logo.listener.onClick(v);
 			}
 		};
@@ -165,22 +169,26 @@ public abstract class PlatformPage extends OnekeySharePage {
 		animHide.setDuration(300);
 	}
 
-	public boolean onFinish() {
+	@Override
+    public boolean onFinish() {
 		if (finished) {
 			finished = false;
 			return false;
 		}
 
 		animHide.setAnimationListener(new Animation.AnimationListener() {
-			public void onAnimationStart(Animation animation) {
+			@Override
+            public void onAnimationStart(Animation animation) {
 
 			}
 
-			public void onAnimationRepeat(Animation animation) {
+			@Override
+            public void onAnimationRepeat(Animation animation) {
 
 			}
 
-			public void onAnimationEnd(Animation animation) {
+			@Override
+            public void onAnimationEnd(Animation animation) {
 				if (beforeFinish == null) {
 					// 取消分享菜单的统计
 					ShareSDK.logDemoEvent(2, null);

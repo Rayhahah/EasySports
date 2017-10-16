@@ -67,6 +67,8 @@ public class ForumListAdapter extends BaseQuickAdapter<ForumsData.Forum, BaseVie
             case C.FORUM.ITEM_TYPE_TITLE:
                 helper.setText(R.id.tv_item_forum_list_title, item.name);
                 break;
+            default:
+                break;
         }
     }
 }

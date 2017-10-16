@@ -1,11 +1,7 @@
-package com.rayhahah.easysports.module.forum.business.ForumDetail;
+package com.rayhahah.easysports.module.forum.business.forumdetail;
 
-import com.rayhahah.easysports.module.forum.api.ForumApiFactory;
 import com.rayhahah.easysports.module.forum.bean.ForumDetailInfoData;
-import com.rayhahah.rbase.base.RBasePresenter;
-
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
+import com.rayhahah.rbase.base.IRBaseView;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -29,27 +25,34 @@ import io.reactivex.functions.Consumer;
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class ForumDetailPresenter extends RBasePresenter<ForumDetailContract.IForumDetailView> implements ForumDetailContract.IForumDetailPresenter {
-    public ForumDetailPresenter(ForumDetailContract.IForumDetailView view) {
-        super(view);
+public class ForumDetailContract {
+    public interface IForumDetailView extends IRBaseView {
+
+        /**
+         * 获取论坛详细数据失败
+         *
+         * @param msg 失败提示
+         */
+        void getForumDetailFailed(String msg);
+
+        /**
+         * 获取论坛详细数据成功
+         *
+         * @param forumDetailInfoData 返回的详细数据
+         */
+        void getForumDetailSuccess(ForumDetailInfoData forumDetailInfoData);
     }
 
-    @Override
-    public void getForumDetail(String tid, String fid, int page, String pid) {
-        addSubscription(ForumApiFactory.getThreadInfo(tid, fid, page, pid).subscribe(new Consumer<ForumDetailInfoData>() {
-            @Override
-            public void accept(@NonNull ForumDetailInfoData forumDetailInfoData) throws Exception {
-                if (forumDetailInfoData != null) {
-                    mView.getForumDetailSuccess(forumDetailInfoData);
-                } else {
-                    mView.getForumDetailFailed("加载数据失败");
-                }
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(@NonNull Throwable throwable) throws Exception {
-                mView.getForumDetailFailed(throwable.getMessage());
-            }
-        }));
+    public interface IForumDetailPresenter {
+
+        /**
+         * 获取论坛信息
+         *
+         * @param tid
+         * @param fid
+         * @param page 页码
+         * @param pid
+         */
+        void getForumDetail(String tid, String fid, int page, String pid);
     }
 }

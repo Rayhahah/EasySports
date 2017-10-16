@@ -2,10 +2,12 @@ package com.rayhahah.easysports.module.match.busniess.matchdata;
 
 import com.rayhahah.easysports.module.match.api.MatchApiFactory;
 import com.rayhahah.easysports.module.match.bean.MatchStatusBean;
+import com.rayhahah.easysports.utils.JsonParser;
 import com.rayhahah.rbase.base.RBasePresenter;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import okhttp3.ResponseBody;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -36,12 +38,11 @@ public class MatchDataPresenter extends RBasePresenter<MatchDataContract.IMatchD
 
     @Override
     public void getMatchStatus(String mid, String tabType) {
-        addSubscription(MatchApiFactory.getMatchStatus(mid, tabType).subscribe(new Consumer<MatchStatusBean>() {
+        addSubscription(MatchApiFactory.getMatchStatus(mid, tabType).subscribe(new Consumer<ResponseBody>() {
             @Override
-            public void accept(@NonNull MatchStatusBean matchStatusBean) throws Exception {
-                MatchStatusBean.MatchStatInfo data = matchStatusBean.data;
+            public void accept(@NonNull ResponseBody body) throws Exception {
+                MatchStatusBean.MatchStatInfo data = JsonParser.parseMatchDataStatus(body.string());
                 mView.getMatchStatusSuccess(data);
-
             }
         }, new Consumer<Throwable>() {
             @Override

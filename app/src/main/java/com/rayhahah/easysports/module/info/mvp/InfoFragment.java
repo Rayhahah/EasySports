@@ -134,6 +134,8 @@ public class InfoFragment extends BaseFragment<InfoPresenter, FragmentInfoBindin
                     mPresenter.getStatusRank(playerInfoType[typePosition], ROWS, currentTayType);
                 }
                 break;
+            default:
+                break;
         }
     }
 
@@ -256,6 +258,8 @@ public class InfoFragment extends BaseFragment<InfoPresenter, FragmentInfoBindin
                             playerBinding.tvDecorationRankType.setText(strType + "榜");
                             v = playerBinding.getRoot();
                             break;
+                        default:
+                            break;
                     }
                     return v;
                 }
@@ -317,6 +321,8 @@ public class InfoFragment extends BaseFragment<InfoPresenter, FragmentInfoBindin
                 break;
             case C.INFO.ID_STEAL:
                 strType = "抢断";
+                break;
+            default:
                 break;
         }
         return strType;

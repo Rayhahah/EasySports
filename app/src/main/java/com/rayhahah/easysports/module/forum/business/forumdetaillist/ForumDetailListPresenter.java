@@ -1,7 +1,11 @@
-package com.rayhahah.easysports.module.forum.business.ForumDetail;
+package com.rayhahah.easysports.module.forum.business.forumdetaillist;
 
-import com.rayhahah.easysports.module.forum.bean.ForumDetailInfoData;
-import com.rayhahah.rbase.base.IRBaseView;
+import com.rayhahah.easysports.module.forum.api.ForumApiFactory;
+import com.rayhahah.easysports.module.forum.bean.DetailListData;
+import com.rayhahah.rbase.base.RBasePresenter;
+
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -25,16 +29,28 @@ import com.rayhahah.rbase.base.IRBaseView;
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class ForumDetailContract {
-    public interface IForumDetailView extends IRBaseView {
+public class ForumDetailListPresenter extends RBasePresenter<ForumDetailListContract.IForumDetailListView> implements ForumDetailListContract.IForumDetailListPresenter {
 
-        void getForumDetailFailed(String msg);
-
-        void getForumDetailSuccess(ForumDetailInfoData forumDetailInfoData);
+    public ForumDetailListPresenter(ForumDetailListContract.IForumDetailListView view) {
+        super(view);
     }
 
-    public interface IForumDetailPresenter {
-
-        void getForumDetail(String tid, String fid, int page, String pid);
+    @Override
+    public void getForumPost(String fid, String lastTid, String type, final boolean isRefresh) {
+        addSubscription(ForumApiFactory.getForumInfoList(fid, lastTid, type).subscribe(new Consumer<DetailListData>() {
+            @Override
+            public void accept(@NonNull DetailListData detailListData) throws Exception {
+                if (detailListData != null && detailListData.result != null && detailListData.result.data != null) {
+                    mView.getForumPostSuccess(detailListData.result.data, isRefresh);
+                } else {
+                    mView.NoMoreForumPost();
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.getForumPostFailed(throwable.getMessage());
+            }
+        }));
     }
 }

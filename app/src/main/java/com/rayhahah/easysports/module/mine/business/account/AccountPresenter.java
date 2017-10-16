@@ -148,14 +148,14 @@ public class AccountPresenter extends RBasePresenter<AccountContract.IAccountVie
 
     @Override
     public void choosePhoto(Activity context) {
-        Intent choose_intent = new Intent(Intent.ACTION_GET_CONTENT);
-        choose_intent.setType("image/*");
-        context.startActivityForResult(choose_intent, C.ACCOUNT.CODE_CHOOSE_PHOTO);
+        Intent chooseIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseIntent.setType("image/*");
+        context.startActivityForResult(chooseIntent, C.ACCOUNT.CODE_CHOOSE_PHOTO);
     }
 
     @Override
-    public void loginHupu(String hupu_user_name, String hupu_password) {
-        addSubscription(MineApiFactory.loginHupu(hupu_user_name, hupu_password).subscribe(new Consumer<HupuUserData>() {
+    public void loginHupu(String hupuUserName, String hupuPassword) {
+        addSubscription(MineApiFactory.loginHupu(hupuUserName, hupuPassword).subscribe(new Consumer<HupuUserData>() {
             @Override
             public void accept(@NonNull HupuUserData hupuUserData) throws Exception {
                 if (hupuUserData != null && hupuUserData.is_login == 1) { // 登录成功

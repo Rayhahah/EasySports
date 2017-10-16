@@ -31,7 +31,7 @@ public class ForumPresenter extends RBasePresenter<ForumContract.IForumView>
                     ArrayList<ForumsData.ForumsResult> data = forumsData.data;
                     if (data != null && !data.isEmpty()) {
                         for (ForumsData.ForumsResult result : data) {
-                            if (result.fid.equals("1") || result.fid.equals("232")) { // 目前只加入NBA和CBA
+                            if ("1".equals(result.fid) || "232".equals(result.fid)) { // 目前只加入NBA和CBA
                                 ArrayList<ForumsData.Forums> sub = result.sub;
                                 for (ForumsData.Forums forums : sub) {
                                     ForumsData.Forum forum = new ForumsData.Forum();

@@ -29,7 +29,8 @@ public class PlatformPageAdapterPort extends PlatformPageAdapter {
 		super(page, cells);
 	}
 
-	protected void calculateSize(Context context, ArrayList<Object> plats) {
+	@Override
+    protected void calculateSize(Context context, ArrayList<Object> plats) {
 		int screenWidth = ResHelper.getScreenWidth(context);
 		lineSize = LINE_SIZE_P;
 
@@ -49,7 +50,8 @@ public class PlatformPageAdapterPort extends PlatformPageAdapter {
 		}
 	}
 
-	protected void collectCells(ArrayList<Object> plats) {
+	@Override
+    protected void collectCells(ArrayList<Object> plats) {
 		int count = plats.size();
 		if (count < PAGE_SIZE_P) {
 			int lineCount = (count / lineSize);

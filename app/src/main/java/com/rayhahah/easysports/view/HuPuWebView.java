@@ -18,7 +18,7 @@ import android.webkit.WebViewClient;
 
 import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.common.RWebActivity;
-import com.rayhahah.easysports.module.forum.business.ForumDetail.ForumDetailActivity;
+import com.rayhahah.easysports.module.forum.business.forumdetail.ForumDetailActivity;
 import com.rayhahah.easysports.utils.HuPuHelper;
 import com.rayhahah.easysports.utils.SettingPrefUtils;
 import com.rayhahah.rbase.utils.base.StringUtils;
@@ -151,13 +151,13 @@ public class HuPuWebView extends WebView {
      */
     private void handleScheme(String scheme, String url) {
         if (scheme != null) {
-            if (scheme.equalsIgnoreCase("kanqiu")) {
+            if ("kanqiu".equalsIgnoreCase(scheme)) {
                 handleKanQiu(url);
-            } else if (scheme.equalsIgnoreCase("browser")
-                    || scheme.equalsIgnoreCase("http")
-                    || scheme.equalsIgnoreCase("https")) {
+            } else if ("browser".equalsIgnoreCase(scheme)
+                    || "http".equalsIgnoreCase(scheme)
+                    || "https".equalsIgnoreCase(scheme)) {
                 handleUrl(url);
-            } else if (scheme.equalsIgnoreCase("hupu")) {
+            } else if ("hupu".equalsIgnoreCase(scheme)) {
                 try {
                     JSONObject object = new JSONObject(Uri.decode(url.substring("hupu".length() + 3)));
                     String method = object.optString("method");
@@ -208,7 +208,7 @@ public class HuPuWebView extends WebView {
                     jSONObject.put("appName", "com.hupu.games");
                     jSONObject.put("lowDevice", false);
                     jSONObject.put("scheme", "hupu");
-                    jSONObject.put("did", C.DeviceId);
+                    jSONObject.put("did", C.DEVICE_ID);
                     jSONObject.put("platform", "Android");
                     jSONObject.put("device", Build.PRODUCT);
                     jSONObject.put("osVer", Build.VERSION.RELEASE);
@@ -282,6 +282,8 @@ public class HuPuWebView extends WebView {
                 mPreActivity.finish();
 //                BaseAppManager.getInstance().getForwardActivity().finish();
                 break;
+            default:
+                break;
         }
     }
 
@@ -291,6 +293,7 @@ public class HuPuWebView extends WebView {
         }
     }
 
+    @Override
     public void loadUrl(String url) {
         setUA(-1);
         if (header == null) {

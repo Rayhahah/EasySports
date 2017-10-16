@@ -141,10 +141,10 @@
         <service android:name=".net.version.UpdateAppService"/>
 
         <activity
-            android:name=".module.forum.business.ForumDetailList.ForumDetailListActivity"
+            android:name=".module.forum.business.forumdetaillist.ForumDetailListActivity"
             android:theme="@style/NoTitleFullscreen">
         </activity>
-        <activity android:name=".module.forum.business.ForumDetail.ForumDetailActivity">
+        <activity android:name=".module.forum.business.forumdetail.ForumDetailActivity">
         </activity>
         <activity android:name=".module.match.busniess.matchdetail.MatchDetailActivity">
         </activity>

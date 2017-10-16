@@ -86,7 +86,7 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
         if (pos == 0 || isFirstInGroup(pos)) {
             if (mViewCallback == null) {
                 outRect.top = topGap;
-                if (mTextCallback.getGroupFirstLine(pos).equals("")) {
+                if ("".equals(mTextCallback.getGroupFirstLine(pos))) {
                     outRect.top = 0;
                 }
             } else {
@@ -171,6 +171,8 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
                 case GRAVITY_RIGHT:
                     c.drawText(textLine, right - bounds.width(), bottom, mTextPaint);
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -191,7 +193,9 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
 
             preGroupId = groupId;
             groupId = mCallback.getGroupId(pos);
-            if (null == groupId || groupId.equals(preGroupId)) continue;
+            if (null == groupId || groupId.equals(preGroupId)) {
+                continue;
+            }
 
             if (mViewCallback == null) {
                 String firstLine = mTextCallback.getGroupFirstLine(pos);
@@ -224,7 +228,9 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
         Rect bounds = new Rect();
         mTextPaint.getTextBounds(firstLine, 0, firstLine.length(), bounds);
 
-        if (StringUtils.isEmpty(firstLine)) return;
+        if (StringUtils.isEmpty(firstLine)) {
+            return;
+        }
 
         if (firstLine.equals(mTextCallback.getActiveGroup())) {
             mTextPaint.setColor(mActiveColor);
@@ -265,6 +271,8 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
                 c.drawText(firstLine, right - bounds.width()
                         , textY - alginBottom + bounds.height() / 2 + topGap / 2
                         , mTextPaint);
+                break;
+            default:
                 break;
         }
     }

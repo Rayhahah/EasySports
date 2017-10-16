@@ -185,6 +185,8 @@ public class SingleListActivity extends BaseActivity<SingleListPresenter, Activi
                 mBinding.rvSingleList.scrollToPosition(0);
                 mBinding.ivSingleListSearchClose.setVisibility(View.GONE);
                 break;
+            default:
+                break;
         }
 
     }

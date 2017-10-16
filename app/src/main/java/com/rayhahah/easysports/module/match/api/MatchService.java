@@ -3,7 +3,6 @@ package com.rayhahah.easysports.module.match.api;
 import com.rayhahah.easysports.module.match.bean.LiveIndex;
 import com.rayhahah.easysports.module.match.bean.MatchDetailBean;
 import com.rayhahah.easysports.module.match.bean.MatchListBean;
-import com.rayhahah.easysports.module.match.bean.MatchStatusBean;
 import com.rayhahah.easysports.module.match.bean.MatchVideo;
 
 import io.reactivex.Observable;
@@ -44,7 +43,7 @@ public interface MatchService {
      */
     // stat?mid=100000:1468573&tabType=3
     @GET("/match/stat")
-    Observable<MatchStatusBean> getMatchStat(@Query("mid") String mid, @Query("tabType") String tabType);
+    Observable<ResponseBody> getMatchStat(@Query("mid") String mid, @Query("tabType") String tabType);
 
     /**
      * 根据MID获取图文直播的条目id

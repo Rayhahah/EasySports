@@ -344,7 +344,8 @@ public class EasySwipeMenuLayout extends ViewGroup {
                 break;
 
             }
-
+            default:
+                break;
         }
         return super.onInterceptTouchEvent(event);
     }

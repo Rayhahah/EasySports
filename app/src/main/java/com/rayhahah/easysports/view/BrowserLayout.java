@@ -182,7 +182,7 @@ public class BrowserLayout extends LinearLayout {
         }
     }
 
-    public void destory(){
+    public void destory() {
         if (null != sonicSession) {
             sonicSession.destroy();
             sonicSession = null;
@@ -318,6 +318,7 @@ public class BrowserLayout extends LinearLayout {
             //  super.onReceivedSslError(view, handler, error);
         }
 
+        @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             mLoadUrl = url;
@@ -331,8 +332,9 @@ public class BrowserLayout extends LinearLayout {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (isOverrideUrlLoading)
-                return super.shouldOverrideUrlLoading(view, url);
+            if (isOverrideUrlLoading) {
+                    return super.shouldOverrideUrlLoading(view, url);
+            }
             return true;
         }
     }
@@ -358,8 +360,9 @@ public class BrowserLayout extends LinearLayout {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            if (listener != null)
-                listener.onReceive(title);
+            if (listener != null) {
+                    listener.onReceive(title);
+            }
         }
     }
 

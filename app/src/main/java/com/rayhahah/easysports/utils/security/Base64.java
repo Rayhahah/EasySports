@@ -231,6 +231,7 @@ public class Base64 {
          * @return an overestimate for the number of bytes {@code
          * len} bytes could decode to.
          */
+        @Override
         public int maxOutputSize(int len) {
             return len * 3 / 4 + 10;
         }
@@ -241,8 +242,12 @@ public class Base64 {
          * @return true if the state machine is still healthy.  false if
          * bad base-64 data has been detected in the input stream.
          */
+        @Override
         public boolean process(byte[] input, int offset, int len, boolean finish) {
-            if (this.state == 6) return false;
+            if (this.state == 6) {
+                return false;
+            }
+
 
             int p = offset;
             len += offset;
@@ -285,7 +290,9 @@ public class Base64 {
                         op += 3;
                         p += 4;
                     }
-                    if (p >= len) break;
+                    if (p >= len) {
+                        break;
+                    }
                 }
 
                 // The fast path isn't available -- either we've read a
@@ -368,6 +375,8 @@ public class Base64 {
                             return false;
                         }
                         break;
+                    default:
+                        break;
                 }
             }
 
@@ -410,6 +419,8 @@ public class Base64 {
                 case 5:
                     // Read all the padding '='s we expected and no more.
                     // Fine.
+                    break;
+                default:
                     break;
             }
 
@@ -491,36 +502,38 @@ public class Base64 {
         Encoder encoder = new Encoder(flags, null);
 
         // Compute the exact length of the array we will produce.
-        int output_len = len / 3 * 4;
+        int outputLen = len / 3 * 4;
 
         // Account for the tail of the data and the padding bytes, if any.
         if (encoder.do_padding) {
             if (len % 3 > 0) {
-                output_len += 4;
+                outputLen += 4;
             }
         } else {
             switch (len % 3) {
                 case 0:
                     break;
                 case 1:
-                    output_len += 2;
+                    outputLen += 2;
                     break;
                 case 2:
-                    output_len += 3;
+                    outputLen += 3;
+                    break;
+                default:
                     break;
             }
         }
 
         // Account for the newlines, if any.
         if (encoder.do_newline && len > 0) {
-            output_len += (((len - 1) / (3 * Encoder.LINE_GROUPS)) + 1) *
+            outputLen += (((len - 1) / (3 * Encoder.LINE_GROUPS)) + 1) *
                     (encoder.do_cr ? 2 : 1);
         }
 
-        encoder.output = new byte[output_len];
+        encoder.output = new byte[outputLen];
         encoder.process(input, offset, len, true);
 
-        assert encoder.op == output_len;
+        assert encoder.op == outputLen;
 
         return encoder.output;
     }
@@ -582,10 +595,12 @@ public class Base64 {
          * @return an overestimate for the number of bytes {@code
          * len} bytes could encode to.
          */
+        @Override
         public int maxOutputSize(int len) {
             return len * 8 / 5 + 10;
         }
 
+        @Override
         public boolean process(byte[] input, int offset, int len, boolean finish) {
             // Using local variables makes the encoder about 9% faster.
             final byte[] alphabet = this.alphabet;
@@ -627,6 +642,8 @@ public class Base64 {
                         tailLen = 0;
                     }
                     break;
+                default:
+                    break;
             }
 
             if (v != -1) {
@@ -635,7 +652,9 @@ public class Base64 {
                 output[op++] = alphabet[(v >> 6) & 0x3f];
                 output[op++] = alphabet[v & 0x3f];
                 if (--count == 0) {
-                    if (do_cr) output[op++] = '\r';
+                    if (do_cr) {
+                        output[op++] = '\r';
+                    }
                     output[op++] = '\n';
                     count = LINE_GROUPS;
                 }
@@ -657,7 +676,9 @@ public class Base64 {
                 p += 3;
                 op += 4;
                 if (--count == 0) {
-                    if (do_cr) output[op++] = '\r';
+                    if (do_cr) {
+                        output[op++] = '\r';
+                    }
                     output[op++] = '\n';
                     count = LINE_GROUPS;
                 }
@@ -680,7 +701,9 @@ public class Base64 {
                         output[op++] = '=';
                     }
                     if (do_newline) {
-                        if (do_cr) output[op++] = '\r';
+                        if (do_cr) {
+                            output[op++] = '\r';
+                        }
                         output[op++] = '\n';
                     }
                 } else if (p - tailLen == len - 2) {
@@ -695,11 +718,15 @@ public class Base64 {
                         output[op++] = '=';
                     }
                     if (do_newline) {
-                        if (do_cr) output[op++] = '\r';
+                        if (do_cr) {
+                            output[op++] = '\r';
+                        }
                         output[op++] = '\n';
                     }
                 } else if (do_newline && op > 0 && count != LINE_GROUPS) {
-                    if (do_cr) output[op++] = '\r';
+                    if (do_cr) {
+                        output[op++] = '\r';
+                    }
                     output[op++] = '\n';
                 }
 

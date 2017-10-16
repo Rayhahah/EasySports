@@ -58,6 +58,8 @@ public class MatchDataAdapter extends BaseQuickAdapter<MatchStatusBean.StatsBean
                     case 13:
                         //全场最佳
                         return C.MATCH.ITEM_TYPE_MATCH_DATA_TEAM_BEST;
+                    default:
+                        break;
                 }
                 return 0;
             }

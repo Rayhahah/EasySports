@@ -54,7 +54,7 @@ public class AccountContract {
 
         void choosePhoto(Activity context);
 
-        void loginHupu(String hupu_user_name, String hupu_password);
+        void loginHupu(String hupuUserName, String hupuPassword);
 
         void resetPassword(LocalUser localUser, String passwordOld);
 

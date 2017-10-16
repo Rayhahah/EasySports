@@ -379,8 +379,9 @@ public class ProgressWaveView extends View {
         colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animator) {
-                if (isPaused)
+                if (isPaused) {
                     waveColor = (Integer) animator.getAnimatedValue();
+                }
             }
         });
         //无限重复

@@ -186,7 +186,7 @@ public class RSAEncrypt {
     public String decrypt(String privateKey, byte[] cipherData) {
         String result = "";
         try {
-            if (privateKey_Str.equals("")) {
+            if ("".equals(privateKey_Str)) {
                 privateKey_Str = privateKey;
                 loadPrivateKey(privateKey);
             }
@@ -418,8 +418,9 @@ public class RSAEncrypt {
      * @return    输出十进制数据
      */
     private byte[] hex2byte(byte[] hexData) {
-        if ((hexData.length % 2) != 0)
+        if ((hexData.length % 2) != 0) {
             throw new IllegalArgumentException("长度不是偶数");
+        }
 
         byte[] out = new byte[hexData.length / 2];
         for (int n = 0; n < hexData.length; n += 2) {

@@ -35,13 +35,13 @@ public class MatchPlayerAdapter extends BaseQuickAdapter<MatchPlayer, BaseViewHo
     private Activity mActivity;
 
     public MatchPlayerAdapter(Activity activity) {
-        super(R.layout.item_match_forward_list);
+        super(R.layout.item_match_player_list);
         mActivity = activity;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MatchPlayer item) {
-        RecyclerView rv = (RecyclerView) helper.getView(R.id.rv_item_forward);
+        RecyclerView rv = (RecyclerView) helper.getView(R.id.rv_item_player_list);
         MatchPlayerListAdapter adapter = new MatchPlayerListAdapter();
         adapter.openLoadAnimation();
         adapter.setNewData(item.getData());

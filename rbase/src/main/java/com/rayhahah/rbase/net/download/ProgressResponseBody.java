@@ -21,6 +21,7 @@ public class ProgressResponseBody extends ResponseBody {
         this.response = response;
     }
 
+    @Override
     public MediaType contentType() {
         return response.body().contentType();
     }

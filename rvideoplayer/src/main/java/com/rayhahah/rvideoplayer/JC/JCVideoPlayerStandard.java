@@ -73,7 +73,9 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
     @Override
     public void setUp(String url, int screen, Object... objects) {
         super.setUp(url, screen, objects);
-        if (objects.length == 0) return;
+        if (objects.length == 0) {
+            return;
+        }
         titleTextView.setText(objects[0].toString());
         if (currentScreen == SCREEN_WINDOW_FULLSCREEN) {
             fullscreenButton.setImageResource(R.drawable.jc_shrink);
@@ -137,6 +139,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
             case CURRENT_STATE_PLAYING_BUFFERING_START:
                 changeUiToPlayingBufferingShow();
                 break;
+            default:
+                break;
         }
     }
 
@@ -162,6 +166,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                         onClickUiToggle();
                     }
                     break;
+                default:
+                    break;
             }
         } else if (id == R.id.bottom_seek_progress) {
             switch (event.getAction()) {
@@ -170,6 +176,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                     break;
                 case MotionEvent.ACTION_UP:
                     startDismissControlViewTimer();
+                    break;
+                default:
                     break;
             }
         }
@@ -329,13 +337,17 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
         int position = getCurrentPositionWhenPlaying();
         int duration = getDuration();
         int progress = position * 100 / (duration == 0 ? 1 : duration);
-        if (progress != 0) bottomProgressBar.setProgress(progress);
+        if (progress != 0) {
+            bottomProgressBar.setProgress(progress);
+        }
     }
 
     @Override
     public void setBufferProgress(int bufferProgress) {
         super.setBufferProgress(bufferProgress);
-        if (bufferProgress != 0) bottomProgressBar.setSecondaryProgress(bufferProgress);
+        if (bufferProgress != 0) {
+            bottomProgressBar.setSecondaryProgress(bufferProgress);
+        }
     }
 
     @Override
@@ -361,6 +373,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 break;
             case SCREEN_WINDOW_TINY:
                 break;
+            default:
+                break;
         }
     }
 
@@ -376,6 +390,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                         View.VISIBLE, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
                 break;
             case SCREEN_WINDOW_TINY:
+                break;
+            default:
                 break;
         }
 
@@ -393,6 +409,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                         View.VISIBLE, View.VISIBLE, View.VISIBLE, View.INVISIBLE);
                 break;
             case SCREEN_WINDOW_TINY:
+                break;
+            default:
                 break;
         }
 
@@ -422,6 +440,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 break;
             case SCREEN_WINDOW_TINY:
                 break;
+            default:
+                break;
         }
 
     }
@@ -438,6 +458,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                         View.INVISIBLE, View.INVISIBLE, View.INVISIBLE, View.VISIBLE);
                 break;
             case SCREEN_WINDOW_TINY:
+                break;
+            default:
                 break;
         }
 
@@ -458,6 +480,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 break;
             case SCREEN_WINDOW_TINY:
                 break;
+            default:
+                break;
         }
 
     }
@@ -475,6 +499,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 break;
             case SCREEN_WINDOW_TINY:
                 break;
+            default:
+                break;
         }
 
     }
@@ -491,6 +517,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                         View.VISIBLE, View.INVISIBLE, View.INVISIBLE, View.INVISIBLE);
                 break;
             case SCREEN_WINDOW_TINY:
+                break;
+            default:
                 break;
         }
 
@@ -511,6 +539,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 break;
             case SCREEN_WINDOW_TINY:
                 break;
+            default:
+                break;
         }
 
     }
@@ -529,6 +559,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_TINY:
+                break;
+            default:
                 break;
         }
 
@@ -549,6 +581,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 break;
             case SCREEN_WINDOW_TINY:
                 break;
+            default:
+                break;
         }
 
     }
@@ -567,6 +601,8 @@ public class JCVideoPlayerStandard extends JCVideoPlayer {
                 updateStartImage();
                 break;
             case SCREEN_WINDOW_TINY:
+                break;
+            default:
                 break;
         }
 

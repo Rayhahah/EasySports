@@ -1,9 +1,11 @@
-package com.rayhahah.easysports.module.forum.business.ForumDetailList;
+package com.rayhahah.easysports.module.forum.business.forumdetail;
 
-import com.rayhahah.easysports.module.forum.bean.DetailListData;
-import com.rayhahah.rbase.base.IRBaseView;
+import com.rayhahah.easysports.module.forum.api.ForumApiFactory;
+import com.rayhahah.easysports.module.forum.bean.ForumDetailInfoData;
+import com.rayhahah.rbase.base.RBasePresenter;
 
-import java.util.List;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -27,19 +29,27 @@ import java.util.List;
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class ForumDetailListContract {
-    public interface IForumDetailListView extends IRBaseView {
-        void getForumPostSuccess(List<DetailListData.ThreadInfo> data, boolean isRefresh);
-
-        void NoMoreForumPost();
-
-        void getForumPostFailed(String message);
+public class ForumDetailPresenter extends RBasePresenter<ForumDetailContract.IForumDetailView> implements ForumDetailContract.IForumDetailPresenter {
+    public ForumDetailPresenter(ForumDetailContract.IForumDetailView view) {
+        super(view);
     }
 
-    public interface IForumDetailListPresenter {
-
-        void getForumPost(String fid, String lastTid, String type, boolean isRefresh);
+    @Override
+    public void getForumDetail(String tid, String fid, int page, String pid) {
+        addSubscription(ForumApiFactory.getThreadInfo(tid, fid, page, pid).subscribe(new Consumer<ForumDetailInfoData>() {
+            @Override
+            public void accept(@NonNull ForumDetailInfoData forumDetailInfoData) throws Exception {
+                if (forumDetailInfoData != null) {
+                    mView.getForumDetailSuccess(forumDetailInfoData);
+                } else {
+                    mView.getForumDetailFailed("加载数据失败");
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                mView.getForumDetailFailed(throwable.getMessage());
+            }
+        }));
     }
-
-
 }

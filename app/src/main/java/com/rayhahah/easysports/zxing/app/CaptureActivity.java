@@ -145,6 +145,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
                 setResult(RESULT_CODE_ENCODE, intentEncode);
                 finish();
                 break;
+            default:
+                break;
         }
     }
 
@@ -371,6 +373,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
                         handleDecodeInternally(rawResult, barcode);
                     }
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -549,7 +553,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     }
 
     protected Result scanningImage(Uri path) {
-        if (path == null || path.equals("")) {
+        if (path == null || "".equals(path)) {
             return null;
         }
         // DecodeHintType 和EncodeHintType

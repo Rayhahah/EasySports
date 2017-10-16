@@ -20,12 +20,14 @@ public class RotateImageView extends ImageView {
 		super(context);
 	}
 
-	public void setRotation(float rotation) {
+	@Override
+    public void setRotation(float rotation) {
 		this.rotation = rotation;
 		invalidate();
 	}
 
-	protected void onDraw(Canvas canvas) {
+	@Override
+    protected void onDraw(Canvas canvas) {
 		canvas.rotate(rotation, getWidth() / 2, getHeight() / 2);
 		super.onDraw(canvas);
 	}

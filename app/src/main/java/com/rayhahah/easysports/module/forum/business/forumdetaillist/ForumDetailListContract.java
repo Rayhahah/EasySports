@@ -1,11 +1,9 @@
-package com.rayhahah.easysports.module.forum.business.ForumDetailList;
+package com.rayhahah.easysports.module.forum.business.forumdetaillist;
 
-import com.rayhahah.easysports.module.forum.api.ForumApiFactory;
 import com.rayhahah.easysports.module.forum.bean.DetailListData;
-import com.rayhahah.rbase.base.RBasePresenter;
+import com.rayhahah.rbase.base.IRBaseView;
 
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
+import java.util.List;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -29,28 +27,19 @@ import io.reactivex.functions.Consumer;
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class ForumDetailListPresenter extends RBasePresenter<ForumDetailListContract.IForumDetailListView> implements ForumDetailListContract.IForumDetailListPresenter {
+public class ForumDetailListContract {
+    public interface IForumDetailListView extends IRBaseView {
+        void getForumPostSuccess(List<DetailListData.ThreadInfo> data, boolean isRefresh);
 
-    public ForumDetailListPresenter(ForumDetailListContract.IForumDetailListView view) {
-        super(view);
+        void NoMoreForumPost();
+
+        void getForumPostFailed(String message);
     }
 
-    @Override
-    public void getForumPost(String fid, String lastTid, String type, final boolean isRefresh) {
-        addSubscription(ForumApiFactory.getForumInfoList(fid, lastTid, type).subscribe(new Consumer<DetailListData>() {
-            @Override
-            public void accept(@NonNull DetailListData detailListData) throws Exception {
-                if (detailListData != null && detailListData.result != null && detailListData.result.data != null) {
-                    mView.getForumPostSuccess(detailListData.result.data, isRefresh);
-                } else {
-                    mView.NoMoreForumPost();
-                }
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(@NonNull Throwable throwable) throws Exception {
-                mView.getForumPostFailed(throwable.getMessage());
-            }
-        }));
+    public interface IForumDetailListPresenter {
+
+        void getForumPost(String fid, String lastTid, String type, boolean isRefresh);
     }
+
+
 }

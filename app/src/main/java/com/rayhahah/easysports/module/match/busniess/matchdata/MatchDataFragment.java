@@ -155,6 +155,8 @@ public class MatchDataFragment extends BaseFragment<MatchDataPresenter, Fragment
                         case 13:
                             //本场最佳
                             return "";
+                        default:
+                            break;
                     }
                     return null;
                 }

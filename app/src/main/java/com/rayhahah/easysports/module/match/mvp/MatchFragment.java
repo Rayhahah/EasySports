@@ -8,8 +8,8 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.rayhahah.easysports.R;
-import com.rayhahah.easysports.common.BaseFragment;
 import com.rayhahah.easysports.app.C;
+import com.rayhahah.easysports.common.BaseFragment;
 import com.rayhahah.easysports.databinding.FragmentMatchBinding;
 import com.rayhahah.easysports.module.match.bean.MatchListBean;
 import com.rayhahah.easysports.module.match.busniess.matchdetail.MatchDetailActivity;
@@ -45,12 +45,19 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
     @Override
     public void initView(Bundle savedInstanceState) {
         mBinding.toolbar.tvToolbarTitle.setText(getResources().getString(R.string.match));
-
+        mBinding.toolbar.ivToolbarRefresh.setVisibility(View.VISIBLE);
+        mBinding.toolbar.ivToolbarRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showViewLoading();
+                mPresenter.addMatchListData(mCurrentDate, C.STATUS.INIT);
+            }
+        });
         initRv();
 
         mCurrentDate = DateTimeUitl.getCurrentWithFormate("yyyy-MM-dd");
-        initFutureBeforeDate(mCurrentDate);
         initProgressLayout();
+        initFutureBeforeDate(mCurrentDate);
 
         showViewLoading();
         mPresenter.addMatchListData(mCurrentDate, C.STATUS.INIT);
@@ -100,6 +107,8 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
                     mBinding.pl.showContent(mBinding.srlMatchList);
                 }
                 break;
+            default:
+                break;
         }
         totalData = mMatchListAdapter.getData();
 //        mItemDecor.setNewData(totalData);
@@ -126,6 +135,8 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
                 break;
             case C.STATUS.LOAD_MORE:
                 mMatchListAdapter.loadMoreFail();
+                break;
+            default:
                 break;
         }
         mBinding.pl.showError(mBinding.srlMatchList);
@@ -265,6 +276,8 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
             case R.id.ll_match_list:
                 String mid = data.get(position).getMid();
                 MatchDetailActivity.start(mContext,mContext,mid);
+                break;
+            default:
                 break;
         }
     }

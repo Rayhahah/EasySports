@@ -38,7 +38,7 @@ public class HuPuHelper {
 
     public static HashMap<String, String> getRequsetMap() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("client", C.DeviceId);
+        map.put("client", C.DEVICE_ID);
         map.put("night", "0");
         try {
             map.put("token", URLEncoder.encode(SPManager.get().getStringValue(C.SP.TOKEN), "UTF-8"));

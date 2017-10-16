@@ -2,10 +2,12 @@ package com.rayhahah.easysports.module.match.busniess.matchplayer;
 
 import com.rayhahah.easysports.module.match.api.MatchApiFactory;
 import com.rayhahah.easysports.module.match.bean.MatchStatusBean;
+import com.rayhahah.easysports.utils.JsonParser;
 import com.rayhahah.rbase.base.RBasePresenter;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import okhttp3.ResponseBody;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -38,11 +40,12 @@ public class MatchPlayerPresenter extends RBasePresenter<MatchPlayerContract.IMa
 
     @Override
     public void getMatchStatus(String mid, String tabType) {
-        addSubscription(MatchApiFactory.getMatchStatus(mid, tabType).subscribe(new Consumer<MatchStatusBean>() {
+        addSubscription(MatchApiFactory.getMatchStatus(mid, tabType).subscribe(new Consumer<ResponseBody>() {
             @Override
-            public void accept(@NonNull MatchStatusBean matchStatusBean) throws Exception {
+            public void accept(@NonNull ResponseBody body) throws Exception {
+                MatchStatusBean matchStatusBean = JsonParser.parseWithGson(MatchStatusBean.class, body.string());
                 for (MatchStatusBean.StatsBean stat : matchStatusBean.data.stats) {
-                    if (stat.type.equals("15")) {
+                    if ("15".equals(stat.type)) {
                         if (stat.playerStats != null && !stat.playerStats.isEmpty()) {
                             mView.getMatchStatusSuccess(stat.playerStats);
                             hasData = true;
@@ -56,7 +59,7 @@ public class MatchPlayerPresenter extends RBasePresenter<MatchPlayerContract.IMa
         }, new Consumer<Throwable>() {
             @Override
             public void accept(@NonNull Throwable throwable) throws Exception {
-                    mView.getMatchStatusFailed(throwable.getMessage());
+                mView.getMatchStatusFailed(throwable.getMessage());
             }
         }));
     }

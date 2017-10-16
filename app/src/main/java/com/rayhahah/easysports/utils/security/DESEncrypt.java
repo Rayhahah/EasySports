@@ -18,8 +18,9 @@ public class DESEncrypt {
     public static final String ALGORITHM_DES = "DES/CBC/PKCS5Padding";
 
     public static String encode(String key, String data) {
-        if (data == null)
+        if (data == null) {
             return null;
+        }
         try {
             DESKeySpec dks = new DESKeySpec(key.getBytes());
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
@@ -38,8 +39,9 @@ public class DESEncrypt {
     }
 
     public static String decode(String key, String data) {
-        if (data == null)
+        if (data == null) {
             return null;
+        }
         try {
             DESKeySpec dks = new DESKeySpec(key.getBytes());
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
@@ -60,16 +62,18 @@ public class DESEncrypt {
         String stmp;
         for (int n = 0; b != null && n < b.length; n++) {
             stmp = Integer.toHexString(b[n] & 0XFF);
-            if (stmp.length() == 1)
+            if (stmp.length() == 1) {
                 hs.append('0');
+            }
             hs.append(stmp);
         }
         return hs.toString().toUpperCase();
     }
 
     private static byte[] hex2byte(byte[] b) {
-        if ((b.length % 2) != 0)
+        if ((b.length % 2) != 0) {
             throw new IllegalArgumentException();
+        }
         byte[] b2 = new byte[b.length / 2];
         for (int n = 0; n < b.length; n += 2) {
             String item = new String(b, n, 2);

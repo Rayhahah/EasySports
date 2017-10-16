@@ -53,6 +53,8 @@ public class MatchForwardAdapter extends BaseQuickAdapter<MatchStatusBean.StatsB
                     case 13:
 //                        球队数据王
                         return C.MATCH.ITEM_TYPE_FORWARD_MAX;
+                    default:
+                        break;
                 }
                 return 0;
             }
@@ -126,6 +128,8 @@ public class MatchForwardAdapter extends BaseQuickAdapter<MatchStatusBean.StatsB
                 RecyclerView rvHistory = (RecyclerView) helper.getView(R.id.rv_item_forward);
                 rvHistory.setAdapter(historyAdapter);
                 rvHistory.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+                break;
+            default:
                 break;
         }
     }

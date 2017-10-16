@@ -70,7 +70,8 @@ public abstract class PlatformPageAdapter extends ViewPagerAdapter implements On
 		return panelHeight;
 	}
 
-	public int getCount() {
+	@Override
+    public int getCount() {
 		return cells == null ? 0 : cells.length;
 	}
 
@@ -78,14 +79,16 @@ public abstract class PlatformPageAdapter extends ViewPagerAdapter implements On
 		vInd = view;
 	}
 
-	public void onScreenChange(int currentScreen, int lastScreen) {
+	@Override
+    public void onScreenChange(int currentScreen, int lastScreen) {
 		if (vInd != null) {
 			vInd.setScreenCount(getCount());
 			vInd.onScreenChange(currentScreen, lastScreen);
 		}
 	}
 
-	public View getView(int index, View convertView, ViewGroup parent) {
+	@Override
+    public View getView(int index, View convertView, ViewGroup parent) {
 		if (convertView == null) {
 			convertView = createPanel(parent.getContext());
 		}
@@ -202,7 +205,8 @@ public abstract class PlatformPageAdapter extends ViewPagerAdapter implements On
 		}
 	}
 
-	public void onClick(View v) {
+	@Override
+    public void onClick(View v) {
 		long time = System.currentTimeMillis();
 		if (time - lastClickTime < MIN_CLICK_INTERVAL) {
 			return;
