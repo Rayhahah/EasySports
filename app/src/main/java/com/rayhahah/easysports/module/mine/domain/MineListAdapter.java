@@ -1,5 +1,6 @@
 package com.rayhahah.easysports.module.mine.domain;
 
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 
@@ -29,16 +30,18 @@ public class MineListAdapter extends BaseQuickAdapter<MineListBean, BaseViewHold
     protected void convert(BaseViewHolder helper, MineListBean item) {
         switch (item.getType()) {
             case MineListBean.TYPE_NULL:
-                helper.setVisible(R.id.view_mine_list_empty, true)
-                        .setVisible(R.id.iv_mine_list_goto, true)
-                        .setVisible(R.id.tv_mine_list_desc, false)
-                        .setVisible(R.id.cb_mine_list_theme, false);
+
+                helper.getView(R.id.view_mine_list_empty).setVisibility(View.VISIBLE);
+                helper.getView(R.id.iv_mine_list_goto).setVisibility(View.VISIBLE);
+                helper.getView(R.id.tv_mine_list_desc).setVisibility(View.GONE);
+                helper.getView(R.id.cb_mine_list_theme).setVisibility(View.GONE);
                 break;
             case MineListBean.TYPE_CHECKBOX:
-                helper.setVisible(R.id.view_mine_list_empty, true)
-                        .setVisible(R.id.iv_mine_list_goto, false)
-                        .setVisible(R.id.tv_mine_list_desc, false)
-                        .setVisible(R.id.cb_mine_list_theme, true);
+
+                helper.getView(R.id.view_mine_list_empty).setVisibility(View.VISIBLE);
+                helper.getView(R.id.iv_mine_list_goto).setVisibility(View.GONE);
+                helper.getView(R.id.tv_mine_list_desc).setVisibility(View.GONE);
+                helper.getView(R.id.cb_mine_list_theme).setVisibility(View.VISIBLE);
                 if (MyApp.isNightTheme()) {
                     helper.setChecked(R.id.cb_mine_list_theme, true);
                 } else {
@@ -53,10 +56,10 @@ public class MineListAdapter extends BaseQuickAdapter<MineListBean, BaseViewHold
 
                 break;
             case MineListBean.TYPE_TEXTVIEW:
-                helper.setVisible(R.id.view_mine_list_empty, false)
-                        .setVisible(R.id.iv_mine_list_goto, true)
-                        .setVisible(R.id.tv_mine_list_desc, true)
-                        .setVisible(R.id.cb_mine_list_theme, false);
+                helper.getView(R.id.view_mine_list_empty).setVisibility(View.GONE);
+                helper.getView(R.id.iv_mine_list_goto).setVisibility(View.VISIBLE);
+                helper.getView(R.id.tv_mine_list_desc).setVisibility(View.VISIBLE);
+                helper.getView(R.id.cb_mine_list_theme).setVisibility(View.GONE);
                 break;
             default:
                 break;

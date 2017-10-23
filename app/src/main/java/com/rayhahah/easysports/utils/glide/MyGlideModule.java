@@ -1,13 +1,12 @@
 package com.rayhahah.easysports.utils.glide;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
+import com.bumptech.glide.module.GlideModule;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -26,60 +25,23 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
  * └────┴────┴────┴───────────────────────┴────┴────┴────┴────┘└───┴───┴───┘└───────┴───┴───┘
  *
  * @author Rayhahah
- * @time 2017/7/25
+ * @blog http://rayhahah.com
+ * @time 2017/10/18
  * @tips 这个类是Object的子类
- * @fuction Glide加载图片资源后转化成圆形
+ * @fuction
  */
-public class GlideCircleTransform extends BitmapTransformation {
-    public GlideCircleTransform(Context context) {
-        super(context);
-    }
-
-    /**
-     * @param pool        服用Bitmap的缓冲池
-     * @param toTransform 需要变换的图片
-     * @param outWidth    图像的宽
-     * @param outHeight   图像的高
-     * @return
-     */
+public class MyGlideModule implements GlideModule {
     @Override
-    protected Bitmap transform(BitmapPool pool, Bitmap toTransform, int outWidth, int outHeight) {
-        return circleCrop(pool, toTransform);
+    public void applyOptions(Context context, GlideBuilder builder) {
+        //保存在 SDCard/Android/data/com.rayhahah.easysports/cache/glide目录下
+        //缓存大小500M（超过就会按照LruCache算法清除）
+        builder.setDiskCache(new ExternalCacheDiskCacheFactory(context, "glide", 500 * 1024 * 1024));
+        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);
+
     }
 
-    private static Bitmap circleCrop(BitmapPool pool, Bitmap source) {
-        if (source == null) {
-            return null;
-        }
-
-        int size = Math.min(source.getWidth(), source.getHeight());
-        int x = (source.getWidth() - size) / 2;
-        int y = (source.getHeight() - size) / 2;
-
-        Bitmap squared = Bitmap.createBitmap(source, x, y, size, size);
-
-        Bitmap result = pool.get(size, size, Bitmap.Config.ARGB_8888);
-        if (result == null) {
-            result = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(result);
-        Paint paint = new Paint();
-        paint.setShader(new BitmapShader(squared, BitmapShader.TileMode.CLAMP, BitmapShader.TileMode.CLAMP));
-        paint.setAntiAlias(true);
-        float r = size / 2f;
-        canvas.drawCircle(r, r, r, paint);
-        return result;
-    }
-
-    /**
-     * 每个Transformation的标识ID
-     * 一般以本类名称即可
-     *
-     * @return
-     */
     @Override
-    public String getId() {
-        return getClass().getName();
+    public void registerComponents(Context context, Glide glide) {
+
     }
 }

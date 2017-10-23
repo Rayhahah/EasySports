@@ -20,6 +20,7 @@ import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.rbase.base.RBasePresenter;
 import com.rayhahah.rbase.net.download.ProgressListener;
 import com.rayhahah.rbase.utils.base.FileUtils;
+import com.rayhahah.rbase.utils.base.ToastUtils;
 import com.rayhahah.rbase.utils.useful.SPManager;
 
 import java.io.File;
@@ -169,6 +170,8 @@ public class AccountPresenter extends RBasePresenter<AccountContract.IAccountVie
                     SPManager.get().putString(C.SP.HUPU_NICKNAME, data.nickname);
 
                     mView.updateInfoSuccess("绑定成功");
+                }else{
+                    ToastUtils.showShort("绑定失败");
                 }
             }
         }, new Consumer<Throwable>() {

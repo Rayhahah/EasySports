@@ -204,6 +204,7 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
                                 }
                             });
                         }
+
                         @Override
                         public void onPermissionDenied(int requestCode) {
                             ToastUtils.showShort("请授权，否则无法开启该功能");

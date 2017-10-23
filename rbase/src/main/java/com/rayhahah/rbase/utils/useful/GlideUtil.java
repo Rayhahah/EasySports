@@ -14,9 +14,8 @@ import com.bumptech.glide.load.engine.Resource;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.ViewPropertyAnimation;
 import com.rayhahah.rbase.BaseApplication;
-import com.rayhahah.rbase.utils.base.ThreadUtil;
-
 import com.rayhahah.rbase.R;
+import com.rayhahah.rbase.utils.base.ThreadUtil;
 
 /**
  * Gilde管理类
@@ -156,9 +155,11 @@ public class GlideUtil {
                 .priority(priority)
                 .animate(animator)//动画
                 .bitmapTransform(transformation)//图形转换
-                .diskCacheStrategy(DiskCacheStrategy.ALL)//全部启用缓存
+                .diskCacheStrategy(DiskCacheStrategy.ALL)//全部启用硬盘缓存
                 .crossFade(crossDuration)
-//                .override(100,100)//指定成100*100像素的图片
+//                .dontTransform()//取消图形变换
+//                .skipMemoryCache(true)//是否开启内存缓存，默认开启
+//                .override(Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAL)//指定成图片原有像素的图片
                 .into(target);
     }
 

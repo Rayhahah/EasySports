@@ -7,9 +7,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
+import android.support.annotation.Px;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Scroller;
 
 import com.rayhahah.easysports.R;
 import com.rayhahah.rbase.utils.base.ConvertUtils;
@@ -33,6 +35,7 @@ public class IndexBar extends View {
     private float mSingleHeight;
     private int lastIndex;
     private boolean isFirst = true;
+    private Scroller mScroller;
 
     public IndexBar(Context context) {
         super(context, null);
@@ -48,6 +51,16 @@ public class IndexBar extends View {
         super(context, attrs, defStyleAttr);
         initAttr(context, attrs, defStyleAttr);
         initPaint();
+    }
+
+    @Override
+    public void scrollBy(@Px int x, @Px int y) {
+        super.scrollBy(x, y);
+    }
+
+    @Override
+    public void scrollTo(@Px int x, @Px int y) {
+        super.scrollTo(x, y);
     }
 
     /**
@@ -193,5 +206,6 @@ public class IndexBar extends View {
     public interface OnTouchIndexListner {
         void onIndexChanged(int index, String letter);
     }
+
 
 }
