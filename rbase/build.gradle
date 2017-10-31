@@ -30,6 +30,7 @@ android {
         exclude 'META-INF/rxjava.properties'
     }
 
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {
@@ -56,7 +57,7 @@ dependencies {
     compile dependencies.glide
     compile dependencies.bnb
     compile dependencies.bravh
-    compile dependencies.greenDao
+//    compile dependencies.greenDao
     compile dependencies.greenDaoUpgradeHelper
 
     compile dependencies.eventbus
