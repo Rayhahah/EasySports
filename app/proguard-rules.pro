@@ -23,3 +23,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#greenDAO
+#AS3.0以后需要强制配置，否则会报错：  java.lang.NoClassDefFoundError: org.greenrobot.greendao.database.DatabaseOpenHelper$EncryptedHelper
+-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+public static java.lang.String TABLENAME;
+}
+-keep class **$Properties

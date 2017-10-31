@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
     <style name="bottomDialogStyle" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -13,9 +14,9 @@
     </style>
 
     <style name="bottomDialogAnim" parent="android:Animation">
-        <item name="@android:windowEnterAnimation">@anim/bottom_dialog_enter
+        <item name="android:windowEnterAnimation">@anim/bottom_dialog_enter
         </item>
-        <item name="@android:windowExitAnimation">@anim/bottom_dialog_exit
+        <item name="android:windowExitAnimation">@anim/bottom_dialog_exit
         </item>
     </style>
 
@@ -31,9 +32,9 @@
     </style>
 
     <style name="normalDialogAnim" parent="android:Animation">
-        <item name="@android:windowEnterAnimation">@anim/normal_dialog_enter
+        <item name="android:windowEnterAnimation">@anim/normal_dialog_enter
         </item>
-        <item name="@android:windowExitAnimation">@anim/normal_dialog_exit
+        <item name="android:windowExitAnimation">@anim/normal_dialog_exit
         </item>
     </style>
 
@@ -49,9 +50,9 @@
     </style>
 
     <style name="bottomLoadingDialogAnim" parent="android:Animation">
-        <item name="@android:windowEnterAnimation">@anim/bottom_loading_dialog_enter
+        <item name="android:windowEnterAnimation">@anim/bottom_loading_dialog_enter
         </item>
-        <item name="@android:windowExitAnimation">@anim/bottom_loading_dialog_exit
+        <item name="android:windowExitAnimation">@anim/bottom_loading_dialog_exit
         </item>
     </style>
 

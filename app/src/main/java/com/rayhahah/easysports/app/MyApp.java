@@ -100,7 +100,7 @@ public class MyApp extends BaseApplication {
 
 //        initCrashHandler();
         initRetrofit();
-        MobSDK.init(mAppContext,"1f9794709477b","9bfa1e4458daf2c82e4bd67e0dd0869a");
+        MobSDK.init(mAppContext, "1f9794709477b", "9bfa1e4458daf2c82e4bd67e0dd0869a");
 
         initSonic();
 
@@ -198,9 +198,9 @@ public class MyApp extends BaseApplication {
         // 可能你已经注意到了，你并不需要去编写「CREATE TABLE」这样的 SQL 语句，因为greenDAO 已经帮你做了。
         // 注意：默认的DaoMaster.DevOpenHelper 会在数据库升级时，删除所有的表，意味着这将导致数据的丢失。
         // 所以，在正式的项目中，你还应该做一层封装，来实现数据库的安全升级。
-//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, C.DB_EASYSPORTS, null);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, C.DB_EASYSPORTS, null);
         //创建数据库db"
-        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this, C.DB_EASYSPORTS, null);
+//        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this, C.DB_EASYSPORTS, null);
         //获取可写数据库
         SQLiteDatabase db = helper.getWritableDatabase();
         //获取数据库对象
