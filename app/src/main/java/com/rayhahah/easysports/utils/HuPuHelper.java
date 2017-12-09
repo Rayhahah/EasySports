@@ -41,7 +41,7 @@ public class HuPuHelper {
         map.put("client", C.DEVICE_ID);
         map.put("night", "0");
         try {
-            map.put("token", URLEncoder.encode(SPManager.get().getStringValue(C.SP.TOKEN), "UTF-8"));
+            map.put("token", URLEncoder.encode(SPManager.get().getStringValue(C.SP.HUPU_TOKEN), "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

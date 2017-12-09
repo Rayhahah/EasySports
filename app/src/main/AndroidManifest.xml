@@ -72,6 +72,11 @@
             android:name=".zxing.app.CaptureActivity"
             android:screenOrientation="portrait"/>
 
+        <!--Glide自定义模块-->
+        <meta-data
+            android:name="com.rayhahah.easysports.utils.glide.MyGlideModule"
+            android:value="GlideModule"/>
+
         <!-- 阿里云移动热修复 -->
         <meta-data
             android:name="com.taobao.android.hotfix.IDSECRET"

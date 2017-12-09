@@ -55,6 +55,7 @@ public class ForumDetailFragment extends BaseFragment<ForumDetailPresenter, Frag
         url = getValueFromPrePage("url");
         iniPL();
         mBinding.pl.showLoading(mBinding.wvHupu);
+        mBinding.wvHupu.setActivity(getActivity());
         mBinding.wvHupu.loadUrl(url);
         mBinding.wvHupu.setCallBack(this);
         mBinding.wvHupu.setOnScrollChangedCallback(this);

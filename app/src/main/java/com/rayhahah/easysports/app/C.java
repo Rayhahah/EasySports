@@ -61,7 +61,7 @@ public class C {
         String TECENT_VIDEO_SERVER_H5 = "http://h5vv.video.qq.com";
         String TECENT_SERVER = "http://sportsnba.qq.com";
         String TMIAAO_SERVER = "http://nba.tmiaoo.com";
-        String RAYMALL = "http://rayhahah.com:8080/raymall/";
+        String RAYMALL = "http://mall.rayhahah.com/";
         //        String RAYMALL = "http://rayhahah.s1.natapp.cc/raymall/";
         String RAY_FTP = "ftp://88.128.18.163:21/raymall/";
     }
@@ -84,7 +84,7 @@ public class C {
         String IS_LOGIN = "IS_LOGIN";
         String TAG_MINE_SELECTED = "TAG_MINE_SELECTED";
         String CURRENT_USER = "CURRENT_USER";
-        String TOKEN = "TOKEN";
+        String HUPU_TOKEN = "TOKEN";
         String HUPU_UID = "uid";
         String HUPU_NICKNAME = "HUPU_NICKNAME";
 
@@ -241,6 +241,9 @@ public class C {
         int CODE_CHOOSE_PHOTO = 102;
         int PERMISSION_PHOTO = 1001;
         int PERMISSION_CAMERA = 1002;
+        String DEFAULT_HUPU_NICKNAME = "Rayhahaha";
+        String DEFAULT_HUPU_UID = "31362159";
+        String DEFAULT_HUPU_TOKEN = "MzEzNjIxNTg=|MTUxMjc5NTc2MA==|5b0cf4bbdca9f34e45b4b1017ff93732";
     }
 
     @Retention(RetentionPolicy.SOURCE)

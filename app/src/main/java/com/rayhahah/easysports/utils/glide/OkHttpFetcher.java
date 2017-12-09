@@ -1,17 +1,18 @@
 package com.rayhahah.easysports.utils.glide;
 
-import android.content.Context;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
-import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.data.DataFetcher;
 import com.bumptech.glide.load.model.GlideUrl;
-import com.bumptech.glide.module.GlideModule;
-import com.rayhahah.easysports.net.glide.ProgressInterceptor;
+import com.bumptech.glide.util.ContentLengthInputStream;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -31,48 +32,66 @@ import okhttp3.OkHttpClient;
  *
  * @author Rayhahah
  * @blog http://rayhahah.com
- * @time 2017/10/18
+ * @time 2017/12/7
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class MyGlideModule implements GlideModule {
-    @Override
-    public void applyOptions(Context context, GlideBuilder builder) {
-        //保存在 SDCard/Android/data/com.rayhahah.easysports/cache/glide目录下
-        //缓存大小500M（超过就会按照LruCache算法清除）
-        builder.setDiskCache(new ExternalCacheDiskCacheFactory(context, "glide", 500 * 1024 * 1024));
-//        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);
+public class OkHttpFetcher implements DataFetcher<InputStream> {
 
+    private final OkHttpClient client;
+    private final GlideUrl url;
+    private InputStream stream;
+    private ResponseBody responseBody;
+    private volatile boolean isCancelled;
+
+    public OkHttpFetcher(OkHttpClient client, GlideUrl url) {
+        this.client = client;
+        this.url = url;
     }
 
     @Override
-    public void registerComponents(Context context, Glide glide) {
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new ProgressInterceptor())
-                .build();
-        glide.register(GlideUrl.class, InputStream.class, new OkHttpGlideUrlLoader.Factory(okHttpClient));
-//        String url = "";
-//        ImageView view = new ImageView(context);
-//        ProgressInterceptor.addListener(url, new ProgressListener() {
-//            @Override
-//            public void onProgress(int progress) {
-//
-//            }
-//        });
-//        Glide.with(context)
-//                .load(url)
-//                .into(new GlideDrawableImageViewTarget(view) {
-//                    @Override
-//                    public void onLoadStarted(Drawable placeholder) {
-//                        super.onLoadStarted(placeholder);
-//                    }
-//
-//                    @Override
-//                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
-//                        super.onResourceReady(resource, animation);
-//                    }
-//                });
+    public InputStream loadData(Priority priority) throws Exception {
+        Request.Builder requestBuilder = new Request.Builder()
+                .url(url.toStringUrl());
+        for (Map.Entry<String, String> headerEntry : url.getHeaders().entrySet()) {
+            String key = headerEntry.getKey();
+            requestBuilder.addHeader(key, headerEntry.getValue());
+        }
+        Request request = requestBuilder.build();
+        if (isCancelled) {
+            return null;
+        }
+        Response response = client.newCall(request).execute();
+        responseBody = response.body();
+        if (!response.isSuccessful() || responseBody == null) {
+            throw new IOException("Request failed with code: " + response.code());
+        }
+        stream = ContentLengthInputStream.obtain(responseBody.byteStream(),
+                responseBody.contentLength());
+        return stream;
+    }
 
+    @Override
+    public void cleanup() {
+        try {
+            if (stream != null) {
+                stream.close();
+            }
+            if (responseBody != null) {
+                responseBody.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public String getId() {
+        return url.getCacheKey();
+    }
+
+    @Override
+    public void cancel() {
+        isCancelled = true;
     }
 }

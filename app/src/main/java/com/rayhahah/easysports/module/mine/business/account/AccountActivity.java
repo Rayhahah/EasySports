@@ -98,7 +98,7 @@ public class AccountActivity extends BaseActivity<AccountPresenter, ActivityAcco
             case R.id.btn_account_logout:
                 SPManager.get().putString(C.SP.CURRENT_USER, C.NULL);
                 SPManager.get().putString(C.SP.IS_LOGIN, C.FALSE);
-                SPManager.get().putString(C.SP.TOKEN, C.NULL);
+                SPManager.get().putString(C.SP.HUPU_TOKEN, C.NULL);
                 SPManager.get().putString(C.SP.HUPU_NICKNAME, C.NULL);
                 SPManager.get().putString(C.SP.HUPU_UID, C.NULL);
 
