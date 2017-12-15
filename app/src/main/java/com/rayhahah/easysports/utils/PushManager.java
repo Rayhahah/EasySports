@@ -367,9 +367,9 @@ public class PushManager {
      */
     public void stopRtmpPublish() {
         if (mLivePusher != null) {
-//            mLivePusher.stopCameraPreview(true); //停止摄像头预览
+            mLivePusher.stopCameraPreview(true); //停止摄像头预览
             mLivePusher.stopPusher();            //停止推流
-//            mLivePusher.stopScreenCapture();//停止录屏
+            mLivePusher.stopScreenCapture();//停止录屏
             mLivePusher.setPushListener(null);   //解绑 listener
             mLivePushConfig.setPauseImg(null);
         }

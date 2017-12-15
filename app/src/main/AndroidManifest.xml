@@ -44,7 +44,9 @@
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/AppDayTheme">
-        <activity android:name=".module.SplashActivity">
+        <activity android:name=".module.SplashActivity"
+            android:theme="@style/AppWelcome"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
