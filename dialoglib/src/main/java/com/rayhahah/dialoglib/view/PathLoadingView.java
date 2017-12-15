@@ -65,13 +65,13 @@ public class PathLoadingView extends View implements Animator.AnimatorListener {
     private ValueAnimator mXRotateVa;
 
     public PathLoadingView(Context context) {
-        super(context, null);
-        initParams();
+        this(context, null);
+//        initParams();
     }
 
     public PathLoadingView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs, 0);
-        initParams();
+        this(context, attrs, 0);
+//        initParams();
     }
 
     public PathLoadingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -197,6 +197,14 @@ public class PathLoadingView extends View implements Animator.AnimatorListener {
         mPaint.setStrokeWidth(mStrokeWidth);
         mPaint.setAntiAlias(true);//抗锯齿
         mPaint.setDither(true);//防抖动
+        /**
+         * 线头形状有三种：BUTT 平头、ROUND 圆头、SQUARE 方头。默认为 BUTT。
+         */
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        /**
+         *设置拐角的形状：MITER 尖角、 BEVEL 平角和 ROUND 圆角。默认为 MITER。
+         */
+        mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setColor(mColor);
         mPaint.setMaskFilter(new BlurMaskFilter(20, BlurMaskFilter.Blur.OUTER));
         //CornerPathEffect 圆角笔刷

@@ -8,6 +8,7 @@
     >
 
     <RelativeLayout
+        android:id="@+id/rl_splash"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorBg"

@@ -214,20 +214,6 @@ public abstract class RBaseActivity<T extends RBasePresenter, V extends ViewData
         if (fm == null) {
             fm = getSupportFragmentManager();
         }
-        /**
-         * 参数传递
-         */
-//        Bundle bundle = new Bundle();
-//        Iterator it = paramMap.keySet().iterator();
-//        while (it.hasNext()) {
-//            Object obj = it.next();
-//            if (obj != null) {
-//                String key = String.valueOf(obj);
-//                String value = paramMap.get(key);
-//                bundle.putString(key, value);
-//            }
-//        }
-
         FragmentTransaction transaction = fm.beginTransaction();
         //Fragment添加
         if (!fragment.isAdded()) {

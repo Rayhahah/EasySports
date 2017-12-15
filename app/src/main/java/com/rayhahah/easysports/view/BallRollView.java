@@ -116,7 +116,6 @@ public class BallRollView extends View {
             canvas.drawCircle(mBallRadius + mBallOffset + i * mBallSize + mOffSet / 2, 0, mBallRadius, mBallPaint);
         }
         canvas.restore();
-
     }
 
     /**

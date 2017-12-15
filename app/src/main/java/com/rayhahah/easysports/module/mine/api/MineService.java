@@ -1,7 +1,6 @@
 package com.rayhahah.easysports.module.mine.api;
 
 import com.rayhahah.easysports.module.mine.bean.ESUser;
-import com.rayhahah.easysports.module.mine.bean.HupuUserData;
 import com.rayhahah.easysports.module.mine.bean.LiveBean;
 import com.rayhahah.easysports.module.mine.bean.PlayerListBean;
 import com.rayhahah.easysports.module.mine.bean.PushBean;
@@ -12,11 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by a on 2017/5/16.
@@ -155,10 +156,15 @@ public interface MineService {
     @GET("/team/list")
     Observable<TeamListBean> getTeamList();
 
+//    @FormUrlEncoded
+//    @POST("user/loginUsernameEmail")
+//    Observable<HupuUserData> login(@FieldMap Map<String, String> params,
+//                                   @Field("client") String client);
+
     @FormUrlEncoded
     @POST("user/loginUsernameEmail")
-    Observable<HupuUserData> login(@FieldMap Map<String, String> params,
-                                   @Field("client") String client);
+    Observable<ResponseBody> login(@FieldMap Map<String, String> params,
+                                   @Query("client") String client);
 
 
 }

@@ -4,6 +4,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ThreadPoolExecutor;
 
 
 /**
@@ -28,6 +30,10 @@ public class ThreadUtil {
 
     private static int FIX_POOL = 10;
     private static volatile ExecutorService mExecutorService;
+    /**
+     * The default rejected execution handler.
+     */
+    private static final RejectedExecutionHandler defaultHandler = new ThreadPoolExecutor.AbortPolicy();
 
     private ThreadUtil() {
     }
@@ -36,7 +42,11 @@ public class ThreadUtil {
         if (mExecutorService == null) {
             synchronized (ThreadUtil.class) {
                 if (mExecutorService == null) {
+                    //效果是一样的
                     mExecutorService = Executors.newFixedThreadPool(FIX_POOL);
+//                    mExecutorService = new ThreadPoolExecutor(FIX_POOL, FIX_POOL,
+//                            0L, TimeUnit.MILLISECONDS,
+//                            new LinkedBlockingQueue<Runnable>(), Executors.defaultThreadFactory(),defaultHandler);
                 }
             }
         }

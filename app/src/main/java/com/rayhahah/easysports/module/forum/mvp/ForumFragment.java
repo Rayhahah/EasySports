@@ -78,7 +78,7 @@ public class ForumFragment extends BaseFragment<ForumPresenter, FragmentForumBin
 
     private void initBtn() {
         mBinding.btnForumBindHupu.setOnClickListener(this);
-        if (C.NULL.equals(SPManager.get().getStringValue(C.SP.TOKEN))) {
+        if (C.NULL.equals(SPManager.get().getStringValue(C.SP.HUPU_TOKEN))) {
             mBinding.rvForumList.setVisibility(View.GONE);
             mBinding.pl.setVisibility(View.GONE);
             mBinding.btnForumBindHupu.setVisibility(View.VISIBLE);

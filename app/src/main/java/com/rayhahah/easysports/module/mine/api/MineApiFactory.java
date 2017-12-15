@@ -2,7 +2,6 @@ package com.rayhahah.easysports.module.mine.api;
 
 import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.module.mine.bean.ESUser;
-import com.rayhahah.easysports.module.mine.bean.HupuUserData;
 import com.rayhahah.easysports.module.mine.bean.LiveBean;
 import com.rayhahah.easysports.module.mine.bean.PlayerListBean;
 import com.rayhahah.easysports.module.mine.bean.PushBean;
@@ -16,6 +15,7 @@ import com.rayhahah.rbase.utils.useful.RxSchedulers;
 import java.util.HashMap;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 
 
 /**
@@ -123,19 +123,25 @@ public class MineApiFactory {
                 .compose(RxSchedulers.<LiveBean>ioMain());
     }
 
-    public static Observable<HupuUserData> loginHupu(String userName, String password) {
+    public static Observable<ResponseBody> loginHupu(String userName, String password) {
         HashMap<String, String> params = new HashMap<>();
-        params.put("client", C.DEVICE_ID);
+//        params.put("client", C.DEVICE_ID);
+        params.put("client", "864444036940802");
         params.put("username", userName);
         // TODO: 2017/9/25 后台直接返回非MD5密码，这里就可以不用判断了
         params.put("password", MD5.getMD5(password));
+        params.put("crt", System.currentTimeMillis() + "");
+        params.put("night", "0");
+        params.put("channel", "miui");
+        params.put("android_id", "864c5bdabcd5586a");
+        params.put("time_zone", "Asia/Shanghai");
         String sign = HuPuHelper.getRequestSign(params);
         params.put("sign", sign);
-
+//        params.put("sign", "66e7cf600416efdef3062296442516f5");
         return ApiClient.get(C.BaseURL.HUPU_GAMES_SERVER)
                 .create(MineService.class)
-                .login(params, C.DEVICE_ID)
-                .compose(RxSchedulers.<HupuUserData>ioMain());
+                .login(params, "864444036940802")
+                .compose(RxSchedulers.<ResponseBody>ioMain());
     }
 
 

@@ -17,10 +17,10 @@ import com.rayhahah.easysports.module.mine.bean.MineListBean;
 import com.rayhahah.easysports.module.mine.bean.RResponse;
 import com.rayhahah.easysports.net.ApiFactory;
 import com.rayhahah.easysports.utils.DialogUtil;
+import com.rayhahah.easysports.utils.JsonParser;
 import com.rayhahah.rbase.base.RBasePresenter;
 import com.rayhahah.rbase.net.download.ProgressListener;
 import com.rayhahah.rbase.utils.base.FileUtils;
-import com.rayhahah.rbase.utils.base.ToastUtils;
 import com.rayhahah.rbase.utils.useful.SPManager;
 
 import java.io.File;
@@ -33,6 +33,7 @@ import java.util.Locale;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import okhttp3.ResponseBody;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -156,22 +157,24 @@ public class AccountPresenter extends RBasePresenter<AccountContract.IAccountVie
 
     @Override
     public void loginHupu(String hupuUserName, String hupuPassword) {
-        addSubscription(MineApiFactory.loginHupu(hupuUserName, hupuPassword).subscribe(new Consumer<HupuUserData>() {
+        addSubscription(MineApiFactory.loginHupu(hupuUserName, hupuPassword).subscribe(new Consumer<ResponseBody>() {
             @Override
-            public void accept(@NonNull HupuUserData hupuUserData) throws Exception {
+            public void accept(@NonNull ResponseBody body) throws Exception {
+                String string = body.string();
+                HupuUserData hupuUserData = JsonParser.parseWithGson(HupuUserData.class, string);
                 if (hupuUserData != null && hupuUserData.is_login == 1) { // 登录成功
                     HupuUserData.LoginResult data = hupuUserData.result;
                     String cookie = URLDecoder.decode(C.NULL, "UTF-8");
                     String uid = cookie.split("\\|")[0];
 //                    user.uid = uid;
 //                    user.cookie = cookie;
-                    SPManager.get().putString(C.SP.TOKEN, data.token);
+                    SPManager.get().putString(C.SP.HUPU_TOKEN, data.token);
                     SPManager.get().putString(C.SP.HUPU_UID, data.uid);
                     SPManager.get().putString(C.SP.HUPU_NICKNAME, data.nickname);
 
                     mView.updateInfoSuccess("绑定成功");
-                }else{
-                    ToastUtils.showShort("绑定失败");
+                } else {
+                    mView.updateInfoFailed("绑定失败");
                 }
             }
         }, new Consumer<Throwable>() {

@@ -1,17 +1,16 @@
-package com.rayhahah.easysports.utils.glide;
+package com.rayhahah.easysports.net.glide;
 
-import android.content.Context;
+import android.util.Log;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
-import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
-import com.bumptech.glide.load.model.GlideUrl;
-import com.bumptech.glide.module.GlideModule;
-import com.rayhahah.easysports.net.glide.ProgressInterceptor;
+import java.io.IOException;
 
-import java.io.InputStream;
-
-import okhttp3.OkHttpClient;
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
+import okio.Buffer;
+import okio.BufferedSource;
+import okio.ForwardingSource;
+import okio.Okio;
+import okio.Source;
 
 /**
  * ┌───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┬───┐ ┌───┬───┬───┐
@@ -31,48 +30,72 @@ import okhttp3.OkHttpClient;
  *
  * @author Rayhahah
  * @blog http://rayhahah.com
- * @time 2017/10/18
+ * @time 2017/12/7
  * @tips 这个类是Object的子类
  * @fuction
  */
-public class MyGlideModule implements GlideModule {
-    @Override
-    public void applyOptions(Context context, GlideBuilder builder) {
-        //保存在 SDCard/Android/data/com.rayhahah.easysports/cache/glide目录下
-        //缓存大小500M（超过就会按照LruCache算法清除）
-        builder.setDiskCache(new ExternalCacheDiskCacheFactory(context, "glide", 500 * 1024 * 1024));
-//        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);
+public class ProgressResponseBody  extends ResponseBody {
 
+    private static final String TAG = "ProgressResponseBody";
+
+    private BufferedSource bufferedSource;
+
+    private ResponseBody responseBody;
+
+    private ProgressListener listener;
+
+    public ProgressResponseBody(String url, ResponseBody responseBody) {
+        this.responseBody = responseBody;
+        listener = ProgressInterceptor.LISTENER_MAP.get(url);
     }
 
     @Override
-    public void registerComponents(Context context, Glide glide) {
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new ProgressInterceptor())
-                .build();
-        glide.register(GlideUrl.class, InputStream.class, new OkHttpGlideUrlLoader.Factory(okHttpClient));
-//        String url = "";
-//        ImageView view = new ImageView(context);
-//        ProgressInterceptor.addListener(url, new ProgressListener() {
-//            @Override
-//            public void onProgress(int progress) {
-//
-//            }
-//        });
-//        Glide.with(context)
-//                .load(url)
-//                .into(new GlideDrawableImageViewTarget(view) {
-//                    @Override
-//                    public void onLoadStarted(Drawable placeholder) {
-//                        super.onLoadStarted(placeholder);
-//                    }
-//
-//                    @Override
-//                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> animation) {
-//                        super.onResourceReady(resource, animation);
-//                    }
-//                });
+    public MediaType contentType() {
+        return responseBody.contentType();
+    }
 
+    @Override
+    public long contentLength() {
+        return responseBody.contentLength();
+    }
 
+    @Override
+    public BufferedSource source() {
+        if (bufferedSource == null) {
+            bufferedSource = Okio.buffer(new ProgressSource(responseBody.source()));
+        }
+        return bufferedSource;
+    }
+
+    private class ProgressSource extends ForwardingSource {
+
+        long totalBytesRead = 0;
+
+        int currentProgress;
+
+        ProgressSource(Source source) {
+            super(source);
+        }
+
+        @Override
+        public long read(Buffer sink, long byteCount) throws IOException {
+            long bytesRead = super.read(sink, byteCount);
+            long fullLength = responseBody.contentLength();
+            if (bytesRead == -1) {
+                totalBytesRead = fullLength;
+            } else {
+                totalBytesRead += bytesRead;
+            }
+            int progress = (int) (100f * totalBytesRead / fullLength);
+            Log.d(TAG, "download progress is " + progress);
+            if (listener != null && progress != currentProgress) {
+                listener.onProgress(progress);
+            }
+            if (listener != null && totalBytesRead == fullLength) {
+                listener = null;
+            }
+            currentProgress = progress;
+            return bytesRead;
+        }
     }
 }

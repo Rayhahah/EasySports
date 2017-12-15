@@ -7,6 +7,7 @@ import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.common.BaseActivity;
 import com.rayhahah.easysports.databinding.ActivitySplashBinding;
 import com.rayhahah.easysports.module.home.HomeActivity;
+import com.rayhahah.easysports.utils.AnimatorUtil;
 import com.rayhahah.rbase.base.RBasePresenter;
 import com.rayhahah.rbase.utils.useful.GlideUtil;
 import com.rayhahah.rbase.utils.useful.RxSchedulers;
@@ -40,6 +41,7 @@ public class SplashActivity extends BaseActivity<RBasePresenter, ActivitySplashB
 
     @Override
     protected void initEventAndData(Bundle savedInstanceState) {
+        AnimatorUtil.animAplhaIn(mBinding.rlSplash,1000,null);
         timer = Observable
                 .interval(0, 1, TimeUnit.SECONDS)
                 .take(count + 1)
