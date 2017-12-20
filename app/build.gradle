@@ -55,13 +55,13 @@ android {
                         //如果不是jenkins就不用修改路径
                         if ("false".equals(IS_JENKINS)) {
                             def fileName = "EasySport_${defaultConfig.versionName}_${releaseTime()}_${variant.flavorName}.apk"
-                            outputFileName = new File(outputFile.parent, fileName)
+                            outputFileName = new File("/local", fileName)
 //                            output.outputFile = new File(outputFile.parent, fileName)
                         } else {
                             def fileName = "EasySport_${RELEASE_TIME}_${defaultConfig.versionName}_${PRODUCT_FLAVOR}_.apk"
                             //服务器上的路径
                             //适配AS3.0
-                            outputFileName = new File("E:/android/apk/easysports/upload", fileName)
+                            outputFileName = new File("/upload", fileName)
 //                            output.outputFile = new File("E:/android/apk/easysports/upload", fileName)
                         }
                     }
@@ -75,7 +75,7 @@ android {
                             def fileName = "EasySport_${RELEASE_TIME}_${defaultConfig.versionName}_${PRODUCT_FLAVOR}_debug.apk"
                             //服务器上的路径
                             //适配AS3.0
-                            outputFileName = new File("E:/android/apk/easysports/upload", fileName)
+                            outputFileName = new File("/upload", fileName)
 //                            output.outputFile = new File("E:/android/apk/easysports/upload", fileName)
                         }
                     }
