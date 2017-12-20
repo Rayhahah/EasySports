@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.rayhahah.easysports">
 
     <!-- 允许联网 -->
@@ -44,35 +45,6 @@
         android:roundIcon="@mipmap/ic_logo"
         android:supportsRtl="true"
         android:theme="@style/AppDayTheme">
-        <activity android:name=".module.SplashActivity"
-            android:theme="@style/AppWelcome"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <!-- JieCaoPlayer对屏幕的设定 orientation|keyboardHidden|screenSize -->
-        <activity
-            android:name=".module.home.HomeActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity android:name=".common.RWebActivity">
-        </activity>
-        <activity android:name=".module.news.business.newsdetail.NewsDetailActivity">
-        </activity>
-        <activity android:name=".module.mine.business.teamplayer.SingleListActivity">
-        </activity>
-        <activity android:name=".module.mine.business.login.LoginActivity">
-        </activity>
-        <activity android:name=".module.mine.business.account.AccountActivity">
-        </activity>
-        <activity
-            android:name=".zxing.app.CaptureActivity"
-            android:screenOrientation="portrait"/>
 
         <!--Glide自定义模块-->
         <meta-data
@@ -97,6 +69,47 @@
         <meta-data
             android:name="Mob-AppSecret"
             android:value="9bfa1e4458daf2c82e4bd67e0dd0869a"/>
+        <!--腾讯加固需要的渠道标识-->
+        <meta-data
+            android:name="CHANNEL"
+            android:value="channel"
+            tools:replace="android:value"/>
+
+        <activity
+            android:name=".module.SplashActivity"
+            android:theme="@style/AppWelcome"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <!-- JieCaoPlayer对屏幕的设定 orientation|keyboardHidden|screenSize -->
+        <activity
+            android:name=".module.home.HomeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".common.RWebActivity"
+            android:process=":remoteweb"
+            >
+        </activity>
+        <activity android:name=".module.news.business.newsdetail.NewsDetailActivity">
+        </activity>
+        <activity android:name=".module.mine.business.teamplayer.SingleListActivity">
+        </activity>
+        <activity android:name=".module.mine.business.login.LoginActivity">
+        </activity>
+        <activity android:name=".module.mine.business.account.AccountActivity">
+        </activity>
+        <activity
+            android:name=".zxing.app.CaptureActivity"
+            android:screenOrientation="portrait"/>
+
+
         <!-- ShareSDK的activity -->
         <activity
             android:name="com.mob.tools.MobUIShell"
