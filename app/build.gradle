@@ -1,6 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -12,7 +16,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 3
-        versionName "1.1.1"
+        versionName "1.1.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -22,10 +26,61 @@ android {
         }
 
     }
+    signingConfigs {
+        config {
+            storeFile file("rayhahah.keystore")
+            storePassword '19940531coding'
+            keyAlias "rayhahah"
+            keyPassword '19940531coding'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+//            useProguard false
+            minifyEnabled false
+            signingConfig signingConfigs.config
+        }
+
+
+        applicationVariants.all { variant ->
+            if (variant.buildType.name.equals('release')) {
+                variant.outputs.all { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        //如果不是jenkins就不用修改路径
+                        if ("false".equals(IS_JENKINS)) {
+                            def fileName = "EasySport_${defaultConfig.versionName}_${releaseTime()}_${variant.flavorName}.apk"
+                            outputFileName = new File(outputFile.parent, fileName)
+//                            output.outputFile = new File(outputFile.parent, fileName)
+                        } else {
+                            def fileName = "EasySport_${RELEASE_TIME}_${defaultConfig.versionName}_${PRODUCT_FLAVOR}_.apk"
+                            //服务器上的路径
+                            //适配AS3.0
+                            outputFileName = new File("E:/android/apk/easysports/upload", fileName)
+//                            output.outputFile = new File("E:/android/apk/easysports/upload", fileName)
+                        }
+                    }
+                }
+            } else {
+                variant.outputs.all { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        //如果是jenkins就修改路径
+                        if ("true".equals(IS_JENKINS)) {
+                            def fileName = "EasySport_${RELEASE_TIME}_${defaultConfig.versionName}_${PRODUCT_FLAVOR}_debug.apk"
+                            //服务器上的路径
+                            //适配AS3.0
+                            outputFileName = new File("E:/android/apk/easysports/upload", fileName)
+//                            output.outputFile = new File("E:/android/apk/easysports/upload", fileName)
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -53,11 +108,30 @@ android {
         abortOnError false
     }
 
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
+
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
 
-    buildToolsVersion '26.0.2'
+    flavorDimensions "default"
+    productFlavors {
+        official {
+            dimension "default"
+            manifestPlaceholders = [CHANNEL: "OFFICIAL"]
+        }
+        xiaomi {
+            dimension "default"
+            manifestPlaceholders = [CHANNEL: "XIAOMI"]
+        }
+        yingyongbao {
+            dimension "default"
+            manifestPlaceholders = [CHANNEL: "YINGYONGBAO"]
+        }
+    }
 }
 
 dependencies {

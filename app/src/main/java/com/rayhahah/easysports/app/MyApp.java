@@ -36,6 +36,8 @@ public class MyApp extends BaseApplication {
 
 
     private static DaoSession daoSession;
+    public static LocalUser mCurrentUser;
+
     private RCrashHandler.CrashUploader mCrashUploader;
 
     @Override
@@ -53,6 +55,32 @@ public class MyApp extends BaseApplication {
     protected void onFastInit() {
         super.onFastInit();
         initSophix();
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+
+//        Bmob.initialize(mAppContext, C.AppKey.BMOB_APPID);
+
+//        initCrashHandler();
+        initRetrofit();
+        MobSDK.init(mAppContext, "1f9794709477b", "9bfa1e4458daf2c82e4bd67e0dd0869a");
+
+        initSonic();
+
+        initGreenDao();
+//        initCrashHandler();
+    }
+
+    /**
+     * 初始化Sonic
+     */
+    private void initSonic() {
+        if (!SonicEngine.isGetInstanceAllowed()) {
+            SonicEngine.createInstance(new SonicRuntimeImpl(mAppContext), new SonicConfig.Builder().build());
+        }
     }
 
     /**
@@ -89,32 +117,6 @@ public class MyApp extends BaseApplication {
                 }).initialize();
         // queryAndLoadNewPatch不可放在attachBaseContext 中，否则无网络权限，建议放在后面任意时刻，如onCreate中
         SophixManager.getInstance().queryAndLoadNewPatch();
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-
-//        Bmob.initialize(mAppContext, C.AppKey.BMOB_APPID);
-
-//        initCrashHandler();
-        initRetrofit();
-        MobSDK.init(mAppContext, "1f9794709477b", "9bfa1e4458daf2c82e4bd67e0dd0869a");
-
-        initSonic();
-
-        initGreenDao();
-//        initCrashHandler();
-    }
-
-    /**
-     * 初始化Sonic
-     */
-    private void initSonic() {
-        if (!SonicEngine.isGetInstanceAllowed()) {
-            SonicEngine.createInstance(new SonicRuntimeImpl(mAppContext), new SonicConfig.Builder().build());
-        }
     }
 
     public static boolean isNightTheme() {
@@ -217,8 +219,6 @@ public class MyApp extends BaseApplication {
     public static DaoSession getDaoSession() {
         return daoSession;
     }
-
-    public static LocalUser mCurrentUser;
 
     public static LocalUser getCurrentUser() {
         return mCurrentUser;

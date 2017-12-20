@@ -4,7 +4,7 @@ ext {
     compileSdkVersion = 26
     minSdkVersion = 19
     targetSdkVersion = 26
-    buildToolsVersion = '26.0.1'
+    buildToolsVersion = '26.0.2'
     supportLibVersion = "26.0.1"
 
     //http
