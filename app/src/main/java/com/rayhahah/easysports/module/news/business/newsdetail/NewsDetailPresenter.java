@@ -2,10 +2,11 @@ package com.rayhahah.easysports.module.news.business.newsdetail;
 
 import android.graphics.Bitmap;
 
-import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.app.C;
+import com.rayhahah.easysports.app.MyApp;
 import com.rayhahah.easysports.module.news.api.NewsApiFactory;
 import com.rayhahah.easysports.module.news.bean.NewsDetail;
+import com.rayhahah.easysports.utils.JsonParser;
 import com.rayhahah.rbase.base.RBasePresenter;
 import com.rayhahah.rbase.utils.base.ImageUtils;
 import com.rayhahah.rbase.utils.useful.RxSchedulers;
@@ -18,6 +19,7 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import okhttp3.ResponseBody;
 
 
 /**
@@ -33,10 +35,12 @@ public class NewsDetailPresenter extends RBasePresenter<NewsDetailContract.INews
     @Override
     public void getNewsDetail(String column, String articleId) {
         addSubscription(NewsApiFactory.getNewsDetail(column, articleId)
-                .subscribe(new Consumer<NewsDetail>() {
+                .subscribe(new Consumer<ResponseBody>() {
                     @Override
-                    public void accept(@NonNull NewsDetail newsDetail) throws Exception {
-                        mView.getNewsDetail(newsDetail);
+                    public void accept(@NonNull ResponseBody newsDetail) throws Exception {
+                        String string = newsDetail.string();
+                        NewsDetail detail = JsonParser.parseWithGson(NewsDetail.class, string);
+                        mView.getNewsDetail(detail);
                     }
                 }, new Consumer<Throwable>() {
                     @Override

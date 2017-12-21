@@ -1,7 +1,6 @@
 package com.rayhahah.easysports.module.news.api;
 
 import com.rayhahah.easysports.app.C;
-import com.rayhahah.easysports.module.news.bean.NewsDetail;
 import com.rayhahah.easysports.module.news.bean.NewsIndex;
 import com.rayhahah.easysports.net.ApiClient;
 import com.rayhahah.rbase.utils.useful.RxSchedulers;
@@ -36,10 +35,10 @@ public class NewsApiFactory {
                 .compose(RxSchedulers.<ResponseBody>ioMain());
     }
 
-    public static Observable<NewsDetail> getNewsDetail(String column, String articleId) {
+    public static Observable<ResponseBody> getNewsDetail(String column, String articleId) {
         return ApiClient.get(C.BaseURL.TECENT_SERVER)
                 .create(NewsService.class)
                 .getNewsDetail(column, articleId)
-                .compose(RxSchedulers.<NewsDetail>ioMain());
+                .compose(RxSchedulers.<ResponseBody>ioMain());
     }
 }
