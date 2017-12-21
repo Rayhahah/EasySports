@@ -1,6 +1,5 @@
 package com.rayhahah.easysports.module.news.api;
 
-import com.rayhahah.easysports.module.news.bean.NewsDetail;
 import com.rayhahah.easysports.module.news.bean.NewsIndex;
 
 import io.reactivex.Observable;
@@ -51,6 +50,6 @@ public interface NewsService {
      * @return
      */
     @GET("/news/detail")
-    Observable<NewsDetail> getNewsDetail(@Query("column") String column, @Query("articleId") String articleId);
+    Observable<ResponseBody> getNewsDetail(@Query("column") String column, @Query("articleId") String articleId);
 
 }

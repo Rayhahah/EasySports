@@ -36,7 +36,7 @@ import java.util.Map;
  * @author Rayhahah
  * @time 2017/8/22
  * @tips 这个类是Object的子类
- * @fuction
+ * @fuction 主要提供sonic运行时环境，包括Context、用户UA、ID(用户唯一标识，存放数据时唯一标识对应用户)等等信息
  */
 public class SonicRuntimeImpl extends SonicRuntime {
     public SonicRuntimeImpl(Context context) {

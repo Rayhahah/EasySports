@@ -166,7 +166,7 @@ dependencies {
     //    阿里云热修复远程依赖失败
 
     //    compile 'com.aliyun.ams:alicloud-android-hotfix:3.1.0'
-    compile 'com.tencent.sonic:sdk:1.0.0'
+    compile 'com.tencent.sonic:sdk:2.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:multidex:1.0.2'
     compile 'org.greenrobot:greendao:3.2.2' // add library

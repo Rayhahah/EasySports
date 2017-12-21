@@ -26,7 +26,7 @@ import java.util.HashMap;
  * @author Rayhahah
  * @time 2017/8/22
  * @tips 这个类是Object的子类
- * @fuction
+ * @fuction 主要负责跟webView的通信，比如调用webView的loadUrl、loadDataWithBaseUrl等方法
  */
 public class SonicSessionClientImpl extends SonicSessionClient{
     private WebView webView;

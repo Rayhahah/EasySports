@@ -98,7 +98,6 @@ public class NewsDetail {
         private String commentId;
         private String targetId;
         private String isDisabled;
-        private String cmsTags;
         private String tag_key;
         private String cmsColumn;
         private String cmsSite;
@@ -266,14 +265,6 @@ public class NewsDetail {
 
         public void setIsDisabled(String isDisabled) {
             this.isDisabled = isDisabled;
-        }
-
-        public String getCmsTags() {
-            return cmsTags;
-        }
-
-        public void setCmsTags(String cmsTags) {
-            this.cmsTags = cmsTags;
         }
 
         public String getTag_key() {
