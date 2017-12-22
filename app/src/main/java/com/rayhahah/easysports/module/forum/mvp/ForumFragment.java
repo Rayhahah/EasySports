@@ -17,6 +17,7 @@ import com.rayhahah.easysports.module.mine.business.login.LoginActivity;
 import com.rayhahah.easysports.utils.DialogUtil;
 import com.rayhahah.easysports.view.DividerItemDecoration;
 import com.rayhahah.rbase.bean.MsgEvent;
+import com.rayhahah.rbase.utils.base.StringUtils;
 import com.rayhahah.rbase.utils.base.ToastUtils;
 import com.rayhahah.rbase.utils.useful.SPManager;
 
@@ -42,6 +43,20 @@ public class ForumFragment extends BaseFragment<ForumPresenter, FragmentForumBin
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        /**
+         * 因为虎扑的登陆接口Sign的生成规则发生改变
+         * 所以这里先用硬编码
+         */
+        if (StringUtils.isEmpty(SPManager.get().getStringValue(C.SP.HUPU_TOKEN))) {
+            SPManager.get().putString(C.SP.HUPU_TOKEN, C.ACCOUNT.DEFAULT_HUPU_TOKEN);
+        }
+
+        if (StringUtils.isEmpty(SPManager.get().getStringValue(C.SP.HUPU_UID))) {
+            SPManager.get().putString(C.SP.HUPU_UID, C.ACCOUNT.DEFAULT_HUPU_UID);
+        }
+        if (StringUtils.isEmpty(SPManager.get().getStringValue(C.SP.HUPU_NICKNAME))) {
+            SPManager.get().putString(C.SP.HUPU_NICKNAME, C.ACCOUNT.DEFAULT_HUPU_NICKNAME);
+        }
         EventBus.getDefault().register(this);
         mBinding.toolbar.tvToolbarTitle.setText(getResources().getString(R.string.forum));
         initPL();

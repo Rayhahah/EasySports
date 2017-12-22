@@ -33,7 +33,8 @@ public class InfoPresenter extends RBasePresenter<InfoContract.IInfoView>
                 .subscribe(new Consumer<ResponseBody>() {
                     @Override
                     public void accept(@NonNull ResponseBody responseBody) throws Exception {
-                        StatusRank statusRank = JsonParser.parseStatusRank(responseBody.string());
+                        String string = responseBody.string();
+                        StatusRank statusRank = JsonParser.parseStatusRank(string);
                         if (statusRank != null) {
                             mView.getStatusRankSuccess(statusRank);
                         } else {

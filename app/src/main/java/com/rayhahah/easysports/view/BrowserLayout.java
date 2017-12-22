@@ -116,14 +116,13 @@ public class BrowserLayout extends LinearLayout {
         mWebView.setLayerType(LAYER_TYPE_HARDWARE, null);
         mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         mWebView.getSettings().setDefaultTextEncodingName("UTF-8");
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         mWebView.getSettings().setBuiltInZoomControls(false);
         mWebView.getSettings().setSupportMultipleWindows(true);
         mWebView.getSettings().setUseWideViewPort(true);
         mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.getSettings().setSupportZoom(false);
         mWebView.getSettings().setPluginState(WebSettings.PluginState.ON);
-        mWebView.getSettings().setLoadsImagesAutomatically(true);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         mWebView.getSettings().setAllowContentAccess(true);
@@ -132,6 +131,14 @@ public class BrowserLayout extends LinearLayout {
         mWebView.getSettings().setAppCacheEnabled(true);
         //mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         //mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+
+        //图片加载
+        if(Build.VERSION.SDK_INT >= 19){
+            mWebView.getSettings().setLoadsImagesAutomatically(true);
+        }else {
+            mWebView.getSettings().setLoadsImagesAutomatically(false);
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }

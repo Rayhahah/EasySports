@@ -270,6 +270,10 @@ public class RWebActivity extends BaseActivity<RBasePresenter, ActivityRwebBindi
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             mBrowserLayout.setLoadUrl(url);
+            //页面加载完毕再去加载图片
+            if (!view.getSettings().getLoadsImagesAutomatically()) {
+                view.getSettings().setLoadsImagesAutomatically(true);
+            }
             if (sonicSession != null) {
                 sonicSession.getSessionClient().pageFinish(url);
             }

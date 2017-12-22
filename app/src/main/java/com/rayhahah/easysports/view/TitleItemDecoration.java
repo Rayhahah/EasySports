@@ -163,13 +163,13 @@ public class TitleItemDecoration extends RecyclerView.ItemDecoration {
             //绘制文本
             switch (mGravity) {
                 case GRAVITY_LEFT:
-                    c.drawText(textLine, parent.getPaddingRight() + 20, bottom, mTextPaint);
+//                    c.drawText(textLine, parent.getPaddingRight() + 20, bottom, mTextPaint);
                     break;
                 case GRAVITY_MIDDLE:
-                    c.drawText(textLine, right / 2 - bounds.width() / 2, bottom, mTextPaint);
+//                    c.drawText(textLine, right / 2 - bounds.width() / 2, bottom, mTextPaint);
                     break;
                 case GRAVITY_RIGHT:
-                    c.drawText(textLine, right - bounds.width(), bottom, mTextPaint);
+//                    c.drawText(textLine, right - bounds.width(), bottom, mTextPaint);
                     break;
                 default:
                     break;
