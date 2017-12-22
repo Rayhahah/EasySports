@@ -51,6 +51,7 @@ public class MatchDataFragment extends BaseFragment<MatchDataPresenter, Fragment
     private String mId;
     private MatchDataAdapter mAdapter;
     private List<MatchStatusBean.StatsBean> mStats;
+    private TitleItemDecoration mTitleItemDecoration;
 
     public static BaseFragment newInstance(String mid, MatchDetailBean.BaseInfo info) {
         MatchDataFragment fragment = new MatchDataFragment();
@@ -134,7 +135,12 @@ public class MatchDataFragment extends BaseFragment<MatchDataPresenter, Fragment
             mAdapter.setTeamCover(data.teamInfo.leftBadge, data.teamInfo.rightBadge);
             mAdapter.setPrimaryColor(mThemeColorMap.get(C.ATTRS.COLOR_PRIMARY));
             mAdapter.setNewData(mStats);
-            mBinding.rvMatchData.addItemDecoration(new TitleItemDecoration(mContext
+
+            if (mTitleItemDecoration != null) {
+                mBinding.rvMatchData.removeItemDecoration(mTitleItemDecoration);
+            }
+
+            mTitleItemDecoration = new TitleItemDecoration(mContext
                     , mThemeColorMap.get(C.ATTRS.COLOR_TEXT_DARK), mThemeColorMap.get(C.ATTRS.COLOR_BG_DARK)
                     , mThemeColorMap.get(C.ATTRS.COLOR_TEXT_DARK), TitleItemDecoration.GRAVITY_MIDDLE
                     , new TitleItemDecoration.DecorationCallback() {
@@ -158,14 +164,15 @@ public class MatchDataFragment extends BaseFragment<MatchDataPresenter, Fragment
                         default:
                             break;
                     }
-                    return null;
+                    return "";
                 }
 
                 @Override
                 public String getActiveGroup() {
                     return null;
                 }
-            }));
+            });
+            mBinding.rvMatchData.addItemDecoration(mTitleItemDecoration);
         } else {
             ToastUtils.showShort("暂无数据");
         }

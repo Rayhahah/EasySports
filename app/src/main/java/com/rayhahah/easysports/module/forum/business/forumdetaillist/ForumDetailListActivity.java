@@ -58,9 +58,8 @@ public class ForumDetailListActivity extends BaseActivity<ForumDetailListPresent
     protected void initEventAndData(Bundle savedInstanceState) {
         mData = (ForumsData.Forum) getIntent().getSerializableExtra(TAG_DATA);
         mFid = mData.fid;
-        initTop();
-        initPL();
         initRv();
+        initPL();
         initData();
     }
 
@@ -98,6 +97,8 @@ public class ForumDetailListActivity extends BaseActivity<ForumDetailListPresent
 
     /**
      * 初始化顶部设置
+     * 巨坑！！！！
+     * toolbar初始化会覆盖RV的内容
      */
     private void initTop() {
         mBinding.toolbar.setTitle(mData.name);
@@ -142,10 +143,13 @@ public class ForumDetailListActivity extends BaseActivity<ForumDetailListPresent
     public void getForumPostSuccess(List<DetailListData.ThreadInfo> data, boolean isRefresh) {
         mLast = data.get(data.size() - 1).tid;
         if (isRefresh) {
-            mBinding.pl.showContent(mBinding.srlForumDetailList);
-            mAdapter.setNewData(data);
-            isInit = false;
             mBinding.srlForumDetailList.setRefreshing(false);
+            mAdapter.setNewData(data);
+            mAdapter.loadMoreComplete();
+            mBinding.pl.showContent(mBinding.srlForumDetailList);
+            mBinding.rvForumDetailList.setVisibility(View.VISIBLE);
+            isInit = false;
+            initTop();
         } else {
             mAdapter.addData(data);
             mAdapter.loadMoreComplete();

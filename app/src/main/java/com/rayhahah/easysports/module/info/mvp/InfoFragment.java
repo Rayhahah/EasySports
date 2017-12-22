@@ -22,9 +22,7 @@ import com.rayhahah.easysports.module.info.bean.TeamRank;
 import com.rayhahah.easysports.module.info.domain.InfoDataListAdapter;
 import com.rayhahah.easysports.module.info.domain.InfoIndexListAdapter;
 import com.rayhahah.easysports.view.TitleItemDecoration;
-import com.rayhahah.rbase.utils.base.StringUtils;
 import com.rayhahah.rbase.utils.base.ToastUtils;
-import com.rayhahah.rbase.utils.useful.SPManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,20 +48,6 @@ public class InfoFragment extends BaseFragment<InfoPresenter, FragmentInfoBindin
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        /**
-         * 因为虎扑的登陆接口Sign的生成规则发生改变
-         * 所以这里先用硬编码
-         */
-        if (StringUtils.isEmpty(SPManager.get().getStringValue(C.SP.HUPU_TOKEN))) {
-            SPManager.get().putString(C.SP.HUPU_TOKEN, C.ACCOUNT.DEFAULT_HUPU_TOKEN);
-        }
-
-        if (StringUtils.isEmpty(SPManager.get().getStringValue(C.SP.HUPU_UID))) {
-            SPManager.get().putString(C.SP.HUPU_UID, C.ACCOUNT.DEFAULT_HUPU_UID);
-        }
-        if (StringUtils.isEmpty(SPManager.get().getStringValue(C.SP.HUPU_NICKNAME))) {
-            SPManager.get().putString(C.SP.HUPU_NICKNAME, C.ACCOUNT.DEFAULT_HUPU_NICKNAME);
-        }
         mBinding.toolbar.tvToolbarTitle.setText(getResources().getString(R.string.info));
         initTab();
         initProgressLayout();

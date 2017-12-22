@@ -136,11 +136,10 @@ public class MatchDataAdapter extends BaseQuickAdapter<MatchStatusBean.StatsBean
                 break;
             case C.MATCH.ITEM_TYPE_MATCH_DATA_TEAM_BEST:
                 TextView tv = (TextView) helper.getView(R.id.tv_item_null);
-                tv.setLayoutParams(new LinearLayout.LayoutParams(0,0));
+                tv.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
                 break;
             default:
                 break;
-
         }
     }
 

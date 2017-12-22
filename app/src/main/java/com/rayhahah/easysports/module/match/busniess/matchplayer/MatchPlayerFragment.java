@@ -53,6 +53,7 @@ public class MatchPlayerFragment extends BaseFragment<MatchPlayerPresenter, Frag
     private String mLeftTitle;
     private String mRightTitle;
     private MatchPlayerAdapter mAdapter;
+    private TitleItemDecoration mTitleItemDecoration;
 
     public static BaseFragment newInstance(String mid) {
         MatchPlayerFragment fragment = new MatchPlayerFragment();
@@ -151,7 +152,10 @@ public class MatchPlayerFragment extends BaseFragment<MatchPlayerPresenter, Frag
         final List<MatchPlayer> result = new ArrayList();
         result.add(playerLeft);
         result.add(playerRight);
-        mBinding.rvMatchPlayer.addItemDecoration(new TitleItemDecoration(mContext
+        if (mTitleItemDecoration != null) {
+            mBinding.rvMatchPlayer.removeItemDecoration(mTitleItemDecoration);
+        }
+        mTitleItemDecoration = new TitleItemDecoration(mContext
                 , mThemeColorMap.get(C.ATTRS.COLOR_TEXT_DARK), mThemeColorMap.get(C.ATTRS.COLOR_BG_DARK)
                 , mThemeColorMap.get(C.ATTRS.COLOR_TEXT_DARK), TitleItemDecoration.GRAVITY_MIDDLE
                 , new TitleItemDecoration.DecorationCallback() {
@@ -169,7 +173,8 @@ public class MatchPlayerFragment extends BaseFragment<MatchPlayerPresenter, Frag
             public String getActiveGroup() {
                 return null;
             }
-        }));
+        });
+        mBinding.rvMatchPlayer.addItemDecoration(mTitleItemDecoration);
         mAdapter.setNewData(result);
         mBinding.pl.showContent(mBinding.rvMatchPlayer);
     }
