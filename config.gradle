@@ -71,6 +71,9 @@ ext {
             stetho                  : "com.facebook.stetho:stetho:1.5.0",
             stethoOkhttp3           : "com.facebook.stetho:stetho-okhttp3:1.5.0",
 
+            //简单的网页原生互调 maven { url "https://jitpack.io" }
+            jsbridge                : 'com.github.lzyzsd:jsbridge:1.0.4',
+
             //test
 
             leakCanaryDebug         : "com.squareup.leakcanary:leakcanary-android:1.3",
