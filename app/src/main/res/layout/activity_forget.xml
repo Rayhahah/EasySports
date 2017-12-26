@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         app:flexDirection="row"
         app:flexWrap="wrap"
+        android:background="?attr/colorBg"
         >
 
         <include
