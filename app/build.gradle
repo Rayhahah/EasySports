@@ -113,6 +113,12 @@ android {
         useNewCruncher = false
     }
 
+    //增加编译内存到4g
+    dexOptions{
+        incremental true
+        javaMaxHeapSize "4g"
+    }
+
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }

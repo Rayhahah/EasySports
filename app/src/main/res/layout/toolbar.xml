@@ -41,7 +41,7 @@
             android:layout_margin="@dimen/dp_5"
             android:scaleType="center"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_svg_refresh_white_24"/>
+            app:srcCompat="?attr/drawableRefresh"/>
 
     </RelativeLayout>
 </layout>

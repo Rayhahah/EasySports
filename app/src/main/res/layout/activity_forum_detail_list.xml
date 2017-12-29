@@ -9,8 +9,8 @@
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/cdl_prefecture_list"
         android:layout_width="match_parent"
-        android:background="?colorBg"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?colorBg">
 
         <View
             android:layout_width="0dp"
@@ -61,6 +61,7 @@
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="none"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:titleTextColor="?attr/colorBg"
                     />
 
             </android.support.design.widget.CollapsingToolbarLayout>
@@ -69,9 +70,9 @@
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/srl_forum_detail_list"
-            android:background="?attr/colorBg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="?attr/colorBg"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <android.support.v7.widget.RecyclerView

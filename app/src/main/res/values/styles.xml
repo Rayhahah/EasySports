@@ -20,6 +20,9 @@
         <item name="colorTextDark">@color/colorDayTextDark</item>
         <item name="colorBg">@color/colorDayBg</item>
         <item name="colorBgDark">@color/colorDayBgDark</item>
+
+        <item name="drawableRefresh">@drawable/ic_svg_refresh_day_bg_24</item>
+        <item name="drawableArrowRight">@drawable/ic_svg_arrow_right_day_bg_dark_24</item>
     </style>
 
     <!--夜晚主题颜色-->
@@ -34,6 +37,9 @@
         <item name="colorTextDark">@color/colorNightTextLight</item>
         <item name="colorBg">@color/colorNightBg</item>
         <item name="colorBgDark">@color/colorNightBgDark</item>
+
+        <item name="drawableRefresh">@drawable/ic_svg_refresh_night_bg_24</item>
+        <item name="drawableArrowRight">@drawable/ic_svg_arrow_right_night_bg_dark_24</item>
     </style>
 
     <!--全屏主题-->
@@ -42,6 +48,11 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!--冷启动优化-->
+    <style name="AppWelcome" parent="NoTitleFullscreen">
+        <item name="android:windowBackground">@mipmap/bryant_cover</item>
     </style>
 
     <style name="text_center">
@@ -59,10 +70,6 @@
         <item name="android:textSize">@dimen/sp_20</item>
     </style>
 
-    <!--冷启动优化-->
-    <style name="AppWelcome" parent="NoTitleFullscreen">
-        <item name="android:windowBackground">@drawable/app_welcome</item>
-    </style>
     <!--弹窗主题-->
     <style name="UpdateVersionDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>  <!--边框 -->
