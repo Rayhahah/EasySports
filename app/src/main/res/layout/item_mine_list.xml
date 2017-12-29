@@ -71,7 +71,7 @@
         android:layout_height="match_parent"
         android:layout_marginRight="@dimen/dp_10"
         android:padding="@dimen/dp_5"
-        app:srcCompat="@drawable/ic_svg_arrow_right_color_bg_dark_24"
+        app:srcCompat="?attr/drawableArrowRight"
         android:visibility="visible"
         android:layout_weight="1"/>
 

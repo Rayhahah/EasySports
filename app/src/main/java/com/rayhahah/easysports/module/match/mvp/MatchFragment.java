@@ -275,7 +275,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         switch (view.getId()) {
             case R.id.ll_match_list:
                 String mid = data.get(position).getMid();
-                MatchDetailActivity.start(mContext,mContext,mid);
+                MatchDetailActivity.start(mContext, mContext, mid);
                 break;
             default:
                 break;

@@ -30,22 +30,19 @@ public class MatchLiveListAdapter extends BaseQuickAdapter<MatchListBean.DataBea
         String md = sb.toString();
         String matchDesc = md.substring(0, md.length() - 1);
         String matchStatus = "";
-        switch (item.getLiveType()) {
-            case "1":
-                matchStatus = "正在进行";
-                break;
-            case "2":
-                matchStatus = "正在进行";
-                break;
-            case "3":
+
+        String quarter = item.getQuarter();
+
+        if ("4".equals(item.getLiveType())) {
+            matchStatus = "已结束";
+        } else {
+            if ("".equals(quarter)) {
                 matchStatus = "未开始";
-                break;
-            case "4":
-                matchStatus = "已结束";
-                break;
-            default:
-                break;
+            } else {
+                matchStatus = quarter;
+            }
         }
+
         helper.setText(R.id.tv_left_team, item.getLeftName())
                 .setText(R.id.tv_left_team_point, item.getLeftGoal())
                 .setText(R.id.tv_right_team, item.getRightName())

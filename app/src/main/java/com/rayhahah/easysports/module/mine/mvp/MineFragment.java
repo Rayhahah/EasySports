@@ -342,7 +342,7 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
      */
     private void refreshUI() {
         SPManager.get().putString(C.SP.TAG_MINE_SELECTED, C.TRUE);
-//        getActivity().overridePendingTransition(R.anim.anim_fade_in, R.anim.anim_fade_out);
+        getActivity().overridePendingTransition(R.anim.anim_fade_in, R.anim.anim_fade_out);
         HomeActivity.start(getActivity(), getActivity());
     }
 

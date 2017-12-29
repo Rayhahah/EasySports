@@ -1,7 +1,6 @@
 package com.rayhahah.rbase;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.facebook.stetho.Stetho;
 import com.rayhahah.rbase.utils.useful.RLog;
@@ -34,7 +33,7 @@ public class BaseApplication extends Application {
 
     }
 
-    public static Context getAppContext() {
+    public static BaseApplication getAppContext() {
         return mAppContext;
     }
 

@@ -60,19 +60,14 @@ public class MyApp extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
-
-//        Bmob.initialize(mAppContext, C.AppKey.BMOB_APPID);
-
-//        initCrashHandler();
         initRetrofit();
         MobSDK.init(mAppContext, "1f9794709477b", "9bfa1e4458daf2c82e4bd67e0dd0869a");
-
         initSonic();
-
         initGreenDao();
 //        initCrashHandler();
+
     }
+
 
     /**
      * 初始化Sonic
