@@ -64,7 +64,7 @@ public class MyApp extends BaseApplication {
         MobSDK.init(mAppContext, "1f9794709477b", "9bfa1e4458daf2c82e4bd67e0dd0869a");
         initSonic();
         initGreenDao();
-//        initCrashHandler();
+        initCrashHandler();
 
     }
 
