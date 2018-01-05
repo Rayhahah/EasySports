@@ -12,6 +12,10 @@
 
 下面我就来总结一下吧哈哈哈哈
 
+## 下载地址
+现在已经在酷安网上架啦
+召唤术：[传送门！！](https://www.coolapk.com/apk/173213)
+
 ## 应用部分截图
 <img src="https://github.com/Rayhahah/EasySports/blob/master/screenshot/match.png?raw=true" width="280"/>
 <img src="https://github.com/Rayhahah/EasySports/blob/master/screenshot/match_data.png?raw=true" width="280"/>
