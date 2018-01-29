@@ -49,6 +49,12 @@ public class C {
 
     }
 
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface BUGLY {
+        String APP_ID = "63d7bf2793";
+        String APP_KEY = "7ec93ff3-c1a1-4be6-a8ff-37d2bb2bd256";
+    }
+
     /**
      * 主机地址常量保存类
      */
@@ -282,5 +288,6 @@ public class C {
                 , "http://img1.pxpbj.com"};
 
     }
+
 
 }
