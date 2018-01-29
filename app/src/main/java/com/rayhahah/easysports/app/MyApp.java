@@ -22,6 +22,7 @@ import com.rayhahah.rbase.utils.useful.SPManager;
 import com.taobao.sophix.PatchStatus;
 import com.taobao.sophix.SophixManager;
 import com.taobao.sophix.listener.PatchLoadStatusListener;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.sonic.sdk.SonicConfig;
 import com.tencent.sonic.sdk.SonicEngine;
 
@@ -65,7 +66,12 @@ public class MyApp extends BaseApplication {
         initSonic();
         initGreenDao();
         initCrashHandler();
+        initBugly();
+    }
 
+
+    private void initBugly() {
+        CrashReport.initCrashReport(getApplicationContext(), C.BUGLY.APP_ID, false);
     }
 
 
