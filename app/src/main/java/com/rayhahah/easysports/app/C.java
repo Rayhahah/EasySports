@@ -66,6 +66,7 @@ public class C {
         String TECENT_VIDEO_SERVER = "http://vv.video.qq.com";
         String TECENT_VIDEO_SERVER_H5 = "http://h5vv.video.qq.com";
         String TECENT_SERVER = "http://sportsnba.qq.com";
+        String TECENT_SERVER_WEB = "http://matchweb.sports.qq.com";
         String TMIAAO_SERVER = "http://nba.tmiaoo.com";
         String RAYMALL = "http://mall.rayhahah.com/";
         //        String RAYMALL = "http://rayhahah.s1.natapp.cc/raymall/";

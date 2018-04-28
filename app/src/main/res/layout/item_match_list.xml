@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="@dimen/dp_5"
-                    android:text="腾讯/CCTV"
+                    android:text=" EasySports"
                     android:textColor="?attr/colorTextLight"/>
 
                 <RelativeLayout

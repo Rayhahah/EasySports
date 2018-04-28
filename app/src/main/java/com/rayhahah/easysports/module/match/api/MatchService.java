@@ -24,6 +24,22 @@ public interface MatchService {
     @GET("/match/listByDate")
     Observable<MatchListBean> getMatchsByData(@Query("date") String date);
 
+
+    /**
+     * 根据日期获取当天比赛数据
+     * <p>
+     * from=NBA_PC&columnId=100000&startTime=2018-04-28&endTime=2018-04-28
+     *
+     * @param date 当前日期  example: "2017-06-05"
+     * @return
+     */
+    @GET("/kbs/list")
+    Observable<ResponseBody> getMatchsByDataWeb(@Query("startTime") String startTime,
+                                                @Query("endTime") String endTime,
+                                                @Query("from") String from,
+                                                @Query("columnId") String columnId
+    );
+
     /**
      * 获取比赛对阵信息
      *
@@ -47,6 +63,7 @@ public interface MatchService {
 
     /**
      * 根据MID获取图文直播的条目id
+     *
      * @param mid
      * @return
      */
@@ -57,6 +74,7 @@ public interface MatchService {
 
     /**
      * 根据ID获取图文直播具体内容
+     *
      * @param mid
      * @param ids
      * @return
@@ -67,6 +85,7 @@ public interface MatchService {
 
     /**
      * 获取比赛视频
+     *
      * @param mid
      * @return
      */

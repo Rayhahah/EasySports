@@ -24,6 +24,13 @@ public class MatchApiFactory {
                 .compose(RxSchedulers.<MatchListBean>ioMain());
     }
 
+    public static Observable<ResponseBody> getMatchsByDataWeb(String date) {
+        return ApiClient.get(C.BaseURL.TECENT_SERVER_WEB)
+                .create(MatchService.class)
+                .getMatchsByDataWeb(date, date, "NBA_PC", "100000")
+                .compose(RxSchedulers.<ResponseBody>ioMain());
+    }
+
     public static Observable<MatchDetailBean> getMatchDetail(String mid) {
         return ApiClient.get(C.BaseURL.TECENT_SERVER)
                 .create(MatchService.class)

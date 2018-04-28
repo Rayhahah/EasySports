@@ -11,7 +11,7 @@ import com.rayhahah.easysports.R;
 import com.rayhahah.easysports.app.C;
 import com.rayhahah.easysports.common.BaseFragment;
 import com.rayhahah.easysports.databinding.FragmentMatchBinding;
-import com.rayhahah.easysports.module.match.bean.MatchListBean;
+import com.rayhahah.easysports.module.match.bean.MatchListBeanNew;
 import com.rayhahah.easysports.module.match.busniess.matchdetail.MatchDetailActivity;
 import com.rayhahah.easysports.module.match.domain.MatchLiveListAdapter;
 import com.rayhahah.easysports.view.TitleItemDecoration;
@@ -30,12 +30,13 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         , BaseQuickAdapter.RequestLoadMoreListener,
         SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.OnItemChildClickListener {
 
-    private BaseQuickAdapter<MatchListBean.DataBean.MatchesBean.MatchInfoBean, BaseViewHolder> mMatchListAdapter;
+    private BaseQuickAdapter<MatchListBeanNew.DataBean.MatchesBean, BaseViewHolder> mMatchListAdapter;
     private String mFutureDate;
     private String mBeforeDate;
     private String mCurrentDate;
-    private List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> totalData = new ArrayList<>();
+    private List<MatchListBeanNew.DataBean.MatchesBean> totalData = new ArrayList<>();
     private TitleItemDecoration mItemDecor;
+    private int count = 0;
 
     @Override
     protected int setFragmentLayoutRes() {
@@ -75,7 +76,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
      * @param status 获取状态
      */
     @Override
-    public void addMatchListData(final List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> data, int status) {
+    public void addMatchListData(final List<MatchListBeanNew.DataBean.MatchesBean> data, int status) {
 //        DiffUtil.DiffResult diffResult /= DiffUtil.calculateDiff(
 //                new MatchLiveListAdapter.DiffCallBack(mMatchListAdapter.getData(), data), true);
         switch (status) {
@@ -100,9 +101,11 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
                 break;
             case C.STATUS.LOAD_MORE:
                 mMatchListAdapter.addData(data);
-                if (data.size() == 0) {
+                if (data.size() == 0 && count < 10) {
                     getFutureMatchListData();
+                    count++;
                 } else {
+                    count = 0;
                     mMatchListAdapter.loadMoreComplete();
                     mBinding.pl.showContent(mBinding.srlMatchList);
                 }
@@ -112,10 +115,6 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
         }
         totalData = mMatchListAdapter.getData();
 //        mItemDecor.setNewData(totalData);
-
-//        mMatchListAdapter.notifyDataSetChanged();
-//        mBinding.pl.showContent(mBinding.srlMatchList);
-
     }
 
 
@@ -129,6 +128,9 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
     public void addMatchListDataFailed(Throwable throwable, int status) {
         switch (status) {
             case C.STATUS.INIT:
+                mBinding.pl.showError(mBinding.srlMatchList);
+                mFutureDate = mCurrentDate;
+                mBeforeDate = mCurrentDate;
                 break;
             case C.STATUS.REFRESH:
                 mBinding.srlMatchList.setRefreshing(false);
@@ -139,16 +141,11 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
             default:
                 break;
         }
-        mBinding.pl.showError(mBinding.srlMatchList);
-//        showError(mBinding.srlMatchList, mBinding.pl);
-        mFutureDate = mCurrentDate;
-        mBeforeDate = mCurrentDate;
     }
 
     @Override
     public void showViewLoading() {
         mBinding.pl.showLoading(mBinding.srlMatchList);
-//        showLoading(mBinding.srlMatchList, mBinding.pl);
     }
 
     @Override
@@ -271,7 +268,7 @@ public class MatchFragment extends BaseFragment<MatchPresenter, FragmentMatchBin
 
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-        List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> data = adapter.getData();
+        List<MatchListBeanNew.DataBean.MatchesBean> data = adapter.getData();
         switch (view.getId()) {
             case R.id.ll_match_list:
                 String mid = data.get(position).getMid();

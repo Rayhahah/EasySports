@@ -75,9 +75,7 @@ ext {
             jsbridge                : 'com.github.lzyzsd:jsbridge:1.0.4',
 
             //test
-
             leakCanaryDebug         : "com.squareup.leakcanary:leakcanary-android:1.3",
             leakCanaryRelease       : "com.squareup.leakcanary:leakcanary-android-no-op:1.3"
-
     ]
 }

@@ -54,7 +54,6 @@ public class MyApp extends BaseApplication {
 
     @Override
     protected void onFastInit() {
-        super.onFastInit();
         initSophix();
     }
 
@@ -182,6 +181,7 @@ public class MyApp extends BaseApplication {
         ApiClient.create(C.BaseURL.TECENT_VIDEO_SERVER, okHttpClient);
         ApiClient.create(C.BaseURL.TECENT_VIDEO_SERVER_H5, okHttpClient);
         ApiClient.create(C.BaseURL.TECENT_SERVER, okHttpClient);
+        ApiClient.create(C.BaseURL.TECENT_SERVER_WEB, okHttpClient);
         ApiClient.create(C.BaseURL.TMIAAO_SERVER, okHttpClient);
         ApiClient.create(C.BaseURL.HUPU_FORUM_SERVER, okHttpClient);
         ApiClient.create(C.BaseURL.HUPU_GAMES_SERVER, okHttpClient);

@@ -15,8 +15,8 @@ android {
         applicationId "com.rayhahah.easysports"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 5
-        versionName "1.1.4"
+        versionCode 6
+        versionName "1.1.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -28,7 +28,7 @@ android {
     }
     signingConfigs {
         config {
-            storeFile file('rayhahah.keystore')
+            storeFile file('../rayhahah.keystore')
             storePassword '19940531coding'
             keyAlias "rayhahah"
             keyPassword '19940531coding'

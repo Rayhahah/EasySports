@@ -1,6 +1,6 @@
 package com.rayhahah.easysports.module.match.mvp;
 
-import com.rayhahah.easysports.module.match.bean.MatchListBean;
+import com.rayhahah.easysports.module.match.bean.MatchListBeanNew;
 import com.rayhahah.rbase.base.IRBaseView;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MatchContract {
     public interface IMatchView extends IRBaseView {
-        void addMatchListData(List<MatchListBean.DataBean.MatchesBean.MatchInfoBean> data, int status);
+        void addMatchListData(List<MatchListBeanNew.DataBean.MatchesBean> data, int status);
 
         void addMatchListDataFailed(Throwable throwable, int status);
 

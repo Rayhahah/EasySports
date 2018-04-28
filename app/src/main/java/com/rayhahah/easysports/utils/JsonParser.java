@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import com.rayhahah.easysports.module.info.bean.StatusRank;
 import com.rayhahah.easysports.module.info.bean.TeamRank;
 import com.rayhahah.easysports.module.match.bean.LiveDetail;
+import com.rayhahah.easysports.module.match.bean.MatchListBeanNew;
 import com.rayhahah.easysports.module.match.bean.MatchStatusBean;
 import com.rayhahah.easysports.module.news.bean.NewsItem;
 import com.rayhahah.easysports.module.news.bean.VideoInfo;
@@ -196,5 +197,25 @@ public class JsonParser {
         }
 
         return result;
+    }
+
+    public static MatchListBeanNew.DataBean parseMatchDataListWeb(String json, String date) {
+        JSONObject jsonObject = null;
+        MatchListBeanNew.DataBean dataBean = new MatchListBeanNew.DataBean();
+        ArrayList<MatchListBeanNew.DataBean.MatchesBean> matches = new ArrayList<>();
+        try {
+            jsonObject = new JSONObject(json);
+            JSONObject data = jsonObject.getJSONObject("data");
+            JSONArray dateArray = data.getJSONArray(date);
+            for (int i = 0; i < dateArray.length(); i++) {
+                JSONObject matchObject = dateArray.optJSONObject(i);
+                MatchListBeanNew.DataBean.MatchesBean matchesBean = JsonParser.parseWithGson(MatchListBeanNew.DataBean.MatchesBean.class, matchObject.toString());
+                matches.add(matchesBean);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        dataBean.setMatches(matches);
+        return dataBean;
     }
 }
